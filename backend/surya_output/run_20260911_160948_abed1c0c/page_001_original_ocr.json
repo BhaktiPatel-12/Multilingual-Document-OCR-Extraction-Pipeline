@@ -1,0 +1,240 @@
+{
+  "results": [
+    {
+      "text": "બિનઅનામત વર્ગો માટેનું પ્રમાણપત્ર",
+      "language": "guj",
+      "confidence": 0.9352910852227825,
+      "bbox": [
+        667.12,
+        673.7280000000001,
+        1706.2399999999998,
+        771.98
+      ],
+      "label": "SectionHeader",
+      "raw_label": "Section-Header",
+      "reading_order": 0,
+      "page": 1,
+      "page_number": 1,
+      "image_bbox": [
+        0.0,
+        0.0,
+        2480.0,
+        3509.0
+      ],
+      "source": "page_001_original"
+    },
+    {
+      "text": "આથી પ્રમાણિત કરવામાં આવે છે કે, શ્રી/શ્રીમતી/કુમારી ..... ભક્તિ",
+      "language": "guj",
+      "confidence": 0.9352910852227825,
+      "bbox": [
+        292.64,
+        793.034,
+        1631.8400000000001,
+        922.8670000000001
+      ],
+      "label": "Text",
+      "raw_label": "Text",
+      "reading_order": 1,
+      "page": 1,
+      "page_number": 1,
+      "image_bbox": [
+        0.0,
+        0.0,
+        2480.0,
+        3509.0
+      ],
+      "source": "page_001_original"
+    },
+    {
+      "text": "શ્રી ..... ગોળાકુમાર ..... પરલ ..... નાપુત્ર/પુત્રી છે. તેઓ ગામ/નગર ..... વસ્ત્ર દા વા દ",
+      "language": "guj",
+      "confidence": 0.9352910852227825,
+      "bbox": [
+        143.84,
+        905.322,
+        2281.6,
+        1028.137
+      ],
+      "label": "Text",
+      "raw_label": "Text",
+      "reading_order": 2,
+      "page": 1,
+      "page_number": 1,
+      "image_bbox": [
+        0.0,
+        0.0,
+        2480.0,
+        3509.0
+      ],
+      "source": "page_001_original"
+    },
+    {
+      "text": "તાલુકો ..... જિલ્લા અમદાવાદના રહેવાસી છે. તેઓ ગુજરાત રાજ્યની બિનઅનામત જાતિઓ / વર્ગો / સમૂહો પૈકી ..... 'કડવા' જાતિના છે, જે જાતિનો અનુસૂચિત જાતિ, અનુસૂચિત જનજાતિ અથવા કેન્દ્ર સરકાર કે રાજ્ય સરકાર હેઠળના અન્ય પછાત વર્ગ/ સામાજિક અને શૈક્ષણિક રીતે પછાત વર્ગમાં સમાવેશ થતો નથી.",
+      "language": "guj",
+      "confidence": 0.9352910852227825,
+      "bbox": [
+        143.84,
+        1028.137,
+        2281.6,
+        1438.6899999999998
+      ],
+      "label": "Text",
+      "raw_label": "Text",
+      "reading_order": 3,
+      "page": 1,
+      "page_number": 1,
+      "image_bbox": [
+        0.0,
+        0.0,
+        2480.0,
+        3509.0
+      ],
+      "source": "page_001_original"
+    },
+    {
+      "text": "સ્થળ:- .....",
+      "language": "guj",
+      "confidence": 0.9352910852227825,
+      "bbox": [
+        143.84,
+        1526.415,
+        694.4000000000001,
+        1649.23
+      ],
+      "label": "Text",
+      "raw_label": "Text",
+      "reading_order": 4,
+      "page": 1,
+      "page_number": 1,
+      "image_bbox": [
+        0.0,
+        0.0,
+        2480.0,
+        3509.0
+      ],
+      "source": "page_001_original"
+    },
+    {
+      "text": "તારીખ:- ૦૩.૧૦.૨૦૨૩",
+      "language": "guj",
+      "confidence": 0.9352910852227825,
+      "bbox": [
+        143.84,
+        1736.955,
+        818.4000000000001,
+        1842.2250000000001
+      ],
+      "label": "Text",
+      "raw_label": "Text",
+      "reading_order": 5,
+      "page": 1,
+      "page_number": 1,
+      "image_bbox": [
+        0.0,
+        0.0,
+        2480.0,
+        3509.0
+      ],
+      "source": "page_001_original"
+    },
+    {
+      "text": "જિલ્લા નાયબ નિયામકની કચેરી, વિકસતી જાતિઓ\nઅમદાવાદ જિલ્લો, અમદાવાદ",
+      "language": "guj",
+      "confidence": 0.9352910852227825,
+      "bbox": [
+        1227.6,
+        1649.23,
+        2256.8,
+        1842.2250000000001
+      ],
+      "label": "Text",
+      "raw_label": "Text",
+      "reading_order": 7,
+      "page": 1,
+      "page_number": 1,
+      "image_bbox": [
+        0.0,
+        0.0,
+        2480.0,
+        3509.0
+      ],
+      "source": "page_001_original"
+    },
+    {
+      "text": "કચેરીનું રાઉન્ડ સીલ",
+      "language": "guj",
+      "confidence": 0.9352910852227825,
+      "bbox": [
+        143.84,
+        1982.5849999999998,
+        533.2,
+        2070.31
+      ],
+      "label": "Text",
+      "raw_label": "Text",
+      "reading_order": 8,
+      "page": 1,
+      "page_number": 1,
+      "image_bbox": [
+        0.0,
+        0.0,
+        2480.0,
+        3509.0
+      ],
+      "source": "page_001_original"
+    },
+    {
+      "text": "આધારો:-",
+      "language": "guj",
+      "confidence": 0.9352910852227825,
+      "bbox": [
+        143.84,
+        2087.855,
+        359.59999999999997,
+        2175.58
+      ],
+      "label": "Text",
+      "raw_label": "Text",
+      "reading_order": 9,
+      "page": 1,
+      "page_number": 1,
+      "image_bbox": [
+        0.0,
+        0.0,
+        2480.0,
+        3509.0
+      ],
+      "source": "page_001_original"
+    },
+    {
+      "text": "૧. શાળાનું નામ: કોરામાંસ ..... ઉડેરાન ..... ૨૦૨ જેતાવાન સ્થાન ..... ગોળાકુમાર ..... ૨૦૦\n\n૨. પિતા/કાકા/દાદા/ફોઈ/ભાઈ/બહેનની શાળાનું નામ: ..... ગોળાકુમાર ..... ૨૧.૧૫\n\nતથા જ.ર. નં. .... ૩. સેશનકાર્ડ ૪. આધારકાર્ડ ૫. ચૂંટણી કાર્ડ ..... ૮૧ કે ૭૭ .....\n\n૬. વીજળી બિલ ૭. ગેઝેટ ૮. એફિડેવિટ ૯. શાળાના વય પત્રકનો ઉતારો ૧૦. બેંકની પાસબુક\n\n૧૧. સ.ક.અ.શ્રી. નું ..... નું જાતિ પ્રમાણપત્ર નં. .... તા. ....\n\n૧૨. જન્મનું પ્રમાણપત્ર ૧૩. ....",
+      "language": "guj",
+      "confidence": 0.9352910852227825,
+      "bbox": [
+        143.84,
+        2087.855,
+        2281.6,
+        2824.7450000000003
+      ],
+      "label": "ListGroup",
+      "raw_label": "List-Group",
+      "reading_order": 10,
+      "page": 1,
+      "page_number": 1,
+      "image_bbox": [
+        0.0,
+        0.0,
+        2480.0,
+        3509.0
+      ],
+      "source": "page_001_original"
+    }
+  ],
+  "total_blocks": 10,
+  "detected_languages": [
+    "guj"
+  ],
+  "multilingual": false,
+  "source_json": "C:\\Users\\dalwa\\Desktop\\astra-ocr\\backend\\surya_output\\run_20260911_160948_abed1c0c\\page_001_original\\results.json"
+}

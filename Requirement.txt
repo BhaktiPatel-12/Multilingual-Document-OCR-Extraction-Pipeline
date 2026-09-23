@@ -1,0 +1,28 @@
+# Astra-OCR backend dependencies
+
+# API
+fastapi
+uvicorn[standard]
+python-multipart
+python-dotenv
+
+# PDF / image processing
+PyMuPDF
+Pillow
+reportlab
+
+# OCR
+surya-ocr==0.22.1
+torch==2.11.0
+
+# Database / search
+mysql-connector-python
+meilisearch
+
+# HTTP / API clients
+requests
+groq
+google-generativeai
+
+# Common utilities
+PyYAML

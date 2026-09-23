@@ -1,0 +1,1251 @@
+/* ============================================================
+   ASTRA-OCR HOME PAGE
+   ============================================================ */
+
+.astra-app {
+  min-height: 100vh;
+
+  position: relative;
+
+  overflow: hidden;
+
+  background:
+    radial-gradient(
+      circle at 50% 45%,
+      rgba(255, 255, 255, 0.98),
+      rgba(247, 249, 251, 1) 70%
+    );
+
+  color: #17202c;
+}
+
+/* ============================================================
+   BACKGROUND
+   ============================================================ */
+
+.background-shape {
+  position: absolute;
+
+  pointer-events: none;
+
+  z-index: 0;
+}
+
+.background-shape-top {
+  width: 320px;
+  height: 380px;
+
+  right: -80px;
+  top: 80px;
+
+  background: #eef0f2;
+
+  border-radius: 52% 0 0 52%;
+
+  opacity: 0.8;
+}
+
+.background-shape-bottom {
+  width: 380px;
+  height: 470px;
+
+  left: -180px;
+  bottom: -180px;
+
+  background: #edf0f2;
+
+  border-radius: 50%;
+
+  opacity: 0.9;
+}
+
+.background-dot {
+  position: absolute;
+
+  z-index: 0;
+
+  border-radius: 50%;
+
+  background: #e6e9ed;
+
+  pointer-events: none;
+}
+
+.dot-one {
+  width: 58px;
+  height: 58px;
+
+  right: 285px;
+  top: 202px;
+}
+
+.dot-two {
+  width: 45px;
+  height: 45px;
+
+  right: 170px;
+  top: 560px;
+}
+
+.dot-three {
+  width: 28px;
+  height: 28px;
+
+  left: 105px;
+  bottom: 90px;
+}
+
+/* ============================================================
+   HEADER
+   ============================================================ */
+
+.topbar {
+  position: relative;
+
+  z-index: 10;
+
+  height: 81px;
+
+  background: rgba(249, 250, 251, 0.92);
+
+  border-bottom: 1px solid #e8eaed;
+
+  box-shadow:
+    0 2px 12px rgba(20, 30, 40, 0.025);
+}
+
+.topbar-inner {
+  width: min(1450px, calc(100% - 80px));
+
+  height: 100%;
+
+  margin: 0 auto;
+
+  display: flex;
+
+  align-items: center;
+}
+
+/* ============================================================
+   BRAND
+   ============================================================ */
+
+.brand {
+  display: flex;
+
+  align-items: center;
+
+  min-width: 260px;
+}
+
+.brand-logo {
+  width: 31px;
+  height: 31px;
+
+  margin-right: 11px;
+
+  border-radius: 7px;
+
+  display: flex;
+
+  align-items: center;
+  justify-content: center;
+
+  background: #68727d;
+
+  box-shadow:
+    0 3px 8px rgba(40, 50, 60, 0.13);
+}
+
+.brand-logo-symbol {
+  width: 20px;
+  height: 20px;
+
+  position: relative;
+}
+
+.brand-logo-symbol span {
+  position: absolute;
+
+  display: block;
+
+  width: 14px;
+  height: 7px;
+
+  border: 1.4px solid white;
+
+  border-radius: 50%;
+
+  transform: rotate(-35deg);
+}
+
+.brand-logo-symbol span:nth-child(1) {
+  top: 2px;
+  left: 3px;
+}
+
+.brand-logo-symbol span:nth-child(2) {
+  top: 7px;
+  left: 1px;
+
+  transform: rotate(30deg);
+}
+
+.brand-logo-symbol span:nth-child(3) {
+  top: 10px;
+  left: 5px;
+
+  transform: rotate(-25deg);
+}
+
+.brand-name {
+  font-size: 20px;
+
+  line-height: 1;
+
+  font-weight: 700;
+
+  letter-spacing: -0.02em;
+
+  color: #17202c;
+}
+
+.brand-subtitle {
+  margin-top: 4px;
+
+  font-size: 11px;
+
+  color: #7b8794;
+
+  letter-spacing: 0.01em;
+}
+
+/* ============================================================
+   NAVIGATION
+   ============================================================ */
+
+.navigation {
+  height: 100%;
+
+  display: flex;
+
+  align-items: center;
+
+  gap: 38px;
+
+  margin-left: 46px;
+}
+
+.nav-item {
+  height: 100%;
+
+  position: relative;
+
+  padding: 0;
+
+  border: none;
+
+  background: transparent;
+
+  color: #4e5967;
+
+  font-family: inherit;
+
+  font-size: 13px;
+
+  font-weight: 500;
+
+  cursor: pointer;
+}
+
+.nav-item:hover {
+  color: #17202c;
+}
+
+.nav-item.active {
+  color: #17202c;
+
+  font-weight: 600;
+}
+
+.nav-item.active::after {
+  content: "";
+
+  position: absolute;
+
+  left: 0;
+  right: 0;
+
+  bottom: 0;
+
+  height: 2px;
+
+  background: #36414e;
+}
+
+/* ============================================================
+   HEADER ACTIONS
+   ============================================================ */
+
+.header-actions {
+  margin-left: auto;
+
+  display: flex;
+
+  align-items: center;
+
+  gap: 20px;
+}
+
+.search-box {
+  width: 247px;
+  height: 36px;
+
+  display: flex;
+
+  align-items: center;
+
+  gap: 9px;
+
+  padding: 0 12px;
+
+  border: 1px solid #dfe3e7;
+
+  border-radius: 20px;
+
+  background: #f7f8f9;
+
+  color: #697582;
+}
+
+.search-box input {
+  width: 100%;
+
+  border: none;
+  outline: none;
+
+  background: transparent;
+
+  color: #3c4652;
+
+  font-family: inherit;
+
+  font-size: 11px;
+}
+
+.search-box input::placeholder {
+  color: #9aa2ab;
+}
+
+.header-icon-button {
+  width: 34px;
+  height: 34px;
+
+  display: flex;
+
+  align-items: center;
+  justify-content: center;
+
+  border: none;
+
+  background: transparent;
+
+  color: #3d4854;
+
+  cursor: pointer;
+}
+
+.profile {
+  display: flex;
+
+  align-items: center;
+
+  gap: 8px;
+
+  color: #293440;
+
+  font-size: 12px;
+
+  font-weight: 600;
+}
+
+.profile-avatar {
+  width: 31px;
+  height: 31px;
+
+  display: flex;
+
+  align-items: center;
+  justify-content: center;
+
+  border-radius: 50%;
+
+  background: #6e7883;
+
+  color: white;
+
+  font-size: 13px;
+
+  font-weight: 600;
+}
+
+.profile-name {
+  margin-left: 1px;
+}
+
+/* ============================================================
+   MAIN CONTENT
+   ============================================================ */
+
+.home-content {
+  width: min(1080px, calc(100% - 40px));
+
+  margin: 0 auto;
+
+  position: relative;
+
+  z-index: 2;
+}
+
+/* ============================================================
+   HERO
+   ============================================================ */
+
+.hero-section {
+  min-height: 467px;
+
+  position: relative;
+
+  display: flex;
+
+  padding-top: 103px;
+}
+
+.hero-copy {
+  position: relative;
+
+  z-index: 3;
+
+  margin-left: 5px;
+}
+
+.hero-copy h1 {
+  margin: 0;
+
+  display: flex;
+
+  flex-direction: column;
+
+  font-size: 50px;
+
+  line-height: 1.12;
+
+  letter-spacing: -0.045em;
+
+  font-weight: 750;
+}
+
+.hero-title-dark {
+  color: #18222e;
+}
+
+.hero-title-light {
+  color: #818c98;
+}
+
+.hero-description {
+  margin: 17px 0 0;
+
+  color: #657383;
+
+  font-size: 17px;
+
+  line-height: 1.65;
+
+  letter-spacing: -0.01em;
+}
+
+/* ============================================================
+   PROCESS STEPS
+   ============================================================ */
+
+.process-steps {
+  display: flex;
+
+  align-items: flex-start;
+
+  margin-top: 33px;
+}
+
+.process-step {
+  display: flex;
+
+  flex-direction: column;
+
+  align-items: flex-start;
+}
+
+.step-icon {
+  width: 44px;
+  height: 44px;
+
+  display: flex;
+
+  align-items: center;
+  justify-content: center;
+
+  border-radius: 50%;
+
+  background:
+    linear-gradient(
+      145deg,
+      #f5f6f7,
+      #e9ecef
+    );
+
+  color: #4b5763;
+
+  box-shadow:
+    inset 0 1px 2px rgba(255, 255, 255, 0.8),
+    0 2px 5px rgba(50, 60, 70, 0.04);
+}
+
+.step-text {
+  margin-top: 8px;
+}
+
+.step-title {
+  color: #536171;
+
+  font-size: 13px;
+
+  line-height: 1.2;
+
+  font-weight: 500;
+}
+
+.active-step {
+  color: #17202c;
+
+  font-weight: 700;
+}
+
+.step-subtitle {
+  margin-top: 4px;
+
+  color: #84909c;
+
+  font-size: 11px;
+
+  line-height: 1.2;
+}
+
+.step-arrow {
+  margin: 10px 22px 0;
+
+  color: #c5cbd1;
+
+  font-size: 27px;
+
+  font-weight: 300;
+}
+
+/* ============================================================
+   HERO ILLUSTRATION
+   ============================================================ */
+
+.hero-illustration {
+  width: 430px;
+  height: 310px;
+
+  position: absolute;
+
+  right: 8px;
+  top: 111px;
+}
+
+.illustration-pdf {
+  position: absolute;
+
+  left: 68px;
+  top: 18px;
+
+  width: 150px;
+  height: 185px;
+
+  padding: 14px;
+
+  transform: rotate(-8deg);
+
+  border-radius: 9px;
+
+  background: #ffffff;
+
+  box-shadow:
+    0 16px 30px rgba(40, 50, 60, 0.11);
+}
+
+.pdf-label {
+  width: 48px;
+
+  padding: 6px 5px;
+
+  border-radius: 4px;
+
+  background: #7d8790;
+
+  color: white;
+
+  font-size: 13px;
+
+  font-weight: 700;
+
+  text-align: center;
+}
+
+.document-lines {
+  margin-top: 10px;
+}
+
+.document-lines span {
+  display: block;
+
+  height: 5px;
+
+  margin-top: 9px;
+
+  border-radius: 5px;
+
+  background: #e2e5e8;
+}
+
+.document-lines span:nth-child(1) {
+  width: 90%;
+}
+
+.document-lines span:nth-child(2) {
+  width: 72%;
+}
+
+.document-lines span:nth-child(3) {
+  width: 85%;
+}
+
+.document-lines span:nth-child(4) {
+  width: 75%;
+}
+
+.document-lines span:nth-child(5) {
+  width: 60%;
+}
+
+.illustration-image {
+  position: absolute;
+
+  left: 135px;
+  top: 99px;
+
+  width: 105px;
+  height: 135px;
+
+  padding: 12px;
+
+  transform: rotate(-1deg);
+
+  border-radius: 9px;
+
+  background: white;
+
+  box-shadow:
+    0 13px 28px rgba(40, 50, 60, 0.12);
+}
+
+.image-placeholder {
+  height: 57px;
+
+  display: flex;
+
+  align-items: center;
+  justify-content: center;
+
+  border-radius: 6px;
+
+  background: #eef0f2;
+
+  color: #9aa3ac;
+}
+
+.image-lines {
+  margin-top: 8px;
+}
+
+.image-lines span {
+  display: block;
+
+  height: 4px;
+
+  margin-top: 7px;
+
+  border-radius: 4px;
+
+  background: #e4e7ea;
+}
+
+.image-lines span:nth-child(1) {
+  width: 90%;
+}
+
+.image-lines span:nth-child(2) {
+  width: 76%;
+}
+
+.image-lines span:nth-child(3) {
+  width: 84%;
+}
+
+.illustration-language {
+  position: absolute;
+
+  left: 239px;
+  top: 100px;
+
+  width: 92px;
+  height: 130px;
+
+  padding: 13px 10px;
+
+  transform: rotate(7deg);
+
+  border-radius: 7px;
+
+  background: rgba(255, 255, 255, 0.96);
+
+  box-shadow:
+    0 13px 27px rgba(40, 50, 60, 0.1);
+}
+
+.language-english {
+  font-size: 11px;
+
+  color: #687582;
+}
+
+.language-hindi {
+  margin-top: 11px;
+
+  font-size: 13px;
+
+  color: #65707b;
+}
+
+.language-gujarati {
+  margin-top: 10px;
+
+  font-size: 12px;
+
+  color: #727c86;
+}
+
+.illustration-arrow {
+  position: absolute;
+
+  left: 236px;
+  top: 32px;
+
+  width: 160px;
+
+  color: #aab2b9;
+}
+
+.illustration-output {
+  position: absolute;
+
+  left: 341px;
+  top: 139px;
+
+  width: 80px;
+  height: 80px;
+
+  display: flex;
+
+  align-items: center;
+  justify-content: center;
+
+  border-radius: 15px;
+
+  background: white;
+
+  color: #34414e;
+
+  box-shadow:
+    0 12px 28px rgba(40, 50, 60, 0.1);
+}
+
+/* ============================================================
+   UPLOAD SECTION
+   ============================================================ */
+
+.upload-section {
+  width: 700px;
+
+  margin-left: auto;
+  margin-right: auto;
+
+  padding: 14px;
+
+  border-radius: 15px;
+
+  background: rgba(255, 255, 255, 0.65);
+
+  box-shadow:
+    0 3px 15px rgba(50, 60, 70, 0.055);
+
+  transition:
+    transform 0.2s ease,
+    background 0.2s ease;
+}
+
+.upload-section.upload-dragging {
+  transform: scale(1.01);
+
+  background: rgba(245, 248, 251, 0.9);
+}
+
+.upload-box {
+  min-height: 276px;
+
+  border: 1.5px dashed #d5dce2;
+
+  border-radius: 9px;
+
+  display: flex;
+
+  align-items: center;
+  justify-content: center;
+
+  flex-direction: column;
+
+  background:
+    linear-gradient(
+      180deg,
+      rgba(250, 251, 252, 0.85),
+      rgba(247, 249, 250, 0.75)
+    );
+}
+
+.upload-cloud {
+  color: #586572;
+
+  margin-bottom: 18px;
+}
+
+.upload-title {
+  color: #17202c;
+
+  font-size: 17px;
+
+  font-weight: 500;
+}
+
+.upload-or {
+  margin-top: 9px;
+
+  color: #7d8791;
+
+  font-size: 11px;
+}
+
+.browse-button {
+  margin-top: 10px;
+
+  min-width: 143px;
+
+  height: 41px;
+
+  padding: 0 24px;
+
+  border: none;
+
+  border-radius: 9px;
+
+  background: #4d5965;
+
+  color: white;
+
+  font-family: inherit;
+
+  font-size: 13px;
+
+  font-weight: 650;
+
+  cursor: pointer;
+
+  box-shadow:
+    0 4px 8px rgba(40, 50, 60, 0.13);
+
+  transition:
+    background 0.15s ease,
+    transform 0.15s ease;
+}
+
+.browse-button:hover {
+  background: #414d58;
+
+  transform: translateY(-1px);
+}
+
+.upload-meta {
+  display: flex;
+
+  align-items: center;
+
+  gap: 8px;
+
+  margin-top: 13px;
+
+  color: #87929d;
+
+  font-size: 11px;
+}
+
+/* ============================================================
+   SELECTED FILE
+   ============================================================ */
+
+.selected-file {
+  width: 80%;
+
+  display: flex;
+
+  align-items: center;
+
+  padding: 20px;
+
+  border-radius: 12px;
+
+  background: white;
+
+  border: 1px solid #e1e5e8;
+
+  box-shadow:
+    0 5px 15px rgba(40, 50, 60, 0.05);
+}
+
+.selected-file-icon {
+  width: 52px;
+  height: 52px;
+
+  display: flex;
+
+  align-items: center;
+  justify-content: center;
+
+  border-radius: 10px;
+
+  background: #eef1f3;
+
+  color: #5d6975;
+}
+
+.selected-file-details {
+  flex: 1;
+
+  min-width: 0;
+
+  margin-left: 15px;
+}
+
+.selected-file-name {
+  overflow: hidden;
+
+  text-overflow: ellipsis;
+
+  white-space: nowrap;
+
+  color: #28333e;
+
+  font-size: 14px;
+
+  font-weight: 650;
+}
+
+.selected-file-size {
+  margin-top: 5px;
+
+  color: #89939d;
+
+  font-size: 11px;
+}
+
+.change-file-button {
+  padding: 9px 16px;
+
+  border: 1px solid #d9dee2;
+
+  border-radius: 7px;
+
+  background: white;
+
+  color: #586572;
+
+  font-family: inherit;
+
+  font-size: 11px;
+
+  cursor: pointer;
+}
+
+/* ============================================================
+   LANGUAGE SECTION
+   ============================================================ */
+
+.language-section {
+  display: flex;
+
+  flex-direction: column;
+
+  align-items: center;
+
+  margin-top: 21px;
+}
+
+.language-heading {
+  display: flex;
+
+  align-items: center;
+
+  gap: 8px;
+
+  color: #55616d;
+
+  font-size: 12px;
+
+  font-weight: 600;
+}
+
+.language-buttons {
+  display: flex;
+
+  align-items: center;
+
+  gap: 12px;
+
+  margin-top: 11px;
+}
+
+.language-button {
+  min-width: 91px;
+
+  height: 34px;
+
+  padding: 0 15px;
+
+  display: flex;
+
+  align-items: center;
+  justify-content: center;
+
+  gap: 5px;
+
+  border: 1px solid #dce1e5;
+
+  border-radius: 18px;
+
+  background: #f7f8f9;
+
+  color: #4d5965;
+
+  font-family: inherit;
+
+  font-size: 12px;
+
+  font-weight: 500;
+
+  cursor: pointer;
+
+  box-shadow:
+    0 2px 5px rgba(40, 50, 60, 0.03);
+
+  transition:
+    background 0.15s ease,
+    color 0.15s ease;
+}
+
+.language-button:hover {
+  background: #eef0f2;
+}
+
+.language-button.selected {
+  border-color: #66717c;
+
+  background: #727c86;
+
+  color: white;
+
+  box-shadow:
+    0 3px 7px rgba(50, 60, 70, 0.1);
+}
+
+/* ============================================================
+   RESPONSIVE
+   ============================================================ */
+
+@media (max-width: 1200px) {
+
+  .topbar-inner {
+    width: calc(100% - 40px);
+  }
+
+  .navigation {
+    gap: 22px;
+
+    margin-left: 25px;
+  }
+
+  .search-box {
+    width: 190px;
+  }
+
+  .hero-illustration {
+    right: -35px;
+
+    transform: scale(0.9);
+
+    transform-origin: top right;
+  }
+}
+
+@media (max-width: 950px) {
+
+  .navigation {
+    display: none;
+  }
+
+  .hero-section {
+    min-height: auto;
+
+    padding-top: 65px;
+
+    flex-direction: column;
+  }
+
+  .hero-copy {
+    margin-left: 0;
+
+    text-align: center;
+  }
+
+  .hero-description {
+    margin-left: auto;
+    margin-right: auto;
+  }
+
+  .process-steps {
+    justify-content: center;
+  }
+
+  .hero-illustration {
+    position: relative;
+
+    right: auto;
+    top: auto;
+
+    margin: 35px auto 0;
+
+    transform: scale(0.85);
+  }
+
+  .upload-section {
+    width: 100%;
+  }
+}
+
+@media (max-width: 650px) {
+
+  .topbar {
+    height: 70px;
+  }
+
+  .topbar-inner {
+    width: calc(100% - 25px);
+  }
+
+  .brand-subtitle {
+    display: none;
+  }
+
+  .brand-name {
+    font-size: 17px;
+  }
+
+  .header-actions {
+    gap: 5px;
+  }
+
+  .search-box {
+    display: none;
+  }
+
+  .profile-name,
+  .profile svg {
+    display: none;
+  }
+
+  .home-content {
+    width: calc(100% - 24px);
+  }
+
+  .hero-copy h1 {
+    font-size: 38px;
+  }
+
+  .hero-description {
+    font-size: 14px;
+
+    line-height: 1.6;
+  }
+
+  .hero-description br {
+    display: none;
+  }
+
+  .process-steps {
+    gap: 5px;
+  }
+
+  .step-arrow {
+    margin-left: 7px;
+    margin-right: 7px;
+  }
+
+  .step-icon {
+    width: 38px;
+    height: 38px;
+  }
+
+  .step-title {
+    font-size: 11px;
+  }
+
+  .step-subtitle {
+    font-size: 9px;
+  }
+
+  .hero-illustration {
+    width: 370px;
+
+    transform: scale(0.7);
+  }
+
+  .upload-section {
+    margin-top: 10px;
+  }
+
+  .upload-box {
+    min-height: 240px;
+  }
+
+  .selected-file {
+    width: 90%;
+  }
+}

@@ -1,0 +1,265 @@
+{
+  "results": [
+    {
+      "text": "सरकारीय जनसेवा",
+      "language": "hin",
+      "confidence": 0.9328702783917594,
+      "bbox": [
+        341.55,
+        229.866,
+        391.23,
+        242.49599999999998
+      ],
+      "label": "Text",
+      "raw_label": "Text",
+      "reading_order": 1,
+      "page": 1,
+      "page_number": 1,
+      "image_bbox": [
+        0.0,
+        0.0,
+        621.0,
+        842.0
+      ],
+      "source": "page_001_original"
+    },
+    {
+      "text": "The Dowry Prohibition Act, 1961\n(Act 28 of 1961)",
+      "language": "eng",
+      "confidence": 0.9328702783917594,
+      "bbox": [
+        167.67000000000002,
+        271.966,
+        562.626,
+        340.168
+      ],
+      "label": "SectionHeader",
+      "raw_label": "Section-Header",
+      "reading_order": 2,
+      "page": 1,
+      "page_number": 1,
+      "image_bbox": [
+        0.0,
+        0.0,
+        621.0,
+        842.0
+      ],
+      "source": "page_001_original"
+    },
+    {
+      "text": "[As modified upto the 31st December 1973]",
+      "language": "eng",
+      "confidence": 0.9328702783917594,
+      "bbox": [
+        244.053,
+        362.902,
+        487.485,
+        379.742
+      ],
+      "label": "Text",
+      "raw_label": "Text",
+      "reading_order": 3,
+      "page": 1,
+      "page_number": 1,
+      "image_bbox": [
+        0.0,
+        0.0,
+        621.0,
+        842.0
+      ],
+      "source": "page_001_original"
+    },
+    {
+      "text": "ભારત સરકાર",
+      "language": "guj",
+      "confidence": 0.9328702783917594,
+      "bbox": [
+        325.404,
+        434.47200000000004,
+        404.271,
+        451.312
+      ],
+      "label": "Text",
+      "raw_label": "Text",
+      "reading_order": 4,
+      "page": 1,
+      "page_number": 1,
+      "image_bbox": [
+        0.0,
+        0.0,
+        621.0,
+        842.0
+      ],
+      "source": "page_001_original"
+    },
+    {
+      "text": "વિધિ મંત્રાલય",
+      "language": "guj",
+      "confidence": 0.9328702783917594,
+      "bbox": [
+        325.404,
+        465.62600000000003,
+        404.271,
+        484.15
+      ],
+      "label": "Text",
+      "raw_label": "Text",
+      "reading_order": 5,
+      "page": 1,
+      "page_number": 1,
+      "image_bbox": [
+        0.0,
+        0.0,
+        621.0,
+        842.0
+      ],
+      "source": "page_001_original"
+    },
+    {
+      "text": "દાયજી પ્રતિબંધ અધિનિયમ, ૧૯૬૧",
+      "language": "guj",
+      "confidence": 0.9328702783917594,
+      "bbox": [
+        263.304,
+        508.568,
+        469.476,
+        529.618
+      ],
+      "label": "Text",
+      "raw_label": "Text",
+      "reading_order": 6,
+      "page": 1,
+      "page_number": 1,
+      "image_bbox": [
+        0.0,
+        0.0,
+        621.0,
+        842.0
+      ],
+      "source": "page_001_original"
+    },
+    {
+      "text": "(સન ૧૯૬૧નો ૨૮મો અધિનિયમ)",
+      "language": "guj",
+      "confidence": 0.9328702783917594,
+      "bbox": [
+        271.998,
+        550.668,
+        461.403,
+        572.5600000000001
+      ],
+      "label": "Text",
+      "raw_label": "Text",
+      "reading_order": 7,
+      "page": 1,
+      "page_number": 1,
+      "image_bbox": [
+        0.0,
+        0.0,
+        621.0,
+        842.0
+      ],
+      "source": "page_001_original"
+    },
+    {
+      "text": "[સન ૧૯૭૩ના ડિસેમ્બર મહિનાની ૩૧મી તારીખ સુધી સુધાર્યા પ્રમાણે]",
+      "language": "guj",
+      "confidence": 0.9328702783917594,
+      "bbox": [
+        194.373,
+        591.9259999999999,
+        540.891,
+        613.818
+      ],
+      "label": "Text",
+      "raw_label": "Text",
+      "reading_order": 8,
+      "page": 1,
+      "page_number": 1,
+      "image_bbox": [
+        0.0,
+        0.0,
+        621.0,
+        842.0
+      ],
+      "source": "page_001_original"
+    },
+    {
+      "text": "Printed and Published by the Director of Printing and Stationery,\nGovernment of Gujarat, on behalf of the Government of India.",
+      "language": "eng",
+      "confidence": 0.9328702783917594,
+      "bbox": [
+        181.953,
+        635.71,
+        554.553,
+        675.284
+      ],
+      "label": "Text",
+      "raw_label": "Text",
+      "reading_order": 9,
+      "page": 1,
+      "page_number": 1,
+      "image_bbox": [
+        0.0,
+        0.0,
+        621.0,
+        842.0
+      ],
+      "source": "page_001_original"
+    },
+    {
+      "text": "1976",
+      "language": "unknown",
+      "confidence": 0.9328702783917594,
+      "bbox": [
+        348.38100000000003,
+        681.178,
+        381.294,
+        695.492
+      ],
+      "label": "Text",
+      "raw_label": "Text",
+      "reading_order": 10,
+      "page": 1,
+      "page_number": 1,
+      "image_bbox": [
+        0.0,
+        0.0,
+        621.0,
+        842.0
+      ],
+      "source": "page_001_original"
+    },
+    {
+      "text": "[Price : Re. 00.40]",
+      "language": "eng",
+      "confidence": 0.9328702783917594,
+      "bbox": [
+        312.363,
+        703.0699999999999,
+        418.55400000000003,
+        719.91
+      ],
+      "label": "Text",
+      "raw_label": "Text",
+      "reading_order": 11,
+      "page": 1,
+      "page_number": 1,
+      "image_bbox": [
+        0.0,
+        0.0,
+        621.0,
+        842.0
+      ],
+      "source": "page_001_original"
+    }
+  ],
+  "total_blocks": 11,
+  "detected_languages": [
+    "eng",
+    "guj",
+    "hin"
+  ],
+  "multilingual": true,
+  "source_json": "C:\\Users\\dalwa\\Desktop\\astra-ocr\\backend\\surya_output\\run_20260911_143450_a2f2ef68\\page_001_original\\results.json"
+}

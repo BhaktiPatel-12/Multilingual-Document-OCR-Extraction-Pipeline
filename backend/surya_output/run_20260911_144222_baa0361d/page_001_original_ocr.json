@@ -1,0 +1,701 @@
+{
+  "results": [
+    {
+      "text": "947965",
+      "language": "unknown",
+      "confidence": 0.9614127142826018,
+      "bbox": [
+        71.424,
+        15.36,
+        112.12799999999999,
+        27.648
+      ],
+      "label": "PageHeader",
+      "raw_label": "Page-Header",
+      "reading_order": 0,
+      "page": 1,
+      "page_number": 1,
+      "image_bbox": [
+        0.0,
+        0.0,
+        768.0,
+        1024.0
+      ],
+      "source": "page_001_original"
+    },
+    {
+      "text": "क्रम संख्या/\nS.No. SSCE/2020/",
+      "language": "mixed",
+      "confidence": 0.9614127142826018,
+      "bbox": [
+        51.456,
+        47.104,
+        148.99200000000002,
+        76.8
+      ],
+      "label": "PageHeader",
+      "raw_label": "Page-Header",
+      "reading_order": 1,
+      "page": 1,
+      "page_number": 1,
+      "image_bbox": [
+        0.0,
+        0.0,
+        768.0,
+        1024.0
+      ],
+      "source": "page_001_original"
+    },
+    {
+      "text": "1264019",
+      "language": "unknown",
+      "confidence": 0.9614127142826018,
+      "bbox": [
+        177.40800000000002,
+        56.32,
+        260.35200000000003,
+        76.8
+      ],
+      "label": "PageHeader",
+      "raw_label": "Page-Header",
+      "reading_order": 2,
+      "page": 1,
+      "page_number": 1,
+      "image_bbox": [
+        0.0,
+        0.0,
+        768.0,
+        1024.0
+      ],
+      "source": "page_001_original"
+    },
+    {
+      "text": "रजि. नं.\nRegn.No. C220/20425/0045",
+      "language": "mixed",
+      "confidence": 0.9614127142826018,
+      "bbox": [
+        529.1519999999999,
+        48.128,
+        701.184,
+        78.848
+      ],
+      "label": "PageHeader",
+      "raw_label": "Page-Header",
+      "reading_order": 4,
+      "page": 1,
+      "page_number": 1,
+      "image_bbox": [
+        0.0,
+        0.0,
+        768.0,
+        1024.0
+      ],
+      "source": "page_001_original"
+    },
+    {
+      "text": "केन्द्रीय माध्यमिक शिक्षा बोर्ड\nCENTRAL BOARD OF SECONDARY EDUCATION",
+      "language": "mixed",
+      "confidence": 0.9614127142826018,
+      "bbox": [
+        169.728,
+        147.456,
+        599.808,
+        191.488
+      ],
+      "label": "SectionHeader",
+      "raw_label": "Section-Header",
+      "reading_order": 5,
+      "page": 1,
+      "page_number": 1,
+      "image_bbox": [
+        0.0,
+        0.0,
+        768.0,
+        1024.0
+      ],
+      "source": "page_001_original"
+    },
+    {
+      "text": "अंक विवरणिका",
+      "language": "hin",
+      "confidence": 0.9614127142826018,
+      "bbox": [
+        326.4,
+        197.632,
+        440.06399999999996,
+        217.088
+      ],
+      "label": "Text",
+      "raw_label": "Text",
+      "reading_order": 6,
+      "page": 1,
+      "page_number": 1,
+      "image_bbox": [
+        0.0,
+        0.0,
+        768.0,
+        1024.0
+      ],
+      "source": "page_001_original"
+    },
+    {
+      "text": "MARKS STATEMENT",
+      "language": "eng",
+      "confidence": 0.9614127142826018,
+      "bbox": [
+        303.36,
+        219.136,
+        461.568,
+        235.52
+      ],
+      "label": "Text",
+      "raw_label": "Text",
+      "reading_order": 7,
+      "page": 1,
+      "page_number": 1,
+      "image_bbox": [
+        0.0,
+        0.0,
+        768.0,
+        1024.0
+      ],
+      "source": "page_001_original"
+    },
+    {
+      "text": "सीनियर स्कूल सर्टिफिकेट परीक्षा, 2020\nSENIOR SCHOOL CERTIFICATE EXAMINATION, 2020",
+      "language": "mixed",
+      "confidence": 0.9614127142826018,
+      "bbox": [
+        187.392,
+        238.592,
+        581.376,
+        279.552
+      ],
+      "label": "Text",
+      "raw_label": "Text",
+      "reading_order": 8,
+      "page": 1,
+      "page_number": 1,
+      "image_bbox": [
+        0.0,
+        0.0,
+        768.0,
+        1024.0
+      ],
+      "source": "page_001_original"
+    },
+    {
+      "text": "परीक्षाणी का नाम",
+      "language": "hin",
+      "confidence": 0.9614127142826018,
+      "bbox": [
+        56.831999999999994,
+        293.888,
+        143.61599999999999,
+        311.296
+      ],
+      "label": "Text",
+      "raw_label": "Text",
+      "reading_order": 10,
+      "page": 1,
+      "page_number": 1,
+      "image_bbox": [
+        0.0,
+        0.0,
+        768.0,
+        1024.0
+      ],
+      "source": "page_001_original"
+    },
+    {
+      "text": "Name of Cendidate SATYAM JHA",
+      "language": "eng",
+      "confidence": 0.9614127142826018,
+      "bbox": [
+        56.831999999999994,
+        310.272,
+        263.42400000000004,
+        326.656
+      ],
+      "label": "Text",
+      "raw_label": "Text",
+      "reading_order": 11,
+      "page": 1,
+      "page_number": 1,
+      "image_bbox": [
+        0.0,
+        0.0,
+        768.0,
+        1024.0
+      ],
+      "source": "page_001_original"
+    },
+    {
+      "text": "अनुक्रमांक",
+      "language": "hin",
+      "confidence": 0.9614127142826018,
+      "bbox": [
+        56.831999999999994,
+        331.776,
+        110.59199999999998,
+        349.184
+      ],
+      "label": "Text",
+      "raw_label": "Text",
+      "reading_order": 12,
+      "page": 1,
+      "page_number": 1,
+      "image_bbox": [
+        0.0,
+        0.0,
+        768.0,
+        1024.0
+      ],
+      "source": "page_001_original"
+    },
+    {
+      "text": "Roll No. 17610283",
+      "language": "eng",
+      "confidence": 0.9614127142826018,
+      "bbox": [
+        56.831999999999994,
+        348.16,
+        194.304,
+        363.52
+      ],
+      "label": "Text",
+      "raw_label": "Text",
+      "reading_order": 13,
+      "page": 1,
+      "page_number": 1,
+      "image_bbox": [
+        0.0,
+        0.0,
+        768.0,
+        1024.0
+      ],
+      "source": "page_001_original"
+    },
+    {
+      "text": "माता का नाम",
+      "language": "hin",
+      "confidence": 0.9614127142826018,
+      "bbox": [
+        56.831999999999994,
+        368.64,
+        112.89599999999999,
+        386.048
+      ],
+      "label": "Text",
+      "raw_label": "Text",
+      "reading_order": 14,
+      "page": 1,
+      "page_number": 1,
+      "image_bbox": [
+        0.0,
+        0.0,
+        768.0,
+        1024.0
+      ],
+      "source": "page_001_original"
+    },
+    {
+      "text": "Mother's Name RINKU DEVI",
+      "language": "eng",
+      "confidence": 0.9614127142826018,
+      "bbox": [
+        56.831999999999994,
+        386.048,
+        238.07999999999998,
+        402.432
+      ],
+      "label": "Text",
+      "raw_label": "Text",
+      "reading_order": 15,
+      "page": 1,
+      "page_number": 1,
+      "image_bbox": [
+        0.0,
+        0.0,
+        768.0,
+        1024.0
+      ],
+      "source": "page_001_original"
+    },
+    {
+      "text": "पिता/संरक्षक का नाम",
+      "language": "hin",
+      "confidence": 0.9614127142826018,
+      "bbox": [
+        56.831999999999994,
+        406.528,
+        166.656,
+        423.936
+      ],
+      "label": "Text",
+      "raw_label": "Text",
+      "reading_order": 16,
+      "page": 1,
+      "page_number": 1,
+      "image_bbox": [
+        0.0,
+        0.0,
+        768.0,
+        1024.0
+      ],
+      "source": "page_001_original"
+    },
+    {
+      "text": "Father's/Guardian's Name AMOD JHA",
+      "language": "eng",
+      "confidence": 0.9614127142826018,
+      "bbox": [
+        56.831999999999994,
+        422.912,
+        287.23199999999997,
+        440.32
+      ],
+      "label": "Text",
+      "raw_label": "Text",
+      "reading_order": 17,
+      "page": 1,
+      "page_number": 1,
+      "image_bbox": [
+        0.0,
+        0.0,
+        768.0,
+        1024.0
+      ],
+      "source": "page_001_original"
+    },
+    {
+      "text": "विधवातय",
+      "language": "hin",
+      "confidence": 0.9614127142826018,
+      "bbox": [
+        56.831999999999994,
+        444.416,
+        105.21600000000001,
+        461.824
+      ],
+      "label": "Text",
+      "raw_label": "Text",
+      "reading_order": 18,
+      "page": 1,
+      "page_number": 1,
+      "image_bbox": [
+        0.0,
+        0.0,
+        768.0,
+        1024.0
+      ],
+      "source": "page_001_original"
+    },
+    {
+      "text": "School",
+      "language": "eng",
+      "confidence": 0.9614127142826018,
+      "bbox": [
+        56.831999999999994,
+        461.824,
+        108.28799999999998,
+        479.232
+      ],
+      "label": "Text",
+      "raw_label": "Text",
+      "reading_order": 19,
+      "page": 1,
+      "page_number": 1,
+      "image_bbox": [
+        0.0,
+        0.0,
+        768.0,
+        1024.0
+      ],
+      "source": "page_001_original"
+    },
+    {
+      "text": "40793 DOON B PUB SR SEC SCHOOL SEHATPUR FARIDABAD HRY",
+      "language": "eng",
+      "confidence": 0.9614127142826018,
+      "bbox": [
+        133.632,
+        459.776,
+        492.288,
+        475.136
+      ],
+      "label": "Text",
+      "raw_label": "Text",
+      "reading_order": 20,
+      "page": 1,
+      "page_number": 1,
+      "image_bbox": [
+        0.0,
+        0.0,
+        768.0,
+        1024.0
+      ],
+      "source": "page_001_original"
+    },
+    {
+      "text": "विषय बोर्ड\nSUB.\nCODE\nविषय\nSUBJECT\nप्रामांक MARKS OBTAINED\nस्थितीय ग्रेड\nPOSITIONAL\nGRADE\n\nलिखित\nTHEORY\nआं.पृ.\n1A/\nप्रा. PR.\nयोग\nTOTAL\nयोग (शब्दों में)\nTOTAL (IN WORDS)\n\n301\nENGLISH CORE\n074\n017\n091\nNINETY ONE\nA2\n\n054\nBUSINESS STUDIES\n062\n020\n082\nEIGHTY TWO\nB1\n\n055\nACCOUNTANCY\n039\n019\n068\nFIFTY EIGHT\nC2\n\n030\nECONOMICS\n044\n020\n064\nSIXTY FOUR\nC1\n\n048\nPHYSICAL EDUCATION\n060\n030\n090\nNINETY\nA2\n\n041\nMATHEMATICS\n026\n015\n041\nFORTY ONE\nD2\n\n500\nWORK EXPERIENCE\n\nB2\n\n502\nHEALTH & PHYSICAL EDUCATION\n\nA1\n\n503\nGENERAL STUDIES\n\nB2",
+      "language": "mixed",
+      "confidence": 0.9614127142826018,
+      "bbox": [
+        54.52799999999999,
+        488.448,
+        723.4559999999999,
+        789.504
+      ],
+      "label": "Table",
+      "raw_label": "Table",
+      "reading_order": 21,
+      "page": 1,
+      "page_number": 1,
+      "image_bbox": [
+        0.0,
+        0.0,
+        768.0,
+        1024.0
+      ],
+      "source": "page_001_original"
+    },
+    {
+      "text": "संक्षिप्तियों का अर्थ : Abbreviations",
+      "language": "mixed",
+      "confidence": 0.9614127142826018,
+      "bbox": [
+        49.152,
+        789.504,
+        268.032,
+        809.984
+      ],
+      "label": "Text",
+      "raw_label": "Text",
+      "reading_order": 22,
+      "page": 1,
+      "page_number": 1,
+      "image_bbox": [
+        0.0,
+        0.0,
+        768.0,
+        1024.0
+      ],
+      "source": "page_001_original"
+    },
+    {
+      "text": "AB : अनुपस्थित Absent",
+      "language": "mixed",
+      "confidence": 0.9614127142826018,
+      "bbox": [
+        49.152,
+        812.032,
+        179.71200000000002,
+        830.464
+      ],
+      "label": "Text",
+      "raw_label": "Text",
+      "reading_order": 23,
+      "page": 1,
+      "page_number": 1,
+      "image_bbox": [
+        0.0,
+        0.0,
+        768.0,
+        1024.0
+      ],
+      "source": "page_001_original"
+    },
+    {
+      "text": "परिणाम Result PASS",
+      "language": "mixed",
+      "confidence": 0.9614127142826018,
+      "bbox": [
+        430.84800000000007,
+        815.104,
+        571.392,
+        832.512
+      ],
+      "label": "Text",
+      "raw_label": "Text",
+      "reading_order": 24,
+      "page": 1,
+      "page_number": 1,
+      "image_bbox": [
+        0.0,
+        0.0,
+        768.0,
+        1024.0
+      ],
+      "source": "page_001_original"
+    },
+    {
+      "text": "RP : प्रयोगात्मक में पुनरावृत्ति Repeat in Practical",
+      "language": "mixed",
+      "confidence": 0.9614127142826018,
+      "bbox": [
+        49.152,
+        832.512,
+        304.896,
+        852.992
+      ],
+      "label": "Text",
+      "raw_label": "Text",
+      "reading_order": 25,
+      "page": 1,
+      "page_number": 1,
+      "image_bbox": [
+        0.0,
+        0.0,
+        768.0,
+        1024.0
+      ],
+      "source": "page_001_original"
+    },
+    {
+      "text": "RT : लिखित में पुनरावृत्ति Repeat in Theory",
+      "language": "mixed",
+      "confidence": 0.9614127142826018,
+      "bbox": [
+        49.152,
+        852.992,
+        279.552,
+        873.472
+      ],
+      "label": "Text",
+      "raw_label": "Text",
+      "reading_order": 26,
+      "page": 1,
+      "page_number": 1,
+      "image_bbox": [
+        0.0,
+        0.0,
+        768.0,
+        1024.0
+      ],
+      "source": "page_001_original"
+    },
+    {
+      "text": "ER : अनिवार्य पुनरावृत्ति समी विषयों में",
+      "language": "mixed",
+      "confidence": 0.9614127142826018,
+      "bbox": [
+        49.152,
+        873.472,
+        237.312,
+        892.928
+      ],
+      "label": "Text",
+      "raw_label": "Text",
+      "reading_order": 27,
+      "page": 1,
+      "page_number": 1,
+      "image_bbox": [
+        0.0,
+        0.0,
+        768.0,
+        1024.0
+      ],
+      "source": "page_001_original"
+    },
+    {
+      "text": "Essential Repent in all subjects",
+      "language": "eng",
+      "confidence": 0.9614127142826018,
+      "bbox": [
+        79.872,
+        896.0,
+        260.35200000000003,
+        914.432
+      ],
+      "label": "Text",
+      "raw_label": "Text",
+      "reading_order": 28,
+      "page": 1,
+      "page_number": 1,
+      "image_bbox": [
+        0.0,
+        0.0,
+        768.0,
+        1024.0
+      ],
+      "source": "page_001_original"
+    },
+    {
+      "text": "दिल्ली Delhi",
+      "language": "mixed",
+      "confidence": 0.9614127142826018,
+      "bbox": [
+        49.152,
+        949.248,
+        123.648,
+        966.656
+      ],
+      "label": "Text",
+      "raw_label": "Text",
+      "reading_order": 29,
+      "page": 1,
+      "page_number": 1,
+      "image_bbox": [
+        0.0,
+        0.0,
+        768.0,
+        1024.0
+      ],
+      "source": "page_001_original"
+    },
+    {
+      "text": "दिनांक Dated : 13-07-2020",
+      "language": "mixed",
+      "confidence": 0.9614127142826018,
+      "bbox": [
+        49.152,
+        967.68,
+        210.43200000000002,
+        985.088
+      ],
+      "label": "Text",
+      "raw_label": "Text",
+      "reading_order": 30,
+      "page": 1,
+      "page_number": 1,
+      "image_bbox": [
+        0.0,
+        0.0,
+        768.0,
+        1024.0
+      ],
+      "source": "page_001_original"
+    },
+    {
+      "text": "परीक्षा नियंत्रक\nController of Examinations",
+      "language": "mixed",
+      "confidence": 0.9614127142826018,
+      "bbox": [
+        519.936,
+        957.44,
+        688.128,
+        989.184
+      ],
+      "label": "Text",
+      "raw_label": "Text",
+      "reading_order": 32,
+      "page": 1,
+      "page_number": 1,
+      "image_bbox": [
+        0.0,
+        0.0,
+        768.0,
+        1024.0
+      ],
+      "source": "page_001_original"
+    }
+  ],
+  "total_blocks": 30,
+  "detected_languages": [
+    "eng",
+    "hin"
+  ],
+  "multilingual": true,
+  "source_json": "C:\\Users\\dalwa\\Desktop\\astra-ocr\\backend\\surya_output\\run_20260911_144222_baa0361d\\page_001_original\\results.json"
+}
