@@ -3359,6 +3359,7 @@
 
 
 from pathlib import Path
+from services.invoice_pdf_service import InvoiceFormatter
 
 import html
 import re
@@ -3412,6 +3413,8 @@ class StructuredPDFService:
         self.math_renderer = MathRenderer(
             output_dir="output/math"
         )
+
+        self.invoice_formatter = InvoiceFormatter(self)
 
     # =========================================================
     # FIND FONT
@@ -5037,6 +5040,71 @@ class StructuredPDFService:
             author="Astra OCR"
 
         )
+        try:
+
+            invoice_story = (
+                self.invoice_formatter.build_story(
+                    layout_result
+                )
+            )
+
+        except Exception as exc:
+
+            print(
+                "\n[StructuredPDF] "
+                "Invoice formatter failed."
+            )
+
+            print(
+                f"[StructuredPDF] Reason: {exc}"
+            )
+
+            print(
+                "[StructuredPDF] "
+                "Falling back to normal structured PDF."
+            )
+
+            invoice_story = None
+
+        # =====================================================
+        # INVOICE PDF SUCCESS
+        # =====================================================
+
+        if invoice_story is not None:
+
+            try:
+
+                doc.build(
+                    invoice_story
+                )
+
+                print(
+                    "\nInvoice PDF saved to:"
+                )
+
+                print(
+                    output_path
+                )
+
+                return str(
+                    output_path
+                )
+
+            except Exception as exc:
+
+                print(
+                    "\n[StructuredPDF] "
+                    "Invoice PDF rendering failed."
+                )
+
+                print(
+                    f"[StructuredPDF] Reason: {exc}"
+                )
+
+                print(
+                    "[StructuredPDF] "
+                    "Falling back to normal structured PDF."
+                )
 
         story = []
 

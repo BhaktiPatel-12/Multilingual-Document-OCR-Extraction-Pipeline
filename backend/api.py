@@ -21,9 +21,7 @@ from fastapi import FastAPI, File, HTTPException, UploadFile
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi.responses import FileResponse
 
-# PyMuPDF is used only for Search Indexing PDF highlighting
-# and Chatbot PDF text extraction.
-# It does not change the OCR pipeline.
+# PyMuPDF
 try:
     import pymupdf as fitz
 except ImportError:
@@ -83,15 +81,6 @@ jobs: Dict[str, Dict[str, Any]] = {}
 # ============================================================
 # CHATBOT
 # ============================================================
-# These imports are intentionally isolated from the OCR pipeline.
-#
-# document_chat.py is responsible for:
-# - extracting text from the structured PDF
-# - generating summaries
-# - answering questions with Groq
-#
-# The OCR pipeline itself is NOT changed.
-# ============================================================
 
 try:
     from document_chat import (
@@ -107,30 +96,13 @@ except ImportError as exc:
     ) from exc
 
 
-# Cache extracted chatbot documents.
-#
-# Keys can be:
-# - OCR job IDs
-# - direct chatbot upload chat IDs
-#
 chat_document_cache: Dict[str, Dict[str, Any]] = {}
 
-# Cache first generated document summaries.
 chat_summary_cache: Dict[str, str] = {}
 
 
 # ============================================================
 # DIRECT CHATBOT PDF STORAGE
-# ============================================================
-#
-# PDFs uploaded directly from the Chatbot page are stored here.
-#
-# IMPORTANT:
-# These files are ALREADY-GENERATED STRUCTURED PDFs.
-#
-# They are NOT passed through /api/process.
-# They are NOT sent to Surya OCR.
-#
 # ============================================================
 
 CHAT_UPLOAD_DIR = API_JOBS_DIR / "chat_documents"
@@ -150,24 +122,442 @@ DOWNLOAD_FILE_MAP = {
     "txt": "txt",
     "structured-pdf": "structured_pdf",
     "language-highlighted-pdf": "language_highlighted_pdf",
+    "structured-ocr-json": "structured_ocr_json",
 }
+
+
+# ============================================================
+# STRUCTURED OCR JSON HELPERS
+# ============================================================
+
+def find_structured_ocr_json(
+    job_id: str,
+) -> Optional[Path]:
+    """
+    Find the fifth ASTRA structured OCR JSON output.
+
+    Expected filename:
+
+        <original_filename>_structured.json
+
+    Priority:
+
+    1. result["outputs"]["structured_ocr_json"]
+    2. expected filename inside job directory
+    3. any *_structured.json inside job directory
+    """
+
+    job = jobs.get(job_id)
+
+    if not job:
+        return None
+
+    # --------------------------------------------------------
+    # 1. Check OCR result
+    # --------------------------------------------------------
+
+    result = job.get("result")
+
+    if isinstance(result, dict):
+
+        outputs = result.get(
+            "outputs",
+            {},
+        )
+
+        if isinstance(outputs, dict):
+
+            structured_json = outputs.get(
+                "structured_ocr_json"
+            )
+
+            if structured_json:
+
+                path = Path(
+                    str(structured_json)
+                )
+
+                if not path.is_absolute():
+                    path = BASE_DIR / path
+
+                if path.exists() and path.is_file():
+                    return path
+
+    # --------------------------------------------------------
+    # 2. Search job directory
+    # --------------------------------------------------------
+
+    job_output_dir = (
+        API_JOBS_DIR /
+        job_id
+    )
+
+    if not job_output_dir.exists():
+        return None
+
+    filename = job.get("filename")
+
+    if filename:
+
+        original_stem = Path(
+            str(filename)
+        ).stem
+
+        expected_name = (
+            f"{original_stem}_structured.json"
+        )
+
+        matches = list(
+            job_output_dir.rglob(
+                expected_name
+            )
+        )
+
+        if matches:
+            return matches[0]
+
+    # --------------------------------------------------------
+    # 3. Generic fallback
+    # --------------------------------------------------------
+
+    json_candidates = list(
+        job_output_dir.rglob(
+            "*_structured.json"
+        )
+    )
+
+    if json_candidates:
+        return json_candidates[0]
+
+    return None
+
+
+def load_structured_ocr_json(
+    job_id: str,
+) -> Optional[Dict[str, Any]]:
+    """
+    Load the fifth structured OCR JSON output.
+
+    Returns:
+        parsed dictionary
+        or None if unavailable.
+    """
+
+    json_path = find_structured_ocr_json(
+        job_id
+    )
+
+    if not json_path:
+        return None
+
+    try:
+
+        with open(
+            json_path,
+            "r",
+            encoding="utf-8",
+        ) as file:
+
+            data = json.load(file)
+
+        if isinstance(data, dict):
+            return data
+
+    except Exception as exc:
+
+        print()
+        print("=" * 70)
+        print("STRUCTURED OCR JSON LOAD FAILED")
+        print("=" * 70)
+        print(str(exc))
+        print("=" * 70)
+        print()
+
+    return None
+
+
+# ============================================================
+# INVOICE EXTRACTION
+# ============================================================
+
+INVOICE_FIELDS = (
+    "invoice_number",
+    "invoice_date",
+    "customer",
+    "address",
+    "phone",
+    "email",
+    "total",
+)
+
+
+def normalize_invoice_value(
+    value: Any,
+) -> Optional[str]:
+    """
+    Convert an invoice field into a clean string.
+
+    Missing/empty values become None so MySQL stores NULL.
+    """
+
+    if value is None:
+        return None
+
+    if isinstance(value, str):
+
+        value = value.strip()
+
+        if not value:
+            return None
+
+        return value
+
+    if isinstance(value, (int, float)):
+
+        return str(value)
+
+    if isinstance(value, list):
+
+        parts = []
+
+        for item in value:
+
+            normalized = normalize_invoice_value(
+                item
+            )
+
+            if normalized:
+                parts.append(normalized)
+
+        if parts:
+            return ", ".join(parts)
+
+        return None
+
+    if isinstance(value, dict):
+
+        # Prefer common value-like keys.
+        for key in (
+            "value",
+            "text",
+            "content",
+            "name",
+            "label",
+        ):
+
+            if key in value:
+
+                normalized = normalize_invoice_value(
+                    value.get(key)
+                )
+
+                if normalized:
+                    return normalized
+
+        return None
+
+    return str(value).strip() or None
+
+
+def recursively_find_invoice_documents(
+    value: Any,
+) -> List[Dict[str, Any]]:
+    """
+    Recursively search a structured OCR JSON object.
+
+    A document is considered an invoice ONLY when:
+
+        document["type"] == "invoice"
+
+    The comparison is exact after trimming/lowercasing.
+
+    No guessing is performed.
+    """
+
+    found = []
+
+    if isinstance(value, dict):
+
+        document_type = value.get(
+            "type"
+        )
+
+        if (
+            isinstance(document_type, str)
+            and document_type.strip().lower() == "invoice"
+        ):
+            found.append(value)
+
+        for child_value in value.values():
+
+            found.extend(
+                recursively_find_invoice_documents(
+                    child_value
+                )
+            )
+
+    elif isinstance(value, list):
+
+        for item in value:
+
+            found.extend(
+                recursively_find_invoice_documents(
+                    item
+                )
+            )
+
+    return found
+
+
+def extract_invoice_documents(
+    structured_json: Dict[str, Any],
+) -> List[Dict[str, Optional[str]]]:
+    """
+    Extract ALL exact invoice documents from the structured OCR JSON.
+
+    Every object with:
+
+        type == "invoice"
+
+    becomes one invoice record.
+
+    This is intentionally strict about document type, but tolerant
+    about where invoice fields are stored.
+    """
+
+    invoice_documents = recursively_find_invoice_documents(
+        structured_json
+    )
+
+    extracted_documents = []
+
+    for invoice_document in invoice_documents:
+
+        fields_source = invoice_document.get("fields")
+
+        if not isinstance(fields_source, dict):
+            fields_source = invoice_document
+
+        extracted = {}
+
+        for field_name in INVOICE_FIELDS:
+
+            value = None
+
+            if isinstance(fields_source, dict):
+                value = fields_source.get(field_name)
+
+                if isinstance(value, dict):
+                    value = value.get("value")
+
+            if value is None:
+                value = invoice_document.get(field_name)
+
+            # Useful aliases produced by different structured OCR layouts.
+            if value is None and isinstance(fields_source, dict):
+                aliases = {
+                    "invoice_number": ("invoice_no", "invoice_id", "number"),
+                    "invoice_date": ("date", "bill_date"),
+                    "customer": ("customer_name", "client", "client_name", "bill_to"),
+                    "address": ("customer_address", "billing_address", "bill_to_address"),
+                    "phone": ("telephone", "mobile", "contact"),
+                    "email": ("email_address", "customer_email"),
+                    "total": ("grand_total", "total_amount", "amount_total", "amount_due"),
+                }
+                for alias in aliases.get(field_name, ()):
+                    if alias in fields_source:
+                        value = fields_source.get(alias)
+                        if isinstance(value, dict):
+                            value = value.get("value")
+                        if value is not None:
+                            break
+
+            extracted[field_name] = normalize_invoice_value(value)
+
+        # --------------------------------------------------------
+        # Fallback for totals that are present in the invoice text
+        # but were not copied into fields.
+        # --------------------------------------------------------
+        if not extracted.get("total"):
+            text_values = invoice_document.get("text")
+            if isinstance(text_values, list):
+                for text_value in text_values:
+                    text = normalize_invoice_value(text_value)
+                    if not text:
+                        continue
+
+                    match = re.search(
+                        r"\btotal\s*\$?\s*([0-9][0-9,]*(?:\.\d{1,2})?)",
+                        text,
+                        flags=re.IGNORECASE,
+                    )
+                    if match:
+                        extracted["total"] = "$ " + match.group(1)
+                        break
+
+        # --------------------------------------------------------
+        # Fallback for customer/address from common text layouts.
+        # We only use this when the structured fields are missing.
+        # --------------------------------------------------------
+        if not extracted.get("address"):
+            address_value = invoice_document.get("address")
+            extracted["address"] = normalize_invoice_value(address_value)
+
+        extracted_documents.append(extracted)
+
+    return extracted_documents
+
+
+def extract_invoice_fields(
+    structured_json: Dict[str, Any],
+) -> Optional[Dict[str, Optional[str]]]:
+    """Backward-compatible helper returning the first invoice only."""
+
+    invoices = extract_invoice_documents(structured_json)
+
+    if not invoices:
+        return None
+
+    return invoices[0]
 
 
 # ============================================================
 # MYSQL CONFIGURATION
 # ============================================================
 
-MYSQL_HOST = os.getenv("MYSQL_HOST", "localhost")
-MYSQL_PORT = int(os.getenv("MYSQL_PORT", "3306"))
-MYSQL_USER = os.getenv("MYSQL_USER", "root")
-MYSQL_PASSWORD = os.getenv("MYSQL_PASSWORD", "")
-MYSQL_DATABASE = os.getenv("MYSQL_DATABASE", "astra_ocr")
+MYSQL_HOST = os.getenv(
+    "MYSQL_HOST",
+    "localhost",
+)
+
+MYSQL_PORT = int(
+    os.getenv(
+        "MYSQL_PORT",
+        "3306",
+    )
+)
+
+MYSQL_USER = os.getenv(
+    "MYSQL_USER",
+    "root",
+)
+
+MYSQL_PASSWORD = os.getenv(
+    "MYSQL_PASSWORD",
+    "",
+)
+
+MYSQL_DATABASE = os.getenv(
+    "MYSQL_DATABASE",
+    "astra_ocr",
+)
 
 
 def connect_to_mysql():
     """
     Create a MySQL connection.
     """
+
     return mysql.connector.connect(
         host=MYSQL_HOST,
         port=MYSQL_PORT,
@@ -195,8 +585,34 @@ class DataEntrySaveRequest(BaseModel):
 
 
 # ============================================================
+# INVOICE REQUEST MODEL
+# ============================================================
+
+class InvoiceSaveRequest(BaseModel):
+    job_id: str
+
+    invoice_number: Optional[str] = None
+    invoice_date: Optional[str] = None
+    customer: Optional[str] = None
+    address: Optional[str] = None
+    phone: Optional[str] = None
+    email: Optional[str] = None
+    total: Optional[str] = None
+
+
+# ============================================================
 # CHATBOT REQUEST MODEL
 # ============================================================
+
+class InvoiceUpdateRequest(BaseModel):
+    invoice_number: Optional[str] = None
+    invoice_date: Optional[str] = None
+    customer: Optional[str] = None
+    address: Optional[str] = None
+    phone: Optional[str] = None
+    email: Optional[str] = None
+    total: Optional[str] = None
+
 
 class ChatRequest(BaseModel):
     message: str
@@ -216,15 +632,13 @@ def save_document_to_database(
     """
     Automatically saves the complete OCR JSON result
     into the documents table.
-
-    THIS IS THE AUTOMATIC DOCUMENT SAVE.
-    DO NOT CONFUSE THIS WITH DATA ENTRY SAVE.
     """
 
     connection = None
     cursor = None
 
     try:
+
         print()
         print("=" * 70)
         print("SAVING OCR JSON TO MYSQL")
@@ -233,8 +647,14 @@ def save_document_to_database(
         connection = connect_to_mysql()
         cursor = connection.cursor()
 
-        pdf_id = ocr_result.get("pdf_id")
-        page_count = ocr_result.get("total_pages", 0)
+        pdf_id = ocr_result.get(
+            "pdf_id"
+        )
+
+        page_count = ocr_result.get(
+            "total_pages",
+            0,
+        )
 
         # ----------------------------------------------------
         # Determine OCR provider
@@ -242,7 +662,10 @@ def save_document_to_database(
 
         ocr_provider = "Surya OCR"
 
-        pages = ocr_result.get("pages", [])
+        pages = ocr_result.get(
+            "pages",
+            [],
+        )
 
         if isinstance(pages, list):
 
@@ -250,18 +673,27 @@ def save_document_to_database(
 
             for page in pages:
 
-                if not isinstance(page, dict):
+                if not isinstance(
+                    page,
+                    dict,
+                ):
                     continue
 
-                final_source = page.get("final_source")
+                final_source = page.get(
+                    "final_source"
+                )
 
                 if final_source:
-                    sources.append(str(final_source))
+                    sources.append(
+                        str(final_source)
+                    )
 
             if sources:
 
                 unique_sources = list(
-                    dict.fromkeys(sources)
+                    dict.fromkeys(
+                        sources
+                    )
                 )
 
                 ocr_provider = " / ".join(
@@ -272,13 +704,15 @@ def save_document_to_database(
         # Fusion
         # ----------------------------------------------------
 
-        fusion = ocr_result.get("fusion")
+        fusion = ocr_result.get(
+            "fusion"
+        )
 
         if fusion is not None:
             fusion = str(fusion)
 
         # ----------------------------------------------------
-        # Convert complete result to JSON
+        # Complete OCR JSON
         # ----------------------------------------------------
 
         raw_json = json.dumps(
@@ -288,7 +722,7 @@ def save_document_to_database(
         )
 
         # ----------------------------------------------------
-        # Insert / Update documents
+        # Insert / update
         # ----------------------------------------------------
 
         sql = """
@@ -324,7 +758,9 @@ def save_document_to_database(
 
         values = (
             job_id,
-            str(pdf_id) if pdf_id is not None else None,
+            str(pdf_id)
+            if pdf_id is not None
+            else None,
             filename,
             input_file,
             ocr_provider,
@@ -341,7 +777,7 @@ def save_document_to_database(
         connection.commit()
 
         # ----------------------------------------------------
-        # Get database document ID
+        # Database document ID
         # ----------------------------------------------------
 
         cursor.execute(
@@ -364,9 +800,15 @@ def save_document_to_database(
         print()
         print("DOCUMENT SAVE SUCCESSFUL")
         print("-" * 70)
-        print(f"Document ID    : {document_id}")
-        print(f"Job ID         : {job_id}")
-        print(f"Page Count     : {page_count}")
+        print(
+            f"Document ID    : {document_id}"
+        )
+        print(
+            f"Job ID         : {job_id}"
+        )
+        print(
+            f"Page Count     : {page_count}"
+        )
         print("=" * 70)
         print()
 
@@ -374,7 +816,9 @@ def save_document_to_database(
             "success": True,
             "document_id": document_id,
             "job_id": job_id,
-            "message": "Document automatically saved to MySQL.",
+            "message": (
+                "Document automatically saved to MySQL."
+            ),
         }
 
     except Error as exc:
@@ -399,6 +843,310 @@ def save_document_to_database(
 
 
 # ============================================================
+# SAVE INVOICE TO MYSQL
+# ============================================================
+
+def save_invoices_to_database(
+    job_id: str,
+    invoice_data_list: List[Dict[str, Any]],
+):
+    """
+    Save ALL invoices belonging to one OCR job.
+
+    The invoices table uses (job_id, invoice_index) as the stable
+    identity of each invoice. Existing rows are UPDATED in place and
+    new invoice indexes are INSERTED. This prevents duplicate rows and
+    avoids consuming AUTO_INCREMENT IDs when the same document is saved
+    again.
+    """
+
+    if not invoice_data_list:
+        raise ValueError("No invoice records were found.")
+
+    connection = None
+    cursor = None
+
+    try:
+        connection = connect_to_mysql()
+        cursor = connection.cursor()
+
+        cursor.execute(
+            """
+            SELECT id
+            FROM documents
+            WHERE job_id = %s
+            LIMIT 1
+            """,
+            (job_id,),
+        )
+
+        document = cursor.fetchone()
+
+        if not document:
+            raise ValueError(
+                f"No document found for job_id: {job_id}"
+            )
+
+        saved_invoices = []
+
+        for index, invoice_data in enumerate(
+            invoice_data_list,
+            start=1,
+        ):
+            values = {
+                "invoice_number": normalize_invoice_value(
+                    invoice_data.get("invoice_number")
+                ),
+                "invoice_date": normalize_invoice_value(
+                    invoice_data.get("invoice_date")
+                ),
+                "customer": normalize_invoice_value(
+                    invoice_data.get("customer")
+                ),
+                "address": normalize_invoice_value(
+                    invoice_data.get("address")
+                ),
+                "phone": normalize_invoice_value(
+                    invoice_data.get("phone")
+                ),
+                "email": normalize_invoice_value(
+                    invoice_data.get("email")
+                ),
+                "total": normalize_invoice_value(
+                    invoice_data.get("total")
+                ),
+            }
+
+            # ----------------------------------------------------
+            # Check first. UPDATE existing rows instead of issuing
+            # a duplicate INSERT. This keeps AUTO_INCREMENT clean.
+            # ----------------------------------------------------
+            cursor.execute(
+                """
+                SELECT id
+                FROM invoices
+                WHERE job_id = %s
+                  AND invoice_index = %s
+                LIMIT 1
+                """,
+                (job_id, index),
+            )
+
+            existing = cursor.fetchone()
+
+            if existing:
+                cursor.execute(
+                    """
+                    UPDATE invoices
+                    SET invoice_number = %s,
+                        invoice_date = %s,
+                        customer = %s,
+                        address = %s,
+                        phone = %s,
+                        email = %s,
+                        total = %s
+                    WHERE id = %s
+                    """,
+                    (
+                        values["invoice_number"],
+                        values["invoice_date"],
+                        values["customer"],
+                        values["address"],
+                        values["phone"],
+                        values["email"],
+                        values["total"],
+                        existing[0],
+                    ),
+                )
+                invoice_id = existing[0]
+            else:
+                cursor.execute(
+                    """
+                    INSERT INTO invoices (
+                        job_id,
+                        invoice_index,
+                        invoice_number,
+                        invoice_date,
+                        customer,
+                        address,
+                        phone,
+                        email,
+                        total
+                    )
+                    VALUES (
+                        %s, %s, %s, %s, %s, %s, %s, %s, %s
+                    )
+                    """,
+                    (
+                        job_id,
+                        index,
+                        values["invoice_number"],
+                        values["invoice_date"],
+                        values["customer"],
+                        values["address"],
+                        values["phone"],
+                        values["email"],
+                        values["total"],
+                    ),
+                )
+                invoice_id = cursor.lastrowid
+
+            saved_invoices.append(
+                {
+                    "id": invoice_id,
+                    "invoice_index": index,
+                    **values,
+                }
+            )
+
+        # Remove stale rows if the user re-saves a document after the
+        # number of detected invoices has decreased.
+        cursor.execute(
+            """
+            DELETE FROM invoices
+            WHERE job_id = %s
+              AND invoice_index > %s
+            """,
+            (job_id, len(invoice_data_list)),
+        )
+
+        connection.commit()
+
+        print()
+        print("INVOICE SAVE SUCCESSFUL")
+        print("-" * 70)
+        print(f"Job ID       : {job_id}")
+        print(f"Invoice count: {len(saved_invoices)}")
+        for invoice in saved_invoices:
+            print(
+                f"  #{invoice['invoice_index']} "
+                f"ID={invoice['id']} "
+                f"Number={invoice['invoice_number']}"
+            )
+        print("=" * 70)
+        print()
+
+        return {
+            "success": True,
+            "job_id": job_id,
+            "saved_count": len(saved_invoices),
+            "invoices": saved_invoices,
+            "message": (
+                f"{len(saved_invoices)} invoice(s) saved successfully."
+            ),
+        }
+
+    except Error:
+        if connection:
+            connection.rollback()
+        raise
+
+    except Exception:
+        if connection:
+            connection.rollback()
+        raise
+
+    finally:
+        if cursor:
+            cursor.close()
+        if connection:
+            connection.close()
+
+
+def save_invoice_to_database(
+    job_id: str,
+    invoice_data: Dict[str, Any],
+):
+    """Backward-compatible single-invoice wrapper."""
+
+    return save_invoices_to_database(
+        job_id=job_id,
+        invoice_data_list=[invoice_data],
+    )
+
+
+# ============================================================
+# AUTOMATIC INVOICE PROCESSING
+# ============================================================
+
+def process_invoice_from_structured_json(
+    job_id: str,
+):
+    """
+    Detect ALL invoices in the structured OCR JSON.
+
+    IMPORTANT: this function ONLY detects and returns invoice data.
+    It does NOT write to MySQL. Database saving happens only when the
+    user clicks "Save Invoice" in Results.jsx.
+    """
+
+    structured_json_path = find_structured_ocr_json(job_id)
+
+    if not structured_json_path:
+        return {
+            "success": True,
+            "is_invoice": False,
+            "saved": False,
+            "invoice_count": 0,
+            "invoices": [],
+            "reason": "Structured OCR JSON not found.",
+        }
+
+    try:
+        with open(
+            structured_json_path,
+            "r",
+            encoding="utf-8",
+        ) as file:
+            structured_json = json.load(file)
+    except Exception as exc:
+        return {
+            "success": False,
+            "is_invoice": False,
+            "saved": False,
+            "invoice_count": 0,
+            "invoices": [],
+            "reason": f"Could not read structured JSON: {exc}",
+        }
+
+    if not isinstance(structured_json, dict):
+        return {
+            "success": True,
+            "is_invoice": False,
+            "saved": False,
+            "invoice_count": 0,
+            "invoices": [],
+            "reason": "Structured JSON is not an object.",
+        }
+
+    invoices = extract_invoice_documents(structured_json)
+
+    if not invoices:
+        return {
+            "success": True,
+            "is_invoice": False,
+            "saved": False,
+            "invoice_count": 0,
+            "invoices": [],
+            "structured_json": str(structured_json_path),
+            "reason": 'No exact document type "invoice" found.',
+        }
+
+    return {
+        "success": True,
+        "is_invoice": True,
+        "saved": False,
+        "invoice_count": len(invoices),
+        "invoices": invoices,
+        "structured_json": str(structured_json_path),
+        "message": (
+            f"Detected {len(invoices)} invoice(s). "
+            "Nothing was written to MySQL yet."
+        ),
+    }
+
+
+# ============================================================
 # SAVE OCR TEXT TO SEARCH INDEX
 # ============================================================
 
@@ -407,11 +1155,7 @@ def save_search_index_to_database(
     ocr_result: Dict[str, Any],
 ):
     """
-    Automatically saves OCR text blocks into the search_index table
-    after the document itself has been saved.
-
-    This does NOT change the OCR pipeline. It only indexes the
-    already-generated OCR result for later searching.
+    Automatically saves OCR text blocks into search_index.
     """
 
     connection = None
@@ -427,8 +1171,13 @@ def save_search_index_to_database(
         connection = connect_to_mysql()
         cursor = connection.cursor()
 
-        print(f"MySQL database : {MYSQL_DATABASE}")
-        print(f"Job ID         : {job_id}")
+        print(
+            f"MySQL database : {MYSQL_DATABASE}"
+        )
+
+        print(
+            f"Job ID         : {job_id}"
+        )
 
         cursor.execute(
             """
@@ -442,6 +1191,7 @@ def save_search_index_to_database(
         document = cursor.fetchone()
 
         if not document:
+
             raise ValueError(
                 f"No document found for job_id: {job_id}"
             )
@@ -449,10 +1199,18 @@ def save_search_index_to_database(
         document_id = document[0]
         filename = document[1]
 
-        print(f"Document ID    : {document_id}")
-        print(f"Filename       : {filename}")
+        print(
+            f"Document ID    : {document_id}"
+        )
 
-        # Remove an older index for this document before rebuilding it.
+        print(
+            f"Filename       : {filename}"
+        )
+
+        # ----------------------------------------------------
+        # Remove old index
+        # ----------------------------------------------------
+
         cursor.execute(
             """
             DELETE FROM search_index
@@ -462,23 +1220,35 @@ def save_search_index_to_database(
         )
 
         rows = []
-        pages = ocr_result.get("pages", [])
+
+        pages = ocr_result.get(
+            "pages",
+            [],
+        )
 
         if isinstance(pages, list):
 
             for page in pages:
 
-                if not isinstance(page, dict):
+                if not isinstance(
+                    page,
+                    dict,
+                ):
                     continue
 
-                page_number = page.get("page_number")
+                page_number = page.get(
+                    "page_number"
+                )
 
                 final_result = page.get(
                     "final_result",
                     {},
                 )
 
-                if not isinstance(final_result, dict):
+                if not isinstance(
+                    final_result,
+                    dict,
+                ):
                     continue
 
                 results = final_result.get(
@@ -486,14 +1256,22 @@ def save_search_index_to_database(
                     [],
                 )
 
-                if not isinstance(results, list):
+                if not isinstance(
+                    results,
+                    list,
+                ):
                     continue
 
-                for block_number, block in enumerate(results):
+                for block_number, block in enumerate(
+                    results
+                ):
 
                     text_content = ""
 
-                    if isinstance(block, dict):
+                    if isinstance(
+                        block,
+                        dict,
+                    ):
 
                         for key in (
                             "text",
@@ -501,23 +1279,32 @@ def save_search_index_to_database(
                             "html",
                             "value",
                         ):
-                            value = block.get(key)
+
+                            value = block.get(
+                                key
+                            )
 
                             if value is not None:
-                                text_content = str(value)
+
+                                text_content = str(
+                                    value
+                                )
+
                                 break
 
-                    elif isinstance(block, str):
+                    elif isinstance(
+                        block,
+                        str,
+                    ):
+
                         text_content = block
 
-                    # Remove HTML markup if present.
                     text_content = re.sub(
                         r"<[^>]*>",
                         " ",
                         text_content,
                     )
 
-                    # Normalize whitespace.
                     text_content = re.sub(
                         r"\s+",
                         " ",
@@ -569,11 +1356,19 @@ def save_search_index_to_database(
         indexed_count = len(rows)
 
         print()
-        print("SEARCH INDEX SAVE SUCCESSFUL")
+        print(
+            "SEARCH INDEX SAVE SUCCESSFUL"
+        )
         print("-" * 70)
-        print(f"Document ID    : {document_id}")
-        print(f"Job ID         : {job_id}")
-        print(f"Blocks indexed : {indexed_count}")
+        print(
+            f"Document ID    : {document_id}"
+        )
+        print(
+            f"Job ID         : {job_id}"
+        )
+        print(
+            f"Blocks indexed : {indexed_count}"
+        )
         print("=" * 70)
         print()
 
@@ -595,7 +1390,9 @@ def save_search_index_to_database(
 
         print()
         print("=" * 70)
-        print("SEARCH INDEX SAVE FAILED")
+        print(
+            "SEARCH INDEX SAVE FAILED"
+        )
         print("=" * 70)
         print(str(exc))
         print("=" * 70)
@@ -621,11 +1418,7 @@ def save_data_entries_to_database(
     entries: list,
 ):
     """
-    Saves the Data Entry records into the data_entry table.
-
-    Existing Data Entry rows for the same document are deleted
-    first so that clicking "Save All to Database" always represents
-    the current Data Entry section.
+    Saves Data Entry records.
     """
 
     connection = None
@@ -635,18 +1428,21 @@ def save_data_entries_to_database(
 
         print()
         print("=" * 70)
-        print("SAVING DATA ENTRY RECORDS TO MYSQL")
+        print(
+            "SAVING DATA ENTRY RECORDS TO MYSQL"
+        )
         print("=" * 70)
 
         connection = connect_to_mysql()
         cursor = connection.cursor()
 
-        print(f"MySQL database : {MYSQL_DATABASE}")
-        print(f"Job ID         : {job_id}")
+        print(
+            f"MySQL database : {MYSQL_DATABASE}"
+        )
 
-        # ----------------------------------------------------
-        # Find the document saved automatically by OCR process
-        # ----------------------------------------------------
+        print(
+            f"Job ID         : {job_id}"
+        )
 
         cursor.execute(
             """
@@ -668,11 +1464,16 @@ def save_data_entries_to_database(
         document_id = document[0]
         filename = document[1]
 
-        print(f"Document ID    : {document_id}")
-        print(f"Filename       : {filename}")
+        print(
+            f"Document ID    : {document_id}"
+        )
+
+        print(
+            f"Filename       : {filename}"
+        )
 
         # ----------------------------------------------------
-        # Remove previous Data Entry rows
+        # Delete old entries
         # ----------------------------------------------------
 
         cursor.execute(
@@ -683,25 +1484,33 @@ def save_data_entries_to_database(
             (document_id,),
         )
 
-        # ----------------------------------------------------
-        # Prepare rows
-        # ----------------------------------------------------
-
         rows = []
 
-        if isinstance(entries, list):
+        if isinstance(
+            entries,
+            list,
+        ):
 
             for entry in entries:
 
-                if not isinstance(entry, dict):
+                if not isinstance(
+                    entry,
+                    dict,
+                ):
                     continue
 
                 field_name = str(
-                    entry.get("name", "")
+                    entry.get(
+                        "name",
+                        "",
+                    )
                 ).strip()
 
                 field_value = str(
-                    entry.get("value", "")
+                    entry.get(
+                        "value",
+                        "",
+                    )
                 ).strip()
 
                 if not field_name:
@@ -716,10 +1525,6 @@ def save_data_entries_to_database(
                         None,
                     )
                 )
-
-        # ----------------------------------------------------
-        # Insert rows
-        # ----------------------------------------------------
 
         if rows:
 
@@ -745,20 +1550,24 @@ def save_data_entries_to_database(
                 rows,
             )
 
-        # ----------------------------------------------------
-        # Commit
-        # ----------------------------------------------------
-
         connection.commit()
 
         saved_count = len(rows)
 
         print()
-        print("DATA ENTRY SAVE SUCCESSFUL")
+        print(
+            "DATA ENTRY SAVE SUCCESSFUL"
+        )
         print("-" * 70)
-        print(f"Document ID    : {document_id}")
-        print(f"Job ID         : {job_id}")
-        print(f"Records saved  : {saved_count}")
+        print(
+            f"Document ID    : {document_id}"
+        )
+        print(
+            f"Job ID         : {job_id}"
+        )
+        print(
+            f"Records saved  : {saved_count}"
+        )
         print("=" * 70)
         print()
 
@@ -780,7 +1589,9 @@ def save_data_entries_to_database(
 
         print()
         print("=" * 70)
-        print("DATA ENTRY SAVE FAILED")
+        print(
+            "DATA ENTRY SAVE FAILED"
+        )
         print("=" * 70)
         print(str(exc))
         print("=" * 70)
@@ -808,7 +1619,9 @@ def update_job(
     if job_id not in jobs:
         jobs[job_id] = {}
 
-    jobs[job_id].update(kwargs)
+    jobs[job_id].update(
+        kwargs
+    )
 
     jobs[job_id]["updated_at"] = time.time()
 
@@ -824,8 +1637,6 @@ def start_ocr_process(
 ):
     """
     Runs the existing OCR pipeline.
-
-    Surya OCR / OCR pipeline itself is NOT changed.
     """
 
     try:
@@ -847,7 +1658,9 @@ def start_ocr_process(
 
         print()
         print("=" * 70)
-        print("OCR WORKER FAILED")
+        print(
+            "OCR WORKER FAILED"
+        )
         print("=" * 70)
         print(str(exc))
         traceback.print_exc()
@@ -874,6 +1687,8 @@ def monitor_ocr_process(
 ):
     """
     Existing end-to-end OCR execution.
+
+    The OCR pipeline itself is unchanged.
     """
 
     try:
@@ -897,7 +1712,9 @@ def monitor_ocr_process(
         # ----------------------------------------------------
 
         service = PDFOCRService(
-            output_dir=str(output_dir),
+            output_dir=str(
+                output_dir
+            ),
             quality_threshold=80,
         )
 
@@ -933,14 +1750,18 @@ def monitor_ocr_process(
         database_result = save_document_to_database(
             job_id=job_id,
             filename=filename,
-            input_file=str(input_pdf),
+            input_file=str(
+                input_pdf
+            ),
             ocr_result=result,
         )
 
-        result["database"] = database_result
+        result["database"] = (
+            database_result
+        )
 
         # ----------------------------------------------------
-        # Build Search Index automatically
+        # Build Search Index
         # ----------------------------------------------------
 
         update_job(
@@ -952,12 +1773,16 @@ def monitor_ocr_process(
             ),
         )
 
-        search_index_result = save_search_index_to_database(
-            job_id=job_id,
-            ocr_result=result,
+        search_index_result = (
+            save_search_index_to_database(
+                job_id=job_id,
+                ocr_result=result,
+            )
         )
 
-        result["search_index"] = search_index_result
+        result["search_index"] = (
+            search_index_result
+        )
 
         # ----------------------------------------------------
         # Verify output files
@@ -985,6 +1810,102 @@ def monitor_ocr_process(
                     )
 
         # ----------------------------------------------------
+        # Fifth output: Structured OCR JSON
+        #
+        # Find it separately because some versions of the
+        # OCR service do not put it into outputs correctly.
+        # ----------------------------------------------------
+
+        structured_json_path = (
+            find_structured_ocr_json(
+                job_id
+            )
+        )
+
+        if structured_json_path:
+
+            # Make sure result outputs contains it.
+            result.setdefault(
+                "outputs",
+                {},
+            )
+
+            result["outputs"][
+                "structured_ocr_json"
+            ] = str(
+                structured_json_path
+            )
+
+            output_urls[
+                "structured_ocr_json"
+            ] = str(
+                structured_json_path
+            )
+
+        # ----------------------------------------------------
+        # Temporarily store result/output information so the
+        # invoice processor can locate the structured JSON.
+        # ----------------------------------------------------
+
+        update_job(
+            job_id,
+            result=result,
+            output_files=output_urls,
+        )
+
+        # ----------------------------------------------------
+        # AUTOMATIC INVOICE DETECTION
+        #
+        # This does NOT affect non-invoice documents.
+        # ----------------------------------------------------
+
+        update_job(
+            job_id,
+            progress=98,
+            message=(
+                "Checking structured document type..."
+            ),
+        )
+
+        try:
+
+            invoice_result = (
+                process_invoice_from_structured_json(
+                    job_id
+                )
+            )
+
+            result["invoice"] = (
+                invoice_result
+            )
+
+        except Exception as invoice_exc:
+
+            # Invoice processing should not destroy an otherwise
+            # successful OCR job.
+            #
+            # The OCR result remains available.
+            print()
+            print("=" * 70)
+            print(
+                "INVOICE PROCESSING WARNING"
+            )
+            print("=" * 70)
+            print(str(invoice_exc))
+            traceback.print_exc()
+            print("=" * 70)
+            print()
+
+            result["invoice"] = {
+                "success": False,
+                "is_invoice": False,
+                "saved": False,
+                "error": str(
+                    invoice_exc
+                ),
+            }
+
+        # ----------------------------------------------------
         # Complete
         # ----------------------------------------------------
 
@@ -999,10 +1920,16 @@ def monitor_ocr_process(
 
         print()
         print("=" * 70)
-        print("OCR JOB COMPLETED")
+        print(
+            "OCR JOB COMPLETED"
+        )
         print("=" * 70)
-        print(f"Job ID         : {job_id}")
-        print(f"Filename       : {filename}")
+        print(
+            f"Job ID         : {job_id}"
+        )
+        print(
+            f"Filename       : {filename}"
+        )
         print("=" * 70)
         print()
 
@@ -1010,7 +1937,9 @@ def monitor_ocr_process(
 
         print()
         print("=" * 70)
-        print("OCR PROCESS FAILED")
+        print(
+            "OCR PROCESS FAILED"
+        )
         print("=" * 70)
         print(str(exc))
         traceback.print_exc()
@@ -1037,12 +1966,15 @@ async def process_pdf(
     try:
 
         if not file.filename:
+
             raise HTTPException(
                 status_code=400,
                 detail="No filename provided.",
             )
 
-        job_id = str(uuid.uuid4())
+        job_id = str(
+            uuid.uuid4()
+        )
 
         safe_filename = Path(
             file.filename
@@ -1087,8 +2019,12 @@ async def process_pdf(
             "status": "queued",
             "progress": 0,
             "message": "Job queued.",
-            "input_file": str(input_path),
-            "output_dir": str(job_output_dir),
+            "input_file": str(
+                input_path
+            ),
+            "output_dir": str(
+                job_output_dir
+            ),
             "created_at": time.time(),
             "updated_at": time.time(),
         }
@@ -1113,7 +2049,9 @@ async def process_pdf(
             "success": True,
             "job_id": job_id,
             "filename": safe_filename,
-            "message": "OCR processing started.",
+            "message": (
+                "OCR processing started."
+            ),
         }
 
     except HTTPException:
@@ -1137,7 +2075,10 @@ async def process_pdf(
 def get_status(
     job_id: str,
 ):
-    job = jobs.get(job_id)
+
+    job = jobs.get(
+        job_id
+    )
 
     if not job:
 
@@ -1157,7 +2098,10 @@ def get_status(
 def get_result(
     job_id: str,
 ):
-    job = jobs.get(job_id)
+
+    job = jobs.get(
+        job_id
+    )
 
     if not job:
 
@@ -1169,9 +2113,86 @@ def get_result(
     return {
         "success": True,
         "job_id": job_id,
-        "status": job.get("status"),
-        "result": job.get("result"),
+        "status": job.get(
+            "status"
+        ),
+        "result": job.get(
+            "result"
+        ),
     }
+
+
+# ============================================================
+# STRUCTURED OCR JSON API
+# ============================================================
+
+@app.get("/api/structured-ocr/{job_id}")
+def get_structured_ocr_json(
+    job_id: str,
+):
+    """
+    Return the fifth structured OCR JSON.
+
+    This is separate from the original OCR JSON.
+    """
+
+    job = jobs.get(
+        job_id
+    )
+
+    if not job:
+
+        raise HTTPException(
+            status_code=404,
+            detail="Job not found.",
+        )
+
+    structured_json_path = (
+        find_structured_ocr_json(
+            job_id
+        )
+    )
+
+    if not structured_json_path:
+
+        raise HTTPException(
+            status_code=404,
+            detail=(
+                "Structured OCR JSON output "
+                "not found."
+            ),
+        )
+
+    try:
+
+        with open(
+            structured_json_path,
+            "r",
+            encoding="utf-8",
+        ) as file:
+
+            data = json.load(
+                file
+            )
+
+        return {
+            "success": True,
+            "job_id": job_id,
+            "filename": (
+                structured_json_path.name
+            ),
+            "data": data,
+        }
+
+    except Exception as exc:
+
+        raise HTTPException(
+            status_code=500,
+            detail=(
+                f"Could not read structured OCR JSON: "
+                f"{str(exc)}"
+            ),
+        )
 
 
 # ============================================================
@@ -1183,19 +2204,18 @@ def search_document(
     job_id: str,
     q: str,
 ):
-    """
-    Searches MySQL search_index and enriches each match with
-    the corresponding OCR JSON block from documents.raw_json.
-    """
 
     connection = None
     cursor = None
 
     try:
 
-        query = str(q or "").strip()
+        query = str(
+            q or ""
+        ).strip()
 
         if not query:
+
             return {
                 "success": True,
                 "job_id": job_id,
@@ -1205,7 +2225,10 @@ def search_document(
             }
 
         connection = connect_to_mysql()
-        cursor = connection.cursor(dictionary=True)
+
+        cursor = connection.cursor(
+            dictionary=True
+        )
 
         cursor.execute(
             """
@@ -1231,18 +2254,23 @@ def search_document(
         )
 
         rows = cursor.fetchall()
+
         results = []
 
         for row in rows:
 
             page_number = (
-                int(row["page_number"])
+                int(
+                    row["page_number"]
+                )
                 if row["page_number"] is not None
                 else 1
             )
 
             block_number = (
-                int(row["block_number"])
+                int(
+                    row["block_number"]
+                )
                 if row["block_number"] is not None
                 else 0
             )
@@ -1256,34 +2284,52 @@ def search_document(
 
             try:
 
-                raw_json = row.get("raw_json")
+                raw_json = row.get(
+                    "raw_json"
+                )
 
                 parsed_json = (
                     json.loads(raw_json)
-                    if isinstance(raw_json, str)
+                    if isinstance(
+                        raw_json,
+                        str,
+                    )
                     else raw_json
                 )
 
                 pages = (
-                    parsed_json.get("pages", [])
-                    if isinstance(parsed_json, dict)
+                    parsed_json.get(
+                        "pages",
+                        [],
+                    )
+                    if isinstance(
+                        parsed_json,
+                        dict,
+                    )
                     else []
                 )
 
                 page_obj = None
 
-                if isinstance(pages, list):
+                if isinstance(
+                    pages,
+                    list,
+                ):
 
                     for candidate in pages:
 
-                        if not isinstance(candidate, dict):
+                        if not isinstance(
+                            candidate,
+                            dict,
+                        ):
                             continue
 
                         if int(
                             candidate.get(
                                 "page_number",
                                 0,
-                            ) or 0
+                            )
+                            or 0
                         ) == page_number:
 
                             page_obj = candidate
@@ -1291,23 +2337,35 @@ def search_document(
 
                     if (
                         page_obj is None
-                        and 1 <= page_number <= len(pages)
+                        and 1 <= page_number <= len(
+                            pages
+                        )
                     ):
 
                         candidate = pages[
                             page_number - 1
                         ]
 
-                        if isinstance(candidate, dict):
+                        if isinstance(
+                            candidate,
+                            dict,
+                        ):
+
                             page_obj = candidate
 
-                elif isinstance(pages, dict):
+                elif isinstance(
+                    pages,
+                    dict,
+                ):
 
                     page_obj = pages.get(
                         str(page_number)
                     )
 
-                if isinstance(page_obj, dict):
+                if isinstance(
+                    page_obj,
+                    dict,
+                ):
 
                     final_result = page_obj.get(
                         "final_result",
@@ -1319,9 +2377,11 @@ def search_document(
                         dict,
                     ):
 
-                        final_results = final_result.get(
-                            "results",
-                            [],
+                        final_results = (
+                            final_result.get(
+                                "results",
+                                [],
+                            )
                         )
 
                         if (
@@ -1334,16 +2394,20 @@ def search_document(
                             )
                         ):
 
-                            candidate_block = final_results[
-                                block_number
-                            ]
+                            candidate_block = (
+                                final_results[
+                                    block_number
+                                ]
+                            )
 
                             if isinstance(
                                 candidate_block,
                                 dict,
                             ):
 
-                                ocr_block = candidate_block
+                                ocr_block = (
+                                    candidate_block
+                                )
 
                             else:
 
@@ -1370,7 +2434,7 @@ def search_document(
                     }
 
             except Exception:
-                # Legacy/malformed raw_json must not break search.
+
                 ocr_block = None
 
             results.append(
@@ -1379,12 +2443,16 @@ def search_document(
                     "blockIndex": block_number,
                     "text": text_content,
                     "type": (
-                        ocr_block.get("label")
+                        ocr_block.get(
+                            "label"
+                        )
                         if isinstance(
                             ocr_block,
                             dict,
                         )
-                        and ocr_block.get("label")
+                        and ocr_block.get(
+                            "label"
+                        )
                         else "Text Block"
                     ),
                     "filename": row.get(
@@ -1406,7 +2474,9 @@ def search_document(
             "job_id": job_id,
             "query": query,
             "results": results,
-            "total": len(results),
+            "total": len(
+                results
+            ),
         }
 
     except Error as exc:
@@ -1416,7 +2486,10 @@ def search_document(
 
         raise HTTPException(
             status_code=500,
-            detail=f"MySQL search error: {str(exc)}",
+            detail=(
+                f"MySQL search error: "
+                f"{str(exc)}"
+            ),
         )
 
     except Exception as exc:
@@ -1428,7 +2501,10 @@ def search_document(
 
         raise HTTPException(
             status_code=500,
-            detail=f"Search failed: {str(exc)}",
+            detail=(
+                f"Search failed: "
+                f"{str(exc)}"
+            ),
         )
 
     finally:
@@ -1449,10 +2525,6 @@ def search_highlighted_pdf(
     job_id: str,
     q: str,
 ):
-    """
-    Creates a temporary highlighted copy of the already-generated
-    structured PDF. No OCR is run here.
-    """
 
     connection = None
     cursor = None
@@ -1460,16 +2532,22 @@ def search_highlighted_pdf(
 
     try:
 
-        query = str(q or "").strip()
+        query = str(
+            q or ""
+        ).strip()
 
         if not query:
+
             raise HTTPException(
                 status_code=400,
                 detail="Search query is required.",
             )
 
         connection = connect_to_mysql()
-        cursor = connection.cursor(dictionary=True)
+
+        cursor = connection.cursor(
+            dictionary=True
+        )
 
         cursor.execute(
             """
@@ -1486,18 +2564,26 @@ def search_highlighted_pdf(
         document = cursor.fetchone()
 
         if not document:
+
             raise HTTPException(
                 status_code=404,
-                detail="Document not found for this OCR job.",
+                detail=(
+                    "Document not found for this OCR job."
+                ),
             )
 
-        raw_json = document.get("raw_json")
+        raw_json = document.get(
+            "raw_json"
+        )
 
         try:
 
             parsed_json = (
                 json.loads(raw_json)
-                if isinstance(raw_json, str)
+                if isinstance(
+                    raw_json,
+                    str,
+                )
                 else raw_json
             )
 
@@ -1512,14 +2598,25 @@ def search_highlighted_pdf(
             )
 
         outputs = (
-            parsed_json.get("outputs", {})
-            if isinstance(parsed_json, dict)
+            parsed_json.get(
+                "outputs",
+                {},
+            )
+            if isinstance(
+                parsed_json,
+                dict,
+            )
             else {}
         )
 
         structured_pdf = (
-            outputs.get("structured_pdf")
-            if isinstance(outputs, dict)
+            outputs.get(
+                "structured_pdf"
+            )
+            if isinstance(
+                outputs,
+                dict,
+            )
             else None
         )
 
@@ -1527,7 +2624,10 @@ def search_highlighted_pdf(
 
             raise HTTPException(
                 status_code=404,
-                detail="Structured PDF output is not available.",
+                detail=(
+                    "Structured PDF output "
+                    "is not available."
+                ),
             )
 
         pdf_path = Path(
@@ -1535,13 +2635,19 @@ def search_highlighted_pdf(
         )
 
         if not pdf_path.is_absolute():
-            pdf_path = BASE_DIR / pdf_path
+            pdf_path = (
+                BASE_DIR /
+                pdf_path
+            )
 
         if not pdf_path.exists():
 
             raise HTTPException(
                 status_code=404,
-                detail="Structured PDF file does not exist.",
+                detail=(
+                    "Structured PDF file "
+                    "does not exist."
+                ),
             )
 
         cursor.execute(
@@ -1562,20 +2668,26 @@ def search_highlighted_pdf(
             ),
         )
 
-        matching_rows = cursor.fetchall()
+        matching_rows = (
+            cursor.fetchall()
+        )
 
         block_lookup = {}
 
         for row in matching_rows:
 
             page_number = (
-                int(row["page_number"])
+                int(
+                    row["page_number"]
+                )
                 if row["page_number"] is not None
                 else 1
             )
 
             block_number = (
-                int(row["block_number"])
+                int(
+                    row["block_number"]
+                )
                 if row["block_number"] is not None
                 else 0
             )
@@ -1593,10 +2705,14 @@ def search_highlighted_pdf(
 
         total_highlights = 0
 
-        # Preferred: exact text highlighting in the searchable PDF.
+        # ----------------------------------------------------
+        # Exact text highlighting
+        # ----------------------------------------------------
+
         for page in pdf_document:
 
             try:
+
                 hits = page.search_for(
                     query,
                     quads=False,
@@ -1610,8 +2726,10 @@ def search_highlighted_pdf(
 
             for rect in hits:
 
-                annot = page.add_highlight_annot(
-                    rect
+                annot = (
+                    page.add_highlight_annot(
+                        rect
+                    )
                 )
 
                 if annot:
@@ -1620,7 +2738,10 @@ def search_highlighted_pdf(
 
                     total_highlights += 1
 
-        # Fallback: highlight the OCR block identified by MySQL.
+        # ----------------------------------------------------
+        # OCR block fallback
+        # ----------------------------------------------------
+
         if (
             total_highlights == 0
             and block_lookup
@@ -1629,14 +2750,24 @@ def search_highlighted_pdf(
             try:
 
                 parsed_pages = (
-                    parsed_json.get("pages", [])
-                    if isinstance(parsed_json, dict)
+                    parsed_json.get(
+                        "pages",
+                        [],
+                    )
+                    if isinstance(
+                        parsed_json,
+                        dict,
+                    )
                     else []
                 )
 
-                for page_number, block_numbers in block_lookup.items():
+                for page_number, block_numbers in (
+                    block_lookup.items()
+                ):
 
-                    page_index = page_number - 1
+                    page_index = (
+                        page_number - 1
+                    )
 
                     if not (
                         0 <= page_index < len(
@@ -1656,24 +2787,30 @@ def search_highlighted_pdf(
                             parsed_pages
                         ):
 
-                            candidate = parsed_pages[
-                                page_index
-                            ]
+                            candidate = (
+                                parsed_pages[
+                                    page_index
+                                ]
+                            )
 
                             if isinstance(
                                 candidate,
                                 dict,
                             ):
 
-                                page_obj = candidate
+                                page_obj = (
+                                    candidate
+                                )
 
                     elif isinstance(
                         parsed_pages,
                         dict,
                     ):
 
-                        candidate = parsed_pages.get(
-                            str(page_number)
+                        candidate = (
+                            parsed_pages.get(
+                                str(page_number)
+                            )
                         )
 
                         if isinstance(
@@ -1689,9 +2826,11 @@ def search_highlighted_pdf(
                     ):
                         continue
 
-                    final_result = page_obj.get(
-                        "final_result",
-                        {},
+                    final_result = (
+                        page_obj.get(
+                            "final_result",
+                            {},
+                        )
                     )
 
                     if not isinstance(
@@ -1700,9 +2839,11 @@ def search_highlighted_pdf(
                     ):
                         continue
 
-                    final_results = final_result.get(
-                        "results",
-                        [],
+                    final_results = (
+                        final_result.get(
+                            "results",
+                            [],
+                        )
                     )
 
                     if not isinstance(
@@ -1711,11 +2852,15 @@ def search_highlighted_pdf(
                     ):
                         continue
 
-                    pdf_page = pdf_document[
-                        page_index
-                    ]
+                    pdf_page = (
+                        pdf_document[
+                            page_index
+                        ]
+                    )
 
-                    for block_number in block_numbers:
+                    for block_number in (
+                        block_numbers
+                    ):
 
                         if not (
                             0 <= block_number < len(
@@ -1724,9 +2869,11 @@ def search_highlighted_pdf(
                         ):
                             continue
 
-                        block = final_results[
-                            block_number
-                        ]
+                        block = (
+                            final_results[
+                                block_number
+                            ]
+                        )
 
                         if not isinstance(
                             block,
@@ -1735,9 +2882,15 @@ def search_highlighted_pdf(
                             continue
 
                         geometry = (
-                            block.get("polygon")
-                            or block.get("bbox")
-                            or block.get("box")
+                            block.get(
+                                "polygon"
+                            )
+                            or block.get(
+                                "bbox"
+                            )
+                            or block.get(
+                                "box"
+                            )
                         )
 
                         if not geometry:
@@ -1759,7 +2912,9 @@ def search_highlighted_pdf(
 
                             for point in geometry:
 
-                                if len(point) >= 2:
+                                if len(
+                                    point
+                                ) >= 2:
 
                                     points.append(
                                         (
@@ -1777,12 +2932,16 @@ def search_highlighted_pdf(
                                 geometry,
                                 (list, tuple),
                             )
-                            and len(geometry) >= 4
+                            and len(
+                                geometry
+                            ) >= 4
                         ):
 
-                            x1, y1, x2, y2 = geometry[
-                                :4
-                            ]
+                            x1, y1, x2, y2 = (
+                                geometry[
+                                    :4
+                                ]
+                            )
 
                             points = [
                                 (
@@ -1795,7 +2954,9 @@ def search_highlighted_pdf(
                                 ),
                             ]
 
-                        if len(points) < 2:
+                        if len(
+                            points
+                        ) < 2:
                             continue
 
                         x_values = [
@@ -1822,8 +2983,10 @@ def search_highlighted_pdf(
                             and rect.height > 0
                         ):
 
-                            annot = pdf_page.add_highlight_annot(
-                                rect
+                            annot = (
+                                pdf_page.add_highlight_annot(
+                                    rect
+                                )
                             )
 
                             if annot:
@@ -1867,7 +3030,9 @@ def search_highlighted_pdf(
         pdf_document = None
 
         return FileResponse(
-            path=str(output_path),
+            path=str(
+                output_path
+            ),
             media_type="application/pdf",
             filename=output_path.name,
             headers={
@@ -1911,86 +3076,87 @@ def search_highlighted_pdf(
 def resolve_chat_structured_pdf(
     job_id: str,
 ) -> Optional[Path]:
-    """
-    Find the exact structured PDF generated by the OCR pipeline.
 
-    Priority:
-
-    1. jobs[job_id]["result"]["outputs"]["structured_pdf"]
-    2. jobs[job_id]["output_files"]["structured_pdf"]
-    3. structured PDF inside the job output directory
-
-    This is used when the chatbot is connected to an existing
-    OCR job.
-
-    No OCR is performed here.
-    """
-
-    # --------------------------------------------------------
-    # 1. Exact path from OCR result
-    # --------------------------------------------------------
-
-    job = jobs.get(job_id)
+    job = jobs.get(
+        job_id
+    )
 
     if job:
 
-        result = job.get("result")
+        result = job.get(
+            "result"
+        )
 
-        if isinstance(result, dict):
+        if isinstance(
+            result,
+            dict,
+        ):
 
             outputs = result.get(
                 "outputs",
                 {},
             )
 
-            if isinstance(outputs, dict):
+            if isinstance(
+                outputs,
+                dict,
+            ):
 
-                structured_pdf = outputs.get(
-                    "structured_pdf"
+                structured_pdf = (
+                    outputs.get(
+                        "structured_pdf"
+                    )
                 )
 
                 if structured_pdf:
 
                     path = Path(
-                        str(structured_pdf)
+                        str(
+                            structured_pdf
+                        )
                     )
 
                     if not path.is_absolute():
-                        path = BASE_DIR / path
+                        path = (
+                            BASE_DIR /
+                            path
+                        )
 
                     if path.exists():
                         return path
-
-        # ----------------------------------------------------
-        # 2. Exact path from verified output files
-        # ----------------------------------------------------
 
         output_files = job.get(
             "output_files",
             {},
         )
 
-        if isinstance(output_files, dict):
+        if isinstance(
+            output_files,
+            dict,
+        ):
 
-            structured_pdf = output_files.get(
-                "structured_pdf"
+            structured_pdf = (
+                output_files.get(
+                    "structured_pdf"
+                )
             )
 
             if structured_pdf:
 
                 path = Path(
-                    str(structured_pdf)
+                    str(
+                        structured_pdf
+                    )
                 )
 
                 if not path.is_absolute():
-                    path = BASE_DIR / path
+                    path = (
+                        BASE_DIR /
+                        path
+                    )
 
                 if path.exists():
                     return path
-
-    # --------------------------------------------------------
-    # 3. Search job directory
-    # --------------------------------------------------------
 
     job_output_dir = (
         API_JOBS_DIR /
@@ -2001,16 +3167,20 @@ def resolve_chat_structured_pdf(
         return None
 
     pdf_candidates = list(
-        job_output_dir.rglob("*.pdf")
+        job_output_dir.rglob(
+            "*.pdf"
+        )
     )
 
     if not pdf_candidates:
         return None
 
-    # Exact structured PDF preference.
     for pdf in pdf_candidates:
 
-        if "structured" in pdf.name.lower():
+        if (
+            "structured"
+            in pdf.name.lower()
+        ):
 
             return pdf
 
@@ -2024,17 +3194,6 @@ def resolve_chat_structured_pdf(
 def load_chat_document(
     job_id: str,
 ) -> Dict[str, Any]:
-    """
-    Load and cache the structured PDF belonging to an OCR job.
-
-    The PDF is extracted with document_chat.py.
-
-    NO OCR is performed here.
-    """
-
-    # --------------------------------------------------------
-    # Return cached document if already loaded
-    # --------------------------------------------------------
 
     if job_id in chat_document_cache:
 
@@ -2042,11 +3201,9 @@ def load_chat_document(
             job_id
         ]
 
-    # --------------------------------------------------------
-    # Make sure OCR job exists
-    # --------------------------------------------------------
-
-    job = jobs.get(job_id)
+    job = jobs.get(
+        job_id
+    )
 
     if not job:
 
@@ -2054,23 +3211,19 @@ def load_chat_document(
             "OCR job was not found."
         )
 
-    # --------------------------------------------------------
-    # Make sure OCR is complete
-    # --------------------------------------------------------
-
-    if job.get("status") != "completed":
+    if job.get(
+        "status"
+    ) != "completed":
 
         raise ValueError(
             "The OCR document is not ready yet. "
             "Please wait until processing is completed."
         )
 
-    # --------------------------------------------------------
-    # Resolve structured PDF
-    # --------------------------------------------------------
-
-    pdf_path = resolve_chat_structured_pdf(
-        job_id
+    pdf_path = (
+        resolve_chat_structured_pdf(
+            job_id
+        )
     )
 
     if not pdf_path:
@@ -2082,7 +3235,9 @@ def load_chat_document(
 
     print()
     print("=" * 70)
-    print("CHATBOT DOCUMENT LOADING")
+    print(
+        "CHATBOT DOCUMENT LOADING"
+    )
     print("=" * 70)
     print()
 
@@ -2096,17 +3251,11 @@ def load_chat_document(
 
     print()
 
-    # --------------------------------------------------------
-    # Extract text using document_chat.py
-    # --------------------------------------------------------
-
     document_data = extract_pdf_text(
-        str(pdf_path)
+        str(
+            pdf_path
+        )
     )
-
-    # --------------------------------------------------------
-    # Validate extracted text
-    # --------------------------------------------------------
 
     if not document_data.get(
         "has_text"
@@ -2117,19 +3266,15 @@ def load_chat_document(
             "usable selectable text."
         )
 
-    # --------------------------------------------------------
-    # Add OCR/job information
-    # --------------------------------------------------------
+    document_data[
+        "job_id"
+    ] = job_id
 
-    document_data["job_id"] = job_id
-
-    document_data["structured_pdf"] = str(
+    document_data[
+        "structured_pdf"
+    ] = str(
         pdf_path
     )
-
-    # --------------------------------------------------------
-    # Cache document
-    # --------------------------------------------------------
 
     chat_document_cache[
         job_id
@@ -2137,7 +3282,9 @@ def load_chat_document(
 
     print()
     print("=" * 70)
-    print("CHATBOT DOCUMENT LOADED")
+    print(
+        "CHATBOT DOCUMENT LOADED"
+    )
     print("=" * 70)
     print()
 
@@ -2174,43 +3321,10 @@ def load_chat_document(
 async def upload_chat_document(
     file: UploadFile = File(...),
 ):
-    """
-    Upload an already-generated structured PDF for chatbot use.
-
-    IMPORTANT:
-
-    This endpoint DOES NOT run OCR.
-
-    It only:
-
-        1. Receives the already-generated structured PDF.
-        2. Saves the PDF.
-        3. Extracts selectable text using document_chat.py.
-        4. Creates a chatbot session ID.
-        5. Caches the extracted document.
-
-    It NEVER calls:
-
-        /api/process
-
-    It NEVER calls:
-
-        PDFOCRService
-
-    It NEVER calls:
-
-        Surya OCR
-
-    It NEVER performs OCR.
-    """
 
     chat_directory = None
 
     try:
-
-        # ----------------------------------------------------
-        # Validate filename
-        # ----------------------------------------------------
 
         if not file.filename:
 
@@ -2223,23 +3337,18 @@ async def upload_chat_document(
             file.filename
         ).name
 
-        # ----------------------------------------------------
-        # Validate PDF
-        # ----------------------------------------------------
-
         if (
-            not safe_filename.lower().endswith(".pdf")
-            and file.content_type != "application/pdf"
+            not safe_filename.lower().endswith(
+                ".pdf"
+            )
+            and file.content_type
+            != "application/pdf"
         ):
 
             raise HTTPException(
                 status_code=400,
                 detail="Only PDF files are supported.",
             )
-
-        # ----------------------------------------------------
-        # Create chatbot session ID
-        # ----------------------------------------------------
 
         chat_id = str(
             uuid.uuid4()
@@ -2260,10 +3369,6 @@ async def upload_chat_document(
             safe_filename
         )
 
-        # ----------------------------------------------------
-        # Save uploaded PDF
-        # ----------------------------------------------------
-
         with open(
             pdf_path,
             "wb",
@@ -2274,28 +3379,20 @@ async def upload_chat_document(
                 buffer,
             )
 
-        # ----------------------------------------------------
-        # Verify file exists
-        # ----------------------------------------------------
-
         if not pdf_path.exists():
 
             raise HTTPException(
                 status_code=500,
-                detail="Uploaded PDF could not be saved.",
+                detail=(
+                    "Uploaded PDF could not be saved."
+                ),
             )
-
-        # ----------------------------------------------------
-        # Extract text
-        #
-        # This uses PyMuPDF through document_chat.py.
-        #
-        # NO OCR.
-        # ----------------------------------------------------
 
         print()
         print("=" * 70)
-        print("CHATBOT PDF UPLOAD")
+        print(
+            "CHATBOT PDF UPLOAD"
+        )
         print("=" * 70)
         print()
 
@@ -2318,12 +3415,10 @@ async def upload_chat_document(
         print()
 
         document_data = extract_pdf_text(
-            str(pdf_path)
+            str(
+                pdf_path
+            )
         )
-
-        # ----------------------------------------------------
-        # Validate extracted text
-        # ----------------------------------------------------
 
         if not document_data.get(
             "has_text"
@@ -2347,44 +3442,39 @@ async def upload_chat_document(
                 ),
             )
 
-        # ----------------------------------------------------
-        # Add chatbot information
-        # ----------------------------------------------------
+        document_data[
+            "chat_id"
+        ] = chat_id
 
-        document_data["chat_id"] = chat_id
-
-        document_data["structured_pdf"] = str(
+        document_data[
+            "structured_pdf"
+        ] = str(
             pdf_path
         )
 
-        document_data["filename"] = (
+        document_data[
+            "filename"
+        ] = (
             document_data.get(
                 "filename"
             )
             or safe_filename
         )
 
-        # ----------------------------------------------------
-        # Cache document
-        # ----------------------------------------------------
-
         chat_document_cache[
             chat_id
         ] = document_data
 
-        # Make sure no previous summary exists.
         chat_summary_cache.pop(
             chat_id,
             None,
         )
 
-        # ----------------------------------------------------
-        # Success logging
-        # ----------------------------------------------------
-
         print()
         print("=" * 70)
-        print("CHATBOT PDF READY")
+        print(
+            "CHATBOT PDF READY"
+        )
         print("=" * 70)
         print()
 
@@ -2417,38 +3507,28 @@ async def upload_chat_document(
         )
 
         print()
-        print("=" * 70)
-        print()
 
         return {
             "success": True,
-
             "chat_id": chat_id,
-
             "filename": safe_filename,
-
             "message": (
                 "PDF uploaded successfully. "
                 "The document is ready for chatbot."
             ),
-
             "document": {
                 "filename": document_data.get(
                     "filename"
                 ),
-
                 "total_pages": document_data.get(
                     "total_pages"
                 ),
-
                 "total_characters": document_data.get(
                     "total_characters"
                 ),
-
                 "source": document_data.get(
                     "source"
                 ),
-
                 "structured_pdf": document_data.get(
                     "structured_pdf"
                 ),
@@ -2462,16 +3542,18 @@ async def upload_chat_document(
 
         print()
         print("=" * 70)
-        print("CHATBOT PDF UPLOAD FAILED")
+        print(
+            "CHATBOT PDF UPLOAD FAILED"
+        )
         print("=" * 70)
         print()
 
-        print(str(exc))
+        print(
+            str(exc)
+        )
 
         traceback.print_exc()
 
-        print()
-        print("=" * 70)
         print()
 
         if chat_directory is not None:
@@ -2502,20 +3584,6 @@ async def upload_chat_document(
 def get_chat_document(
     chat_id: str,
 ) -> Dict[str, Any]:
-    """
-    Resolve a chatbot document.
-
-    Supports BOTH:
-
-    1. Direct chatbot-uploaded structured PDFs.
-    2. Existing OCR jobs.
-
-    Direct chatbot uploads are checked first.
-    """
-
-    # --------------------------------------------------------
-    # 1. Direct chatbot uploaded PDF
-    # --------------------------------------------------------
 
     if chat_id in chat_document_cache:
 
@@ -2523,19 +3591,11 @@ def get_chat_document(
             chat_id
         ]
 
-    # --------------------------------------------------------
-    # 2. Existing OCR job
-    # --------------------------------------------------------
-
     if chat_id in jobs:
 
         return load_chat_document(
             chat_id
         )
-
-    # --------------------------------------------------------
-    # Nothing found
-    # --------------------------------------------------------
 
     raise FileNotFoundError(
         "Chatbot document was not found."
@@ -2551,59 +3611,10 @@ def chat_with_document(
     job_id: str,
     request: ChatRequest,
 ):
-    """
-    Chat with a structured PDF.
-
-    Supports BOTH:
-
-    ------------------------------------------------------------
-    A. Existing OCR job
-    ------------------------------------------------------------
-
-        POST /api/chat/{ocr_job_id}
-
-    The structured PDF is resolved from the completed OCR job.
-
-    ------------------------------------------------------------
-    B. Direct chatbot PDF upload
-    ------------------------------------------------------------
-
-        POST /api/chat/upload
-
-    returns:
-
-        chat_id
-
-    Then:
-
-        POST /api/chat/{chat_id}
-
-    The uploaded PDF is already the structured PDF.
-
-    NO OCR is run.
-
-    ------------------------------------------------------------
-    FIRST REQUEST
-    ------------------------------------------------------------
-
-        1. Load document.
-        2. Generate document summary.
-        3. Answer user's question.
-
-    ------------------------------------------------------------
-    SUBSEQUENT REQUESTS
-    ------------------------------------------------------------
-
-        Use the same cached document and summary.
-    """
 
     question = str(
         request.message or ""
     ).strip()
-
-    # --------------------------------------------------------
-    # Validate question
-    # --------------------------------------------------------
 
     if not question:
 
@@ -2611,15 +3622,6 @@ def chat_with_document(
             status_code=400,
             detail="Message cannot be empty.",
         )
-
-    # --------------------------------------------------------
-    # Resolve chatbot document
-    #
-    # This handles:
-    #
-    # - direct uploaded structured PDF
-    # - existing OCR job
-    # --------------------------------------------------------
 
     try:
 
@@ -2645,11 +3647,15 @@ def chat_with_document(
 
         print()
         print("=" * 70)
-        print("CHATBOT DOCUMENT ERROR")
+        print(
+            "CHATBOT DOCUMENT ERROR"
+        )
         print("=" * 70)
         print()
 
-        print(str(exc))
+        print(
+            str(exc)
+        )
 
         traceback.print_exc()
 
@@ -2662,10 +3668,6 @@ def chat_with_document(
                 f"{str(exc)}"
             ),
         )
-
-    # --------------------------------------------------------
-    # Create Groq client
-    # --------------------------------------------------------
 
     try:
 
@@ -2681,19 +3683,21 @@ def chat_with_document(
             ),
         )
 
-    # --------------------------------------------------------
-    # Clean frontend conversation history
-    # --------------------------------------------------------
-
     history = request.history or []
 
     clean_history = []
 
-    if isinstance(history, list):
+    if isinstance(
+        history,
+        list,
+    ):
 
         for item in history:
 
-            if not isinstance(item, dict):
+            if not isinstance(
+                item,
+                dict,
+            ):
                 continue
 
             role = item.get(
@@ -2727,25 +3731,20 @@ def chat_with_document(
                 }
             )
 
-    # --------------------------------------------------------
-    # Determine first chatbot request
-    # --------------------------------------------------------
-
     first_chat_request = (
-        job_id not in chat_summary_cache
+        job_id
+        not in chat_summary_cache
     )
 
     summary = None
-
-    # --------------------------------------------------------
-    # FIRST REQUEST -> GENERATE SUMMARY
-    # --------------------------------------------------------
 
     if first_chat_request:
 
         print()
         print("=" * 70)
-        print("GENERATING DOCUMENT SUMMARY FOR CHATBOT")
+        print(
+            "GENERATING DOCUMENT SUMMARY FOR CHATBOT"
+        )
         print("=" * 70)
         print()
 
@@ -2782,11 +3781,15 @@ def chat_with_document(
 
             print()
             print("=" * 70)
-            print("CHATBOT SUMMARY ERROR")
+            print(
+                "CHATBOT SUMMARY ERROR"
+            )
             print("=" * 70)
             print()
 
-            print(str(exc))
+            print(
+                str(exc)
+            )
 
             traceback.print_exc()
 
@@ -2806,13 +3809,11 @@ def chat_with_document(
             job_id
         )
 
-    # --------------------------------------------------------
-    # ASK THE USER'S QUESTION
-    # --------------------------------------------------------
-
     print()
     print("=" * 70)
-    print("DOCUMENT CHAT REQUEST")
+    print(
+        "DOCUMENT CHAT REQUEST"
+    )
     print("=" * 70)
     print()
 
@@ -2839,11 +3840,15 @@ def chat_with_document(
 
         print()
         print("=" * 70)
-        print("GROQ CHAT ERROR")
+        print(
+            "GROQ CHAT ERROR"
+        )
         print("=" * 70)
         print()
 
-        print(str(exc))
+        print(
+            str(exc)
+        )
 
         traceback.print_exc()
 
@@ -2857,40 +3862,26 @@ def chat_with_document(
             ),
         )
 
-    # --------------------------------------------------------
-    # RETURN SUMMARY + ANSWER
-    # --------------------------------------------------------
-
     return {
         "success": True,
-
         "job_id": job_id,
-
         "chat_id": job_id,
-
         "question": question,
-
         "summary": summary,
-
         "answer": answer,
-
         "document": {
             "filename": document_data.get(
                 "filename"
             ),
-
             "total_pages": document_data.get(
                 "total_pages"
             ),
-
             "total_characters": document_data.get(
                 "total_characters"
             ),
-
             "source": document_data.get(
                 "source"
             ),
-
             "structured_pdf": document_data.get(
                 "structured_pdf"
             ),
@@ -2906,18 +3897,6 @@ def chat_with_document(
 def summarize_document_api(
     job_id: str,
 ):
-    """
-    Generate or return the cached summary.
-
-    Supports BOTH:
-
-    - existing OCR job IDs
-    - direct chatbot PDF upload chat IDs
-    """
-
-    # --------------------------------------------------------
-    # Resolve document
-    # --------------------------------------------------------
 
     try:
 
@@ -2946,12 +3925,6 @@ def summarize_document_api(
             detail=str(exc),
         )
 
-    # --------------------------------------------------------
-    # Existing OCR job status validation
-    #
-    # Direct chatbot uploads do not have an OCR status.
-    # --------------------------------------------------------
-
     if job_id in jobs:
 
         job = jobs.get(
@@ -2965,7 +3938,9 @@ def summarize_document_api(
                 detail="OCR job not found.",
             )
 
-        if job.get("status") != "completed":
+        if job.get(
+            "status"
+        ) != "completed":
 
             raise HTTPException(
                 status_code=400,
@@ -2974,47 +3949,27 @@ def summarize_document_api(
                 ),
             )
 
-    # --------------------------------------------------------
-    # Return cached summary
-    # --------------------------------------------------------
-
     if job_id in chat_summary_cache:
 
         return {
             "success": True,
-
             "job_id": job_id,
-
             "chat_id": job_id,
-
             "summary": chat_summary_cache[
                 job_id
             ],
-
             "document": {
-                "filename": (
-                    document_data.get(
-                        "filename"
-                    )
+                "filename": document_data.get(
+                    "filename"
                 ),
-
-                "total_pages": (
-                    document_data.get(
-                        "total_pages"
-                    )
+                "total_pages": document_data.get(
+                    "total_pages"
                 ),
-
-                "total_characters": (
-                    document_data.get(
-                        "total_characters"
-                    )
+                "total_characters": document_data.get(
+                    "total_characters"
                 ),
             },
         }
-
-    # --------------------------------------------------------
-    # Groq client
-    # --------------------------------------------------------
 
     try:
 
@@ -3030,10 +3985,6 @@ def summarize_document_api(
             ),
         )
 
-    # --------------------------------------------------------
-    # Generate summary
-    # --------------------------------------------------------
-
     try:
 
         summary = summarize_document(
@@ -3047,22 +3998,16 @@ def summarize_document_api(
 
         return {
             "success": True,
-
             "job_id": job_id,
-
             "chat_id": job_id,
-
             "summary": summary,
-
             "document": {
                 "filename": document_data.get(
                     "filename"
                 ),
-
                 "total_pages": document_data.get(
                     "total_pages"
                 ),
-
                 "total_characters": document_data.get(
                     "total_characters"
                 ),
@@ -3078,6 +4023,54 @@ def summarize_document_api(
                 f"{str(exc)}"
             ),
         )
+
+
+# ============================================================
+# AI FIELD EXTRACTION (GROQ) - CHATBOT ACTION BUTTONS
+# ============================================================
+#
+# POST /api/extract/{job_id}/fields   -> Groq reads the scanned document and
+#                                        returns fields + values
+# GET  /api/extract/{job_id}/json     -> database-ready JSON of that result
+# POST /api/extract/{job_id}/save     -> stores it in MySQL
+# GET  /api/extract/latest-job        -> latest scanned document (no upload)
+#
+# All logic lives in document_extraction.py (keep it next to api.py).
+
+try:
+    from document_extraction import (
+        create_extraction_router,
+        ensure_extraction_tables,
+    )
+except ImportError as exc:
+    raise RuntimeError(
+        "Could not import document_extraction.py. "
+        "Make sure document_extraction.py is located in the backend folder."
+    ) from exc
+
+app.include_router(
+    create_extraction_router(
+        jobs=jobs,
+        jobs_dir=API_JOBS_DIR,
+        connect_to_mysql=connect_to_mysql,
+        get_chat_document=get_chat_document,
+        resolve_structured_pdf=resolve_chat_structured_pdf,
+        create_groq_client=create_groq_client,
+        extract_pdf_text=extract_pdf_text,
+    )
+)
+
+# CREATE TABLE IF NOT EXISTS for the extraction tables.
+# (Also done again automatically on every save, so a MySQL that was
+#  offline at start-up is not a problem.)
+try:
+    ensure_extraction_tables(connect_to_mysql)
+    print("AI extraction tables are ready.")
+except Exception as exc:
+    print(
+        "WARNING: could not prepare the AI extraction tables yet: "
+        f"{exc}"
+    )
 
 
 # ============================================================
@@ -3122,22 +4115,8 @@ def database_health():
 def save_data_entry(
     request: DataEntrySaveRequest,
 ):
-    """
-    Saves the Data Entry records from the Results page.
-
-    This endpoint is called ONLY when the user clicks:
-
-        Save All to Database
-
-    It does NOT affect the automatic documents-table save.
-    """
 
     try:
-
-        # ----------------------------------------------------
-        # Convert Pydantic models to dictionaries
-        # Compatible with Pydantic v1 and v2
-        # ----------------------------------------------------
 
         entries = []
 
@@ -3158,13 +4137,11 @@ def save_data_entry(
                     entry.dict()
                 )
 
-        # ----------------------------------------------------
-        # Save
-        # ----------------------------------------------------
-
-        result = save_data_entries_to_database(
-            job_id=request.job_id,
-            entries=entries,
+        result = (
+            save_data_entries_to_database(
+                job_id=request.job_id,
+                entries=entries,
+            )
         )
 
         return {
@@ -3183,7 +4160,9 @@ def save_data_entry(
 
         raise HTTPException(
             status_code=500,
-            detail=f"MySQL error: {str(exc)}",
+            detail=(
+                f"MySQL error: {str(exc)}"
+            ),
         )
 
     except Exception as exc:
@@ -3200,6 +4179,316 @@ def save_data_entry(
 
 
 # ============================================================
+# INVOICE DATABASE READ / UPDATE
+# ============================================================
+
+@app.get("/api/invoice/{job_id}")
+def get_invoices_from_database(
+    job_id: str,
+):
+    """
+    Fetch invoices already stored in the invoices table.
+
+    IMPORTANT:
+    This endpoint reads the invoices table directly. It does not
+    regenerate invoice data from OCR JSON and it does not use the
+    documents.document_id column.
+    """
+
+    connection = None
+    cursor = None
+
+    try:
+        connection = connect_to_mysql()
+        cursor = connection.cursor(dictionary=True)
+
+        cursor.execute(
+            """
+            SELECT
+                id,
+                job_id,
+                invoice_index,
+                invoice_number,
+                invoice_date,
+                customer,
+                address,
+                phone,
+                email,
+                total
+            FROM invoices
+            WHERE job_id = %s
+            ORDER BY invoice_index ASC, id ASC
+            """,
+            (job_id,),
+        )
+
+        rows = cursor.fetchall()
+
+        return {
+            "success": True,
+            "job_id": job_id,
+            "invoices": rows,
+            "total": len(rows),
+        }
+
+    except Error as exc:
+        raise HTTPException(
+            status_code=500,
+            detail=f"MySQL invoice fetch error: {str(exc)}",
+        )
+
+    except Exception as exc:
+        traceback.print_exc()
+        raise HTTPException(
+            status_code=500,
+            detail=f"Invoice fetch failed: {str(exc)}",
+        )
+
+    finally:
+        if cursor:
+            cursor.close()
+        if connection:
+            connection.close()
+
+
+@app.put("/api/invoice/{job_id}/{invoice_index}")
+def update_invoice_in_database(
+    job_id: str,
+    invoice_index: int,
+    request: InvoiceUpdateRequest,
+):
+    """
+    Update one existing invoice in the invoices table.
+
+    The stable identity is:
+        (job_id, invoice_index)
+
+    This intentionally does NOT reference documents.document_id.
+    """
+
+    connection = None
+    cursor = None
+
+    try:
+        connection = connect_to_mysql()
+        cursor = connection.cursor(dictionary=True)
+
+        cursor.execute(
+            """
+            SELECT
+                id,
+                job_id,
+                invoice_index,
+                invoice_number,
+                invoice_date,
+                customer,
+                address,
+                phone,
+                email,
+                total
+            FROM invoices
+            WHERE job_id = %s
+              AND invoice_index = %s
+            LIMIT 1
+            """,
+            (job_id, invoice_index),
+        )
+
+        existing = cursor.fetchone()
+
+        if not existing:
+            raise HTTPException(
+                status_code=404,
+                detail=(
+                    f"Invoice index {invoice_index} was not found "
+                    f"for job_id {job_id}."
+                ),
+            )
+
+        values = {
+            "invoice_number": request.invoice_number,
+            "invoice_date": request.invoice_date,
+            "customer": request.customer,
+            "address": request.address,
+            "phone": request.phone,
+            "email": request.email,
+            "total": request.total,
+        }
+
+        for key, value in values.items():
+            if isinstance(value, str):
+                values[key] = value.strip() or None
+
+        cursor.execute(
+            """
+            UPDATE invoices
+            SET invoice_number = %s,
+                invoice_date = %s,
+                customer = %s,
+                address = %s,
+                phone = %s,
+                email = %s,
+                total = %s
+            WHERE job_id = %s
+              AND invoice_index = %s
+            """,
+            (
+                values["invoice_number"],
+                values["invoice_date"],
+                values["customer"],
+                values["address"],
+                values["phone"],
+                values["email"],
+                values["total"],
+                job_id,
+                invoice_index,
+            ),
+        )
+
+        connection.commit()
+
+        cursor.execute(
+            """
+            SELECT
+                id,
+                job_id,
+                invoice_index,
+                invoice_number,
+                invoice_date,
+                customer,
+                address,
+                phone,
+                email,
+                total
+            FROM invoices
+            WHERE job_id = %s
+              AND invoice_index = %s
+            LIMIT 1
+            """,
+            (job_id, invoice_index),
+        )
+
+        updated = cursor.fetchone()
+
+        return {
+            "success": True,
+            "job_id": job_id,
+            "invoice": updated,
+            "message": (
+                f"Invoice #{invoice_index} updated successfully."
+            ),
+        }
+
+    except HTTPException:
+        if connection:
+            connection.rollback()
+        raise
+
+    except Error as exc:
+        if connection:
+            connection.rollback()
+        raise HTTPException(
+            status_code=500,
+            detail=f"MySQL invoice update error: {str(exc)}",
+        )
+
+    except Exception as exc:
+        if connection:
+            connection.rollback()
+        traceback.print_exc()
+        raise HTTPException(
+            status_code=500,
+            detail=f"Invoice update failed: {str(exc)}",
+        )
+
+    finally:
+        if cursor:
+            cursor.close()
+        if connection:
+            connection.close()
+
+
+# ============================================================
+# MANUAL INVOICE SAVE
+# ============================================================
+
+@app.post("/api/invoice/save")
+def save_invoice_api(
+    request: InvoiceSaveRequest,
+):
+    """
+    Save ALL invoices found in the structured OCR JSON for this job.
+
+    One OCR job may contain multiple invoices. Each invoice gets its
+    own row in the invoices table using invoice_index = 1, 2, 3, ...
+    """
+
+    try:
+        job_id = request.job_id
+
+        if not jobs.get(job_id):
+            raise HTTPException(
+                status_code=404,
+                detail="Job not found.",
+            )
+
+        structured_json = load_structured_ocr_json(job_id)
+
+        if not structured_json:
+            raise HTTPException(
+                status_code=404,
+                detail="Structured OCR JSON not found.",
+            )
+
+        invoices = extract_invoice_documents(structured_json)
+
+        if not invoices:
+            raise HTTPException(
+                status_code=400,
+                detail=(
+                    'This document does not contain any exact '
+                    'type == "invoice" records.'
+                ),
+            )
+
+        database_result = save_invoices_to_database(
+            job_id=job_id,
+            invoice_data_list=invoices,
+        )
+
+        return {
+            "success": True,
+            "saved": True,
+            "job_id": job_id,
+            "saved_count": database_result["saved_count"],
+            "invoices": database_result["invoices"],
+            "message": database_result["message"],
+        }
+
+    except HTTPException:
+        raise
+
+    except ValueError as exc:
+        raise HTTPException(
+            status_code=404,
+            detail=str(exc),
+        )
+
+    except Error as exc:
+        raise HTTPException(
+            status_code=500,
+            detail=f"MySQL invoice error: {str(exc)}",
+        )
+
+    except Exception as exc:
+        traceback.print_exc()
+        raise HTTPException(
+            status_code=500,
+            detail=f"Invoice save failed: {str(exc)}",
+        )
+
+
+# ============================================================
 # DOWNLOAD
 # ============================================================
 
@@ -3209,7 +4498,9 @@ def download_file(
     file_type: str,
 ):
 
-    job = jobs.get(job_id)
+    job = jobs.get(
+        job_id
+    )
 
     if not job:
 
@@ -3225,13 +4516,17 @@ def download_file(
             detail="Invalid file type.",
         )
 
-    result = job.get("result")
+    result = job.get(
+        "result"
+    )
 
     if not result:
 
         raise HTTPException(
             status_code=404,
-            detail="OCR result not available.",
+            detail=(
+                "OCR result not available."
+            ),
         )
 
     outputs = result.get(
@@ -3243,6 +4538,50 @@ def download_file(
         file_type
     ]
 
+    # --------------------------------------------------------
+    # FIFTH OUTPUT: STRUCTURED OCR JSON
+    # --------------------------------------------------------
+
+    if output_key == "structured_ocr_json":
+
+        structured_json_path = (
+            find_structured_ocr_json(
+                job_id
+            )
+        )
+
+        if not structured_json_path:
+
+            raise HTTPException(
+                status_code=404,
+                detail=(
+                    "Structured OCR JSON output "
+                    "file not found."
+                ),
+            )
+
+        return FileResponse(
+            path=str(
+                structured_json_path
+            ),
+            filename=(
+                structured_json_path.name
+            ),
+            media_type=(
+                "application/json"
+            ),
+            headers={
+                "Content-Disposition": (
+                    f'attachment; filename="'
+                    f'{structured_json_path.name}"'
+                )
+            },
+        )
+
+    # --------------------------------------------------------
+    # Existing four outputs
+    # --------------------------------------------------------
+
     file_path = outputs.get(
         output_key
     )
@@ -3251,7 +4590,9 @@ def download_file(
 
         raise HTTPException(
             status_code=404,
-            detail="Requested output file not found.",
+            detail=(
+                "Requested output file not found."
+            ),
         )
 
     file_path = Path(
@@ -3262,11 +4603,16 @@ def download_file(
 
         raise HTTPException(
             status_code=404,
-            detail="Requested output file does not exist.",
+            detail=(
+                "Requested output file "
+                "does not exist."
+            ),
         )
 
     return FileResponse(
-        path=str(file_path),
+        path=str(
+            file_path
+        ),
         filename=file_path.name,
     )
 
@@ -3281,7 +4627,9 @@ def preview_file(
     file_type: str,
 ):
 
-    job = jobs.get(job_id)
+    job = jobs.get(
+        job_id
+    )
 
     if not job:
 
@@ -3297,13 +4645,17 @@ def preview_file(
             detail="Invalid file type.",
         )
 
-    result = job.get("result")
+    result = job.get(
+        "result"
+    )
 
     if not result:
 
         raise HTTPException(
             status_code=404,
-            detail="OCR result not available.",
+            detail=(
+                "OCR result not available."
+            ),
         )
 
     outputs = result.get(
@@ -3315,6 +4667,50 @@ def preview_file(
         file_type
     ]
 
+    # --------------------------------------------------------
+    # FIFTH OUTPUT: STRUCTURED OCR JSON
+    # --------------------------------------------------------
+
+    if output_key == "structured_ocr_json":
+
+        structured_json_path = (
+            find_structured_ocr_json(
+                job_id
+            )
+        )
+
+        if not structured_json_path:
+
+            raise HTTPException(
+                status_code=404,
+                detail=(
+                    "Structured OCR JSON preview "
+                    "file not found."
+                ),
+            )
+
+        return FileResponse(
+            path=str(
+                structured_json_path
+            ),
+            filename=(
+                structured_json_path.name
+            ),
+            media_type=(
+                "application/json"
+            ),
+            headers={
+                "Content-Disposition": (
+                    f'inline; filename="'
+                    f'{structured_json_path.name}"'
+                )
+            },
+        )
+
+    # --------------------------------------------------------
+    # Existing outputs
+    # --------------------------------------------------------
+
     file_path = outputs.get(
         output_key
     )
@@ -3323,7 +4719,9 @@ def preview_file(
 
         raise HTTPException(
             status_code=404,
-            detail="Preview file not found.",
+            detail=(
+                "Preview file not found."
+            ),
         )
 
     file_path = Path(
@@ -3334,11 +4732,50 @@ def preview_file(
 
         raise HTTPException(
             status_code=404,
-            detail="Preview file does not exist.",
+            detail=(
+                "Preview file does not exist."
+            ),
+        )
+
+    # --------------------------------------------------------
+    # Correct media types
+    # --------------------------------------------------------
+
+    media_type = None
+
+    if output_key == "json":
+
+        media_type = (
+            "application/json"
+        )
+
+    elif output_key == "txt":
+
+        media_type = (
+            "text/plain"
+        )
+
+    elif output_key in {
+        "structured_pdf",
+        "language_highlighted_pdf",
+    }:
+
+        media_type = (
+            "application/pdf"
         )
 
     return FileResponse(
-        path=str(file_path)
+        path=str(
+            file_path
+        ),
+        media_type=media_type,
+        filename=file_path.name,
+        headers={
+            "Content-Disposition": (
+                f'inline; filename="'
+                f'{file_path.name}"'
+            )
+        },
     )
 
 
@@ -3379,13 +4816,25 @@ if __name__ == "__main__":
 
     print()
     print("=" * 70)
-    print("ASTRA-OCR API SERVER")
+    print(
+        "ASTRA-OCR API SERVER"
+    )
     print("=" * 70)
-    print(f"Backend : {BASE_DIR}")
-    print(f"Uploads : {UPLOAD_DIR}")
-    print(f"Output  : {OUTPUT_DIR}")
-    print("API     : http://127.0.0.1:8000")
-    print("Swagger : http://127.0.0.1:8000/docs")
+    print(
+        f"Backend : {BASE_DIR}"
+    )
+    print(
+        f"Uploads : {UPLOAD_DIR}"
+    )
+    print(
+        f"Output  : {OUTPUT_DIR}"
+    )
+    print(
+        "API     : http://127.0.0.1:8000"
+    )
+    print(
+        "Swagger : http://127.0.0.1:8000/docs"
+    )
     print("=" * 70)
     print()
 

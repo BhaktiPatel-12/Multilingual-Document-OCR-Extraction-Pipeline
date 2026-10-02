@@ -24,7 +24,7 @@ from services.pdf_ocr_service import PDFOCRService
 # --------------------------------------------------------------
 
 INPUT_PDF = Path(
-    r"C:\Users\dalwa\Desktop\astra-ocr\backend\input\input4.pdf"
+    r"C:\Users\dalwa\Desktop\astra-ocr\backend\input\new_invoice3.pdf"
 )
 
 

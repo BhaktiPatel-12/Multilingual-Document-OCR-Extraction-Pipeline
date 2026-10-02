@@ -32,8 +32,8 @@
 }
 
 .background-shape-top {
-  width: 320px;
-  height: 380px;
+  width: 250px;
+  height: 280px;
 
   right: -80px;
   top: 80px;
@@ -41,16 +41,18 @@
   background: #eef0f2;
 
   border-radius: 52% 0 0 52%;
+  z-index: 0;
 
   opacity: 0.8;
 }
 
 .background-shape-bottom {
-  width: 380px;
-  height: 470px;
+  width: 320px;
+  height: 300px;
 
   left: -180px;
   bottom: -180px;
+  z-index: 0;
 
   background: #edf0f2;
 
@@ -62,7 +64,7 @@
 .background-dot {
   position: absolute;
 
-  z-index: 0;
+  
 
   border-radius: 50%;
 
@@ -74,6 +76,8 @@
 .dot-one {
   width: 58px;
   height: 58px;
+  
+   
 
   right: 285px;
   top: 202px;
@@ -82,6 +86,8 @@
 .dot-two {
   width: 45px;
   height: 45px;
+  opacity: 0.3;
+   
 
   right: 170px;
   top: 560px;
@@ -90,6 +96,7 @@
 .dot-three {
   width: 28px;
   height: 28px;
+   opacity: 0.4;
 
   left: 105px;
   bottom: 90px;
@@ -475,6 +482,7 @@
   align-items: flex-start;
 
   margin-top: 33px;
+  z-index: 100;
 }
 
 .process-step {

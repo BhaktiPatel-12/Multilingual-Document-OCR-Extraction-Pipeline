@@ -1,11 +1,9 @@
-# # 
-
-
-
+#30-9-2026 20:26
 
 # from pathlib import Path
 # import json
 # import hashlib
+# import re
 # from datetime import datetime
 
 # import fitz
@@ -61,7 +59,7 @@
 #     def __init__(
 #         self,
 #         output_dir="output",
-#         quality_threshold=80.0,
+#         quality_threshold=50.0,
 #     ):
 
 #         self.output_dir = Path(
@@ -342,15 +340,6 @@
 #             f"Preprocessing page {page_number}..."
 #         )
 
-#         # -----------------------------------------------------
-#         # IMPORTANT
-#         #
-#         # Existing ImagePreprocessor writes to its configured
-#         # output directory.
-#         #
-#         # We use a temporary instance for this PDF.
-#         # -----------------------------------------------------
-
 #         page_preprocessor = ImagePreprocessor(
 #             output_dir=str(
 #                 page_dir
@@ -367,65 +356,422 @@
 #         return outputs
 
 #     # =========================================================
-#     # EXTRACT FINAL TEXT
+#     # CLEAN OCR TEXT
 #     # =========================================================
 
 #     @staticmethod
-#     def extract_final_text(
-#         final_result
+#     def clean_ocr_text(
+#         text
 #     ):
+#         """
+#         Clean OCR text without destroying multilingual
+#         Unicode characters.
 
-#         if not isinstance(
-#             final_result,
-#             dict
-#         ):
+#         Converts HTML line breaks into real newlines.
+#         Removes remaining HTML tags.
+#         Preserves Hindi, Gujarati, Bengali, Marathi,
+#         English and other Unicode scripts.
+#         """
 
+#         if text is None:
 #             return ""
 
-#         results = final_result.get(
-#             "results",
-#             []
+#         text = str(
+#             text
 #         )
 
-#         if not isinstance(
-#             results,
-#             list
-#         ):
+#         # -----------------------------------------------------
+#         # HTML line breaks
+#         # -----------------------------------------------------
 
-#             return ""
+#         text = re.sub(
+#             r"<br\s*/?>",
+#             "\n",
+#             text,
+#             flags=re.IGNORECASE
+#         )
+
+#         # -----------------------------------------------------
+#         # Paragraph-like HTML
+#         # -----------------------------------------------------
+
+#         text = re.sub(
+#             r"</p\s*>",
+#             "\n",
+#             text,
+#             flags=re.IGNORECASE
+#         )
+
+#         text = re.sub(
+#             r"<p[^>]*>",
+#             "",
+#             text,
+#             flags=re.IGNORECASE
+#         )
+
+#         # -----------------------------------------------------
+#         # Remove remaining HTML tags
+#         # -----------------------------------------------------
+
+#         text = re.sub(
+#             r"<[^>]+>",
+#             "",
+#             text
+#         )
+
+#         # -----------------------------------------------------
+#         # HTML entities
+#         # -----------------------------------------------------
+
+#         replacements = {
+#             "&nbsp;": " ",
+#             "&amp;": "&",
+#             "&lt;": "<",
+#             "&gt;": ">",
+#             "&quot;": '"',
+#             "&#39;": "'",
+#         }
+
+#         for old, new in replacements.items():
+
+#             text = text.replace(
+#                 old,
+#                 new
+#             )
+
+#         # -----------------------------------------------------
+#         # Normalize line endings
+#         # -----------------------------------------------------
+
+#         text = text.replace(
+#             "\r\n",
+#             "\n"
+#         )
+
+#         text = text.replace(
+#             "\r",
+#             "\n"
+#         )
+
+#         # -----------------------------------------------------
+#         # Remove excessive blank lines
+#         # -----------------------------------------------------
+
+#         text = re.sub(
+#             r"\n[ \t]+\n",
+#             "\n\n",
+#             text
+#         )
+
+#         text = re.sub(
+#             r"\n{3,}",
+#             "\n\n",
+#             text
+#         )
+
+#         return text.strip()
+
+#     # =========================================================
+#     # EXTRACT TEXT FROM ANY OCR OBJECT
+#     # =========================================================
+
+#     @classmethod
+#     def extract_text_recursive(
+#         cls,
+#         data
+#     ):
+#         """
+#         Recursively extract OCR text from different result
+#         structures.
+
+#         Supported examples:
+
+#             {
+#                 "results": [
+#                     {"text": "..."}
+#                 ]
+#             }
+
+#         or:
+
+#             {
+#                 "results": [
+#                     {"html": "..."}
+#                 ]
+#             }
+
+#         or nested Level 2 / Level 3 structures.
+
+#         This method is intentionally defensive so TXT output
+#         does not become blank when OCR text exists elsewhere
+#         in the result.
+#         """
 
 #         text_parts = []
 
-#         for item in results:
+#         # =====================================================
+#         # STRING
+#         # =====================================================
 
-#             if not isinstance(
-#                 item,
-#                 dict
-#             ):
+#         if isinstance(
+#             data,
+#             str
+#         ):
 
-#                 continue
-
-#             text = item.get(
-#                 "text",
-#                 ""
+#             cleaned = cls.clean_ocr_text(
+#                 data
 #             )
 
-#             if text is None:
-#                 continue
-
-#             text = str(
-#                 text
-#             ).strip()
-
-#             if text:
-
+#             if cleaned:
 #                 text_parts.append(
-#                     text
+#                     cleaned
 #                 )
 
-#         return "\n".join(
-#             text_parts
+#             return text_parts
+
+#         # =====================================================
+#         # LIST
+#         # =====================================================
+
+#         if isinstance(
+#             data,
+#             list
+#         ):
+
+#             for item in data:
+
+#                 text_parts.extend(
+#                     cls.extract_text_recursive(
+#                         item
+#                     )
+#                 )
+
+#             return text_parts
+
+#         # =====================================================
+#         # DICTIONARY
+#         # =====================================================
+
+#         if not isinstance(
+#             data,
+#             dict
+#         ):
+
+#             return text_parts
+
+#         # -----------------------------------------------------
+#         # IMPORTANT:
+#         #
+#         # If this object itself represents an OCR block,
+#         # prefer its text/html field.
+#         # -----------------------------------------------------
+
+#         block_text = data.get(
+#             "text"
 #         )
+
+#         if (
+#             block_text is not None
+#             and isinstance(
+#                 block_text,
+#                 (
+#                     str,
+#                     int,
+#                     float
+#                 )
+#             )
+#         ):
+
+#             cleaned = cls.clean_ocr_text(
+#                 block_text
+#             )
+
+#             if cleaned:
+
+#                 text_parts.append(
+#                     cleaned
+#                 )
+
+#             return text_parts
+
+#         # -----------------------------------------------------
+#         # Surya uses HTML for structured OCR blocks.
+#         # -----------------------------------------------------
+
+#         block_html = data.get(
+#             "html"
+#         )
+
+#         if (
+#             block_html is not None
+#             and isinstance(
+#                 block_html,
+#                 str
+#             )
+#         ):
+
+#             cleaned = cls.clean_ocr_text(
+#                 block_html
+#             )
+
+#             if cleaned:
+
+#                 text_parts.append(
+#                     cleaned
+#                 )
+
+#             return text_parts
+
+#         # =====================================================
+#         # PRIORITIZED OCR CONTAINERS
+#         # =====================================================
+
+#         priority_keys = [
+#             "results",
+#             "blocks",
+#             "pages",
+#             "final_result",
+#             "corrected",
+#             "original",
+#             "selected_result",
+#             "ocr_result",
+#             "data",
+#         ]
+
+#         visited_keys = set()
+
+#         for key in priority_keys:
+
+#             if key not in data:
+#                 continue
+
+#             visited_keys.add(
+#                 key
+#             )
+
+#             value = data.get(
+#                 key
+#             )
+
+#             extracted = (
+#                 cls.extract_text_recursive(
+#                     value
+#                 )
+#             )
+
+#             text_parts.extend(
+#                 extracted
+#             )
+
+#         # =====================================================
+#         # FALLBACK:
+#         # SEARCH OTHER NESTED OBJECTS
+#         # =====================================================
+
+#         for key, value in data.items():
+
+#             if key in visited_keys:
+#                 continue
+
+#             # -------------------------------------------------
+#             # Do not accidentally write metadata into TXT.
+#             # -------------------------------------------------
+
+#             if key in {
+#                 "page_number",
+#                 "quality_score",
+#                 "confidence",
+#                 "status",
+#                 "language",
+#                 "detected_languages",
+#                 "bbox",
+#                 "polygon",
+#                 "reading_order",
+#                 "label",
+#                 "raw_label",
+#                 "success",
+#                 "error",
+#                 "source",
+#                 "selected",
+#                 "final_level",
+#                 "final_source",
+#             }:
+
+#                 continue
+
+#             if isinstance(
+#                 value,
+#                 (
+#                     dict,
+#                     list
+#                 )
+#             ):
+
+#                 extracted = (
+#                     cls.extract_text_recursive(
+#                         value
+#                     )
+#                 )
+
+#                 text_parts.extend(
+#                     extracted
+#                 )
+
+#         return text_parts
+
+#     # =========================================================
+#     # EXTRACT FINAL TEXT
+#     # =========================================================
+
+#     @classmethod
+#     def extract_final_text(
+#         cls,
+#         final_result
+#     ):
+#         """
+#         Extract final OCR text.
+
+#         Handles normal Level 1, Level 2 and Level 3
+#         normalized OCR structures.
+#         """
+
+#         if not final_result:
+
+#             return ""
+
+#         parts = cls.extract_text_recursive(
+#             final_result
+#         )
+
+#         # -----------------------------------------------------
+#         # Remove duplicate consecutive text.
+#         # -----------------------------------------------------
+
+#         cleaned_parts = []
+
+#         previous = None
+
+#         for part in parts:
+
+#             part = cls.clean_ocr_text(
+#                 part
+#             )
+
+#             if not part:
+#                 continue
+
+#             if part == previous:
+#                 continue
+
+#             cleaned_parts.append(
+#                 part
+#             )
+
+#             previous = part
+
+#         return "\n".join(
+#             cleaned_parts
+#         ).strip()
 
 #     # =========================================================
 #     # EXTRACT LANGUAGES
@@ -459,7 +805,7 @@
 
 #                 if (
 #                     language
-#                     not in languages
+#                     and language not in languages
 #                 ):
 
 #                     languages.append(
@@ -756,7 +1102,7 @@
 
 #         print()
 #         print(
-#             f"JSON saved to:"
+#             "JSON saved to:"
 #         )
 
 #         print(
@@ -784,10 +1130,16 @@
 #             / f"{pdf_path.stem}.txt"
 #         )
 
+#         print()
+#         print("=" * 70)
+#         print("CREATING TXT OUTPUT")
+#         print("=" * 70)
+
 #         with open(
 #             output_path,
 #             "w",
-#             encoding="utf-8"
+#             encoding="utf-8",
+#             newline="\n"
 #         ) as file:
 
 #             for index, result in enumerate(
@@ -800,13 +1152,36 @@
 #                     index
 #                 )
 
+#                 # -------------------------------------------------
+#                 # IMPORTANT:
+#                 #
+#                 # Extract from FINAL RESULT exactly as JSON does.
+#                 # -------------------------------------------------
+
+#                 final_result = result.get(
+#                     "final_result"
+#                 )
+
 #                 text = (
 #                     self.extract_final_text(
-#                         result.get(
-#                             "final_result"
-#                         )
+#                         final_result
 #                     )
 #                 )
+
+#                 # -------------------------------------------------
+#                 # Fallback:
+#                 #
+#                 # If final_result somehow has no text, inspect
+#                 # the complete page result.
+#                 # -------------------------------------------------
+
+#                 if not text:
+
+#                     text = (
+#                         self.extract_final_text(
+#                             result
+#                         )
+#                     )
 
 #                 file.write(
 #                     f"--- PAGE {page_number} ---\n\n"
@@ -818,13 +1193,29 @@
 #                         text
 #                     )
 
+#                     print(
+#                         f"Page {page_number}: "
+#                         f"{len(text)} characters"
+#                     )
+
+#                 else:
+
+#                     file.write(
+#                         "[No OCR text found]\n"
+#                     )
+
+#                     print(
+#                         f"Page {page_number}: "
+#                         f"WARNING - no OCR text found"
+#                     )
+
 #                 file.write(
 #                     "\n\n"
 #                 )
 
 #         print()
 #         print(
-#             f"TXT saved to:"
+#             "TXT saved to:"
 #         )
 
 #         print(
@@ -1098,6 +1489,14 @@
 #                 or {}
 #             )
 
+#             page_text = (
+#                 self.extract_final_text(
+#                     result.get(
+#                         "final_result"
+#                     )
+#                 )
+#             )
+
 #             print()
 #             print(
 #                 f"PAGE {page_number} COMPLETE"
@@ -1121,6 +1520,11 @@
 #             print(
 #                 f"Languages    : "
 #                 f"{self.extract_languages(result)}"
+#             )
+
+#             print(
+#                 f"Text chars   : "
+#                 f"{len(page_text)}"
 #             )
 
 #         # =====================================================
@@ -1169,7 +1573,7 @@
 
 #         print()
 #         print(
-#             f"JSON:"
+#             "JSON:"
 #         )
 
 #         print(
@@ -1178,7 +1582,7 @@
 
 #         print()
 #         print(
-#             f"TXT:"
+#             "TXT:"
 #         )
 
 #         print(
@@ -1187,7 +1591,7 @@
 
 #         print()
 #         print(
-#             f"STRUCTURED PDF:"
+#             "STRUCTURED PDF:"
 #         )
 
 #         print(
@@ -1198,7 +1602,7 @@
 
 #         print()
 #         print(
-#             f"LANGUAGE HIGHLIGHTED PDF:"
+#             "LANGUAGE HIGHLIGHTED PDF:"
 #         )
 
 #         print(
@@ -1254,6 +1658,26 @@
 
 
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+#code after structured json file
+
+
+
+
+
 from pathlib import Path
 import json
 import hashlib
@@ -1262,21 +1686,11 @@ from datetime import datetime
 
 import fitz
 
-from services.ocr_pipeline_service import (
-    OCRPipelineService
-)
-
-from services.preprocessing_service import (
-    ImagePreprocessor
-)
-
-from services.structured_pdf_service import (
-    StructuredPDFService
-)
-
-from services.language_highlighted_pdf_service import (
-    LanguageHighlightedPDFService
-)
+from services.ocr_pipeline_service import OCRPipelineService
+from services.preprocessing_service import ImagePreprocessor
+from services.structured_pdf_service import StructuredPDFService
+from services.language_highlighted_pdf_service import LanguageHighlightedPDFService
+from services.structured_ocr_service import AstraStructuredOCRService
 
 
 class PDFOCRService:
@@ -1304,10 +1718,11 @@ class PDFOCRService:
         Final OCR
 
     OUTPUT:
-        JSON
-        TXT
-        Structured PDF
-        Language Highlighted PDF
+        1. JSON
+        2. TXT
+        3. Structured PDF
+        4. Language Highlighted PDF
+        5. Structured OCR JSON
     """
 
     def __init__(
@@ -1315,10 +1730,7 @@ class PDFOCRService:
         output_dir="output",
         quality_threshold=50.0,
     ):
-
-        self.output_dir = Path(
-            output_dir
-        )
+        self.output_dir = Path(output_dir)
 
         self.output_dir.mkdir(
             parents=True,
@@ -1392,18 +1804,21 @@ class PDFOCRService:
             )
         )
 
+        # =====================================================
+        # FIFTH OUTPUT SERVICE
+        # =====================================================
+
+        self.structured_ocr_service = (
+            AstraStructuredOCRService()
+        )
+
     # =========================================================
     # PDF ID
     # =========================================================
 
     @staticmethod
-    def get_pdf_id(
-        pdf_path
-    ):
-
-        pdf_path = Path(
-            pdf_path
-        )
+    def get_pdf_id(pdf_path):
+        pdf_path = Path(pdf_path)
 
         sha256 = hashlib.sha256()
 
@@ -1438,14 +1853,9 @@ class PDFOCRService:
     # RENDER PDF
     # =========================================================
 
-    def render_pdf(
-        self,
-        pdf_path
-    ):
+    def render_pdf(self, pdf_path):
 
-        pdf_path = Path(
-            pdf_path
-        )
+        pdf_path = Path(pdf_path)
 
         pdf_id = self.get_pdf_id(
             pdf_path
@@ -1614,9 +2024,7 @@ class PDFOCRService:
     # =========================================================
 
     @staticmethod
-    def clean_ocr_text(
-        text
-    ):
+    def clean_ocr_text(text):
         """
         Clean OCR text without destroying multilingual
         Unicode characters.
@@ -1630,9 +2038,7 @@ class PDFOCRService:
         if text is None:
             return ""
 
-        text = str(
-            text
-        )
+        text = str(text)
 
         # -----------------------------------------------------
         # HTML line breaks
@@ -1712,7 +2118,7 @@ class PDFOCRService:
         # -----------------------------------------------------
 
         text = re.sub(
-            r"\n[ \t]+\n",
+            r"[ \t]*\n[ \t]*\n",
             "\n\n",
             text
         )
@@ -1730,36 +2136,7 @@ class PDFOCRService:
     # =========================================================
 
     @classmethod
-    def extract_text_recursive(
-        cls,
-        data
-    ):
-        """
-        Recursively extract OCR text from different result
-        structures.
-
-        Supported examples:
-
-            {
-                "results": [
-                    {"text": "..."}
-                ]
-            }
-
-        or:
-
-            {
-                "results": [
-                    {"html": "..."}
-                ]
-            }
-
-        or nested Level 2 / Level 3 structures.
-
-        This method is intentionally defensive so TXT output
-        does not become blank when OCR text exists elsewhere
-        in the result.
-        """
+    def extract_text_recursive(cls, data):
 
         text_parts = []
 
@@ -1777,6 +2154,7 @@ class PDFOCRService:
             )
 
             if cleaned:
+
                 text_parts.append(
                     cleaned
                 )
@@ -1814,10 +2192,7 @@ class PDFOCRService:
             return text_parts
 
         # -----------------------------------------------------
-        # IMPORTANT:
-        #
-        # If this object itself represents an OCR block,
-        # prefer its text/html field.
+        # OCR BLOCK TEXT
         # -----------------------------------------------------
 
         block_text = data.get(
@@ -1849,7 +2224,7 @@ class PDFOCRService:
             return text_parts
 
         # -----------------------------------------------------
-        # Surya uses HTML for structured OCR blocks.
+        # SURYA HTML
         # -----------------------------------------------------
 
         block_html = data.get(
@@ -1918,18 +2293,13 @@ class PDFOCRService:
             )
 
         # =====================================================
-        # FALLBACK:
-        # SEARCH OTHER NESTED OBJECTS
+        # FALLBACK
         # =====================================================
 
         for key, value in data.items():
 
             if key in visited_keys:
                 continue
-
-            # -------------------------------------------------
-            # Do not accidentally write metadata into TXT.
-            # -------------------------------------------------
 
             if key in {
                 "page_number",
@@ -1982,24 +2352,13 @@ class PDFOCRService:
         cls,
         final_result
     ):
-        """
-        Extract final OCR text.
-
-        Handles normal Level 1, Level 2 and Level 3
-        normalized OCR structures.
-        """
 
         if not final_result:
-
             return ""
 
         parts = cls.extract_text_recursive(
             final_result
         )
-
-        # -----------------------------------------------------
-        # Remove duplicate consecutive text.
-        # -----------------------------------------------------
 
         cleaned_parts = []
 
@@ -2032,9 +2391,7 @@ class PDFOCRService:
     # =========================================================
 
     @staticmethod
-    def extract_languages(
-        result
-    ):
+    def extract_languages(result):
 
         if not isinstance(
             result,
@@ -2218,6 +2575,7 @@ class PDFOCRService:
             )
 
             pages.append({
+
                 "page_number": result.get(
                     "page_number"
                 ),
@@ -2281,15 +2639,20 @@ class PDFOCRService:
             average_quality = 0.0
 
         document_json = {
+
             "success": True,
 
             "document": {
+
                 "filename": pdf_path.name,
+
                 "file_type": "application/pdf",
+
                 "pdf_id": pdf_id,
             },
 
             "processing": {
+
                 "processed_at": (
                     datetime.now().isoformat()
                 ),
@@ -2303,6 +2666,7 @@ class PDFOCRService:
                 ),
 
                 "cache_directories": {
+
                     "rendered": str(
                         self.rendered_root
                         / pdf_id
@@ -2320,6 +2684,7 @@ class PDFOCRService:
             },
 
             "summary": {
+
                 "average_quality": (
                     average_quality
                 ),
@@ -2358,7 +2723,6 @@ class PDFOCRService:
         print(
             "JSON saved to:"
         )
-
         print(
             output_path
         )
@@ -2386,7 +2750,9 @@ class PDFOCRService:
 
         print()
         print("=" * 70)
-        print("CREATING TXT OUTPUT")
+        print(
+            "CREATING TXT OUTPUT"
+        )
         print("=" * 70)
 
         with open(
@@ -2406,12 +2772,6 @@ class PDFOCRService:
                     index
                 )
 
-                # -------------------------------------------------
-                # IMPORTANT:
-                #
-                # Extract from FINAL RESULT exactly as JSON does.
-                # -------------------------------------------------
-
                 final_result = result.get(
                     "final_result"
                 )
@@ -2421,13 +2781,6 @@ class PDFOCRService:
                         final_result
                     )
                 )
-
-                # -------------------------------------------------
-                # Fallback:
-                #
-                # If final_result somehow has no text, inspect
-                # the complete page result.
-                # -------------------------------------------------
 
                 if not text:
 
@@ -2471,7 +2824,6 @@ class PDFOCRService:
         print(
             "TXT saved to:"
         )
-
         print(
             output_path
         )
@@ -2510,9 +2862,11 @@ class PDFOCRService:
             if not candidates:
 
                 raise FileNotFoundError(
+
                     "Could not find raw Surya "
                     f"results.json for page "
                     f"{page_number}.\n"
+
                     f"Search directory: "
                     f"{page_dir}"
                 )
@@ -2607,6 +2961,7 @@ class PDFOCRService:
         )
 
         return {
+
             "structured_pdf": str(
                 normal_output
             ),
@@ -2615,6 +2970,453 @@ class PDFOCRService:
                 highlighted_output
             ),
         }
+
+    # =========================================================
+    # CREATE FIFTH OUTPUT
+    # =========================================================
+
+    def create_structured_ocr_json(
+        self,
+        pdf_path,
+        page_results
+    ):
+        """
+        Create the fifth Astra-OCR output.
+
+        IMPORTANT:
+            Uses the FINAL OCR RESULT selected by
+            OCRPipelineService for every page.
+
+            It does NOT go back to raw Level-1
+            Surya results.json files.
+
+        Input:
+            page_results from the completed OCR pipeline.
+
+        Output:
+            <pdf_name>_structured.json
+
+        Expected structure:
+
+            document
+            fields
+            key_value_pairs
+            tables
+            paragraphs
+            metadata
+        """
+
+        pdf_path = Path(
+            pdf_path
+        )
+
+        print()
+        print("=" * 70)
+        print(
+            "CREATING STRUCTURED OCR JSON"
+        )
+        print("=" * 70)
+
+        # =====================================================
+        # COMBINE FINAL OCR RESULTS FROM ALL PAGES
+        # =====================================================
+
+        combined_results = []
+
+        total_pages = len(
+            page_results
+        )
+
+        print()
+        print(
+            f"Pages received for structuring: "
+            f"{total_pages}"
+        )
+
+        for index, page_result in enumerate(
+            page_results,
+            start=1
+        ):
+
+            if not isinstance(
+                page_result,
+                dict
+            ):
+
+                print(
+                    f"WARNING: Page {index} result "
+                    f"is not a dictionary."
+                )
+
+                continue
+
+            page_number = page_result.get(
+                "page_number",
+                index
+            )
+
+            # -------------------------------------------------
+            # USE FINAL OCR RESULT
+            # -------------------------------------------------
+
+            final_result = page_result.get(
+                "final_result"
+            )
+
+            if not final_result:
+
+                print(
+                    f"WARNING: No final_result found "
+                    f"for page {page_number}"
+                )
+
+                continue
+
+            # -------------------------------------------------
+            # FINAL RESULT SHOULD CONTAIN RESULTS
+            # -------------------------------------------------
+
+            if isinstance(
+                final_result,
+                dict
+            ):
+
+                page_blocks = (
+                    final_result.get(
+                        "results",
+                        []
+                    )
+                )
+
+                if not isinstance(
+                    page_blocks,
+                    list
+                ):
+
+                    print(
+                        f"WARNING: Page {page_number} "
+                        f"'results' is not a list."
+                    )
+
+                    continue
+
+            elif isinstance(
+                final_result,
+                list
+            ):
+
+                page_blocks = final_result
+
+            else:
+
+                print(
+                    f"WARNING: Unexpected final_result "
+                    f"type for page {page_number}: "
+                    f"{type(final_result).__name__}"
+                )
+
+                continue
+
+            # -------------------------------------------------
+            # NORMALIZE PAGE BLOCKS
+            # -------------------------------------------------
+
+            normalized_page_blocks = []
+
+            for block in page_blocks:
+
+                if not isinstance(
+                    block,
+                    dict
+                ):
+
+                    continue
+
+                block_copy = dict(
+                    block
+                )
+
+                if block_copy.get(
+                    "page"
+                ) is None:
+
+                    block_copy["page"] = (
+                        page_number
+                    )
+
+                if block_copy.get(
+                    "page_number"
+                ) is None:
+
+                    block_copy["page_number"] = (
+                        page_number
+                    )
+
+                normalized_page_blocks.append(
+                    block_copy
+                )
+
+            print(
+                f"Page {page_number}: "
+                f"{len(normalized_page_blocks)} OCR blocks"
+            )
+
+            combined_results.extend(
+                normalized_page_blocks
+            )
+
+        # =====================================================
+        # SAFETY CHECK
+        # =====================================================
+
+        print()
+        print(
+            f"TOTAL OCR BLOCKS FOR STRUCTURING: "
+            f"{len(combined_results)}"
+        )
+
+        if not combined_results:
+
+            raise ValueError(
+                "Structured OCR JSON cannot be created "
+                "because the final OCR results contain "
+                "zero blocks."
+            )
+
+        # =====================================================
+        # COLLECT DOCUMENT-LEVEL METADATA
+        # =====================================================
+
+        detected_languages = set()
+
+        for page_result in page_results:
+
+            if not isinstance(
+                page_result,
+                dict
+            ):
+
+                continue
+
+            languages = page_result.get(
+                "detected_languages",
+                []
+            )
+
+            if isinstance(
+                languages,
+                list
+            ):
+
+                for language in languages:
+
+                    if language:
+
+                        detected_languages.add(
+                            str(language)
+                        )
+
+        # =====================================================
+        # TEMPORARY INPUT
+        # =====================================================
+
+        temporary_input = (
+            self.output_dir
+            / f"{pdf_path.stem}_structured_input.json"
+        )
+
+        combined_data = {
+
+            "results": combined_results,
+
+            "total_blocks": len(
+                combined_results
+            ),
+
+            "detected_languages": sorted(
+                detected_languages
+            ),
+
+            "multilingual": (
+                len(detected_languages) > 1
+            ),
+
+            "source_json": (
+                "Astra-OCR final selected OCR results"
+            ),
+        }
+
+        with open(
+            temporary_input,
+            "w",
+            encoding="utf-8"
+        ) as file:
+
+            json.dump(
+                combined_data,
+                file,
+                ensure_ascii=False,
+                indent=2
+            )
+
+        print()
+        print(
+            "Temporary structured OCR input:"
+        )
+        print(
+            temporary_input
+        )
+
+        # =====================================================
+        # FINAL OUTPUT PATH
+        # =====================================================
+
+        structured_output = (
+            self.output_dir
+            / f"{pdf_path.stem}_structured.json"
+        )
+
+        print()
+        print(
+            "Building structured OCR JSON..."
+        )
+
+        # =====================================================
+        # RUN STRUCTURED OCR SERVICE
+        # =====================================================
+
+        structured_data, generated_path = (
+            self.structured_ocr_service.process_file(
+                input_path=temporary_input,
+                output_path=structured_output
+            )
+        )
+
+        # =====================================================
+        # VALIDATE GENERATED RESULT
+        # =====================================================
+
+        if not isinstance(
+            structured_data,
+            dict
+        ):
+
+            raise ValueError(
+                "AstraStructuredOCRService returned "
+                "an invalid structured result."
+            )
+
+        fields_count = len(
+            structured_data.get(
+                "fields",
+                {}
+            )
+        )
+
+        pairs_count = len(
+            structured_data.get(
+                "key_value_pairs",
+                []
+            )
+        )
+
+        tables_count = len(
+            structured_data.get(
+                "tables",
+                []
+            )
+        )
+
+        paragraphs_count = len(
+            structured_data.get(
+                "paragraphs",
+                []
+            )
+        )
+
+        print()
+        print("=" * 70)
+        print(
+            "STRUCTURED OCR RESULT"
+        )
+        print("=" * 70)
+
+        print(
+            f"Total OCR blocks : "
+            f"{len(combined_results)}"
+        )
+
+        print(
+            f"Structured fields: "
+            f"{fields_count}"
+        )
+
+        print(
+            f"Key/value pairs  : "
+            f"{pairs_count}"
+        )
+
+        print(
+            f"Tables           : "
+            f"{tables_count}"
+        )
+
+        print(
+            f"Paragraphs       : "
+            f"{paragraphs_count}"
+        )
+
+        # =====================================================
+        # REMOVE TEMPORARY INPUT
+        # =====================================================
+
+        try:
+
+            if temporary_input.exists():
+
+                temporary_input.unlink()
+
+        except Exception as exc:
+
+            print(
+                "WARNING: Could not remove temporary "
+                f"structured input: {exc}"
+            )
+
+        # =====================================================
+        # FINAL PATH
+        # =====================================================
+
+        generated_path = Path(
+            generated_path
+        )
+
+        if not generated_path.exists():
+
+            raise FileNotFoundError(
+                "Structured OCR JSON was not created: "
+                f"{generated_path}"
+            )
+
+        print()
+        print(
+            "Structured OCR JSON saved to:"
+        )
+
+        print(
+            generated_path
+        )
+
+        print()
+        print(
+            "=" * 70
+        )
+
+        # IMPORTANT:
+        # Return ONLY the actual file path.
+        return str(
+            generated_path
+        )
 
     # =========================================================
     # COMPLETE PDF PIPELINE
@@ -2644,11 +3446,12 @@ class PDFOCRService:
         print()
         print("=" * 70)
         print(
-            "        ASTRA-OCR COMPLETE PDF PIPELINE"
+            "       ASTRA-OCR COMPLETE PDF PIPELINE"
         )
         print("=" * 70)
 
         print()
+
         print(
             f"Input PDF: {pdf_path}"
         )
@@ -2664,6 +3467,7 @@ class PDFOCRService:
         )
 
         print()
+
         print(
             f"Total pages: "
             f"{len(rendered_pages)}"
@@ -2682,9 +3486,11 @@ class PDFOCRService:
 
             print()
             print("=" * 70)
+
             print(
                 f"PROCESSING PDF PAGE {page_number}"
             )
+
             print("=" * 70)
 
             # -------------------------------------------------
@@ -2718,9 +3524,7 @@ class PDFOCRService:
             result = (
                 self.pipeline.process_page(
                     image_path=original_image,
-
                     page_number=page_number,
-
                     preprocessing_outputs=(
                         preprocessing_outputs
                     ),
@@ -2752,6 +3556,7 @@ class PDFOCRService:
             )
 
             print()
+
             print(
                 f"PAGE {page_number} COMPLETE"
             )
@@ -2810,24 +3615,40 @@ class PDFOCRService:
         )
 
         # =====================================================
+        # FIFTH OUTPUT
+        # =====================================================
+
+        structured_ocr_output = (
+            self.create_structured_ocr_json(
+                pdf_path=pdf_path,
+                page_results=page_results,
+            )
+        )
+
+        # =====================================================
         # FINAL
         # =====================================================
 
         print()
+
         print("=" * 70)
+
         print(
             "             ASTRA-OCR COMPLETE"
         )
+
         print("=" * 70)
 
         print()
+
         print(
-            "FOUR OUTPUT FILES"
+            "FIVE OUTPUT FILES"
         )
 
         print()
+
         print(
-            "JSON:"
+            "1. JSON:"
         )
 
         print(
@@ -2835,8 +3656,9 @@ class PDFOCRService:
         )
 
         print()
+
         print(
-            "TXT:"
+            "2. TXT:"
         )
 
         print(
@@ -2844,8 +3666,9 @@ class PDFOCRService:
         )
 
         print()
+
         print(
-            "STRUCTURED PDF:"
+            "3. STRUCTURED PDF:"
         )
 
         print(
@@ -2855,8 +3678,9 @@ class PDFOCRService:
         )
 
         print()
+
         print(
-            "LANGUAGE HIGHLIGHTED PDF:"
+            "4. LANGUAGE HIGHLIGHTED PDF:"
         )
 
         print(
@@ -2866,9 +3690,25 @@ class PDFOCRService:
         )
 
         print()
+
+        print(
+            "5. STRUCTURED OCR JSON:"
+        )
+
+        print(
+            structured_ocr_output
+        )
+
+        print()
+
         print("=" * 70)
 
+        # =====================================================
+        # RETURN
+        # =====================================================
+
         return {
+
             "success": True,
 
             "input_pdf": str(
@@ -2882,6 +3722,7 @@ class PDFOCRService:
             ),
 
             "outputs": {
+
                 "json": str(
                     json_output
                 ),
@@ -2901,7 +3742,12 @@ class PDFOCRService:
                         "language_highlighted_pdf"
                     ]
                 ),
+
+                "structured_ocr_json": str(
+                    structured_ocr_output
+                ),
             },
 
             "pages": page_results,
         }
+

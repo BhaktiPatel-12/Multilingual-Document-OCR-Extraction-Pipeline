@@ -648,39 +648,7 @@ function App() {
 
           {/* HEADER ACTIONS */}
 
-          <div className="header-actions">
-
-            <div className="search-box">
-              <Search size={17} />
-
-              <input
-                type="text"
-                placeholder="Search documents..."
-              />
-            </div>
-
-            <button
-              className="header-icon-button"
-              type="button"
-            >
-              <Bell size={19} />
-            </button>
-
-            <div className="profile">
-
-              <div className="profile-avatar">
-                B
-              </div>
-
-              <span className="profile-name">
-                Bhakti
-              </span>
-
-              <ChevronDown size={14} />
-
-            </div>
-
-          </div>
+       
 
         </div>
       </header>
@@ -752,7 +720,7 @@ function App() {
               <p className="hero-description">
                 Extract text from your documents in multiple languages
                 <br />
-                with high accuracy. Turn your PDFs and images into
+                with high accuracy. Turn your PDFs  into
                 <br />
                 structured, searchable, and machine-readable data.
               </p>
@@ -796,7 +764,7 @@ function App() {
                     </div>
 
                     <div className="step-subtitle">
-                      AI Pipeline
+                      Pipeline
                     </div>
 
                   </div>
@@ -900,7 +868,7 @@ function App() {
                 </div>
 
                 <div className="language-gujarati">
-                  ગુજરાતી
+                  90+ 
                 </div>
 
               </div>
@@ -935,198 +903,6 @@ function App() {
               <div className="illustration-output">
                 <FileText size={34} />
               </div>
-
-            </div>
-
-          </section>
-
-          {/* =================================================
-              UPLOAD
-          ================================================== */}
-
-          <section
-            className={`upload-section ${
-              dragging
-                ? "upload-dragging"
-                : ""
-            }`}
-            onDragOver={handleDragOver}
-            onDragLeave={handleDragLeave}
-            onDrop={handleDrop}
-          >
-
-            <div className="upload-box">
-
-              {!selectedFile ? (
-
-                <>
-                  <div className="upload-cloud">
-                    <Upload size={35} />
-                  </div>
-
-                  <div className="upload-title">
-                    Drag & drop your PDF here
-                  </div>
-
-                  <div className="upload-or">
-                    or
-                  </div>
-
-                  <button
-                    className="browse-button"
-                    onClick={openFilePicker}
-                    type="button"
-                  >
-                    Browse Files
-                  </button>
-
-                  <input
-                    ref={fileInputRef}
-                    type="file"
-                    accept=".pdf,application/pdf"
-                    onChange={handleInputChange}
-                    hidden
-                  />
-
-                  <div className="upload-meta">
-                    PDF
-                    <span>•</span>
-                    Max 50MB
-                  </div>
-                </>
-
-              ) : (
-
-                <div className="selected-file">
-
-                  <div className="selected-file-icon">
-                    <FileText size={29} />
-                  </div>
-
-                  <div className="selected-file-details">
-
-                    <div className="selected-file-name">
-                      {selectedFile.name}
-                    </div>
-
-                    <div className="selected-file-size">
-                      {(
-                        selectedFile.size /
-                        (1024 * 1024)
-                      ).toFixed(2)}{" "}
-                      MB
-                    </div>
-
-                  </div>
-
-                  <button
-                    className="change-file-button"
-                    onClick={openFilePicker}
-                    disabled={processing}
-                    type="button"
-                  >
-                    Change
-                  </button>
-
-                  <input
-                    ref={fileInputRef}
-                    type="file"
-                    accept=".pdf,application/pdf"
-                    onChange={handleInputChange}
-                    hidden
-                  />
-
-                </div>
-
-              )}
-
-            </div>
-
-          </section>
-
-          {/* =================================================
-              LANGUAGE
-          ================================================== */}
-
-          <section className="language-section">
-
-            <div className="language-heading">
-
-              <Globe2 size={15} />
-
-              <span>
-                Select Languages
-              </span>
-
-            </div>
-
-            <div className="language-buttons">
-
-              <button
-                className={`language-button ${
-                  languages.english
-                    ? "selected"
-                    : ""
-                }`}
-                onClick={() =>
-                  toggleLanguage("english")
-                }
-                type="button"
-              >
-
-                {languages.english && (
-                  <Check size={13} />
-                )}
-
-                <span>
-                  English
-                </span>
-
-              </button>
-
-              <button
-                className={`language-button ${
-                  languages.hindi
-                    ? "selected"
-                    : ""
-                }`}
-                onClick={() =>
-                  toggleLanguage("hindi")
-                }
-                type="button"
-              >
-
-                {languages.hindi && (
-                  <Check size={13} />
-                )}
-
-                <span>
-                  हिंदी
-                </span>
-
-              </button>
-
-              <button
-                className={`language-button ${
-                  languages.gujarati
-                    ? "selected"
-                    : ""
-                }`}
-                onClick={() =>
-                  toggleLanguage("gujarati")
-                }
-                type="button"
-              >
-
-                {languages.gujarati && (
-                  <Check size={13} />
-                )}
-
-                <span>
-                  ગુજરાતી
-                </span>
-
-              </button>
 
             </div>
 
@@ -1190,73 +966,121 @@ function App() {
               RESULTS
           ================================================== */}
 
-          {result && (
+         
 
-            <section className="results-panel">
+           <section className="document-info">
 
-              <div className="results-title">
-                OCR Complete
-              </div>
+          <div className="info-item">
 
-              <div className="results-message">
-                {statusMessage}
-              </div>
-
-              <div className="download-buttons">
-
-                <button
-                  onClick={() =>
-                    downloadResult("json")
-                  }
-                  type="button"
-                >
-                  Download JSON
-                </button>
-
-                <button
-                  onClick={() =>
-                    downloadResult("txt")
-                  }
-                  type="button"
-                >
-                  Download TXT
-                </button>
-
-                <button
-                  onClick={() =>
-                    downloadResult(
-                      "structured_pdf"
-                    )
-                  }
-                  type="button"
-                >
-                  Structured PDF
-                </button>
-
-                <button
-                  onClick={() =>
-                    downloadResult(
-                      "language_highlighted_pdf"
-                    )
-                  }
-                  type="button"
-                >
-                  Highlighted PDF
-                </button>
-
-              </div>
-
-              <button
-                className="new-document-button"
-                onClick={resetDocument}
-                type="button"
+            <div className="info-icon">
+              <svg
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                strokeWidth="1.7"
               >
-                Process Another Document
-              </button>
+                <circle
+                  cx="12"
+                  cy="12"
+                  r="9"
+                />
 
-            </section>
+                <line
+                  x1="12"
+                  y1="10"
+                  x2="12"
+                  y2="16"
+                />
 
-          )}
+                <circle
+                  cx="12"
+                  cy="7"
+                  r="0.6"
+                  fill="currentColor"
+                />
+              </svg>
+            </div>
+
+            <div>
+              <strong>
+                Multilingual OCR
+              </strong>
+
+              <p>
+                Extract text from
+                English, Hindi,
+                Gujarati and other
+                supported languages.
+              </p>
+            </div>
+
+          </div>
+
+          <div className="info-item">
+
+            <div className="info-icon">
+              <svg
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                strokeWidth="1.7"
+              >
+                <path d="M12 3v12" />
+
+                <path d="M7 10l5 5 5-5" />
+
+                <path d="M5 21h14" />
+              </svg>
+            </div>
+
+            <div>
+              <strong>
+                Structured Output
+              </strong>
+
+              <p>
+                Generate
+                machine-readable JSON,
+                TXT and searchable PDF
+                documents.
+              </p>
+            </div>
+
+          </div>
+
+          <div className="info-item">
+
+            <div className="info-icon">
+              <svg
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                strokeWidth="1.7"
+              >
+                <path d="M4 19V5" />
+
+                <path d="M4 19h16" />
+
+                <path d="M7 15l3-4 3 2 4-6" />
+              </svg>
+            </div>
+
+            <div>
+              <strong>
+                High Accuracy
+              </strong>
+
+              <p>
+                AI-powered document
+                processing designed for
+                reliable downstream
+                systems.
+              </p>
+            </div>
+
+          </div>
+
+        </section>
 
         </main>
 

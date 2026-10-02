@@ -87,6 +87,7 @@
   flex-direction: column;
   overflow: hidden;
   box-shadow: 0 5px 18px rgba(40, 50, 60, 0.045);
+  width: 90vw;
 }
 
 /* ============================================================
@@ -599,6 +600,7 @@
   .chatbot-main-card {
     height: 620px;
     min-height: 620px;
+   
   }
 
   .chatbot-sidebar {
@@ -772,4 +774,257 @@
   .chat-suggestions button {
     font-size: 10px;
   }
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+/* =========================================================
+   Chatbot - extraction result cards and action buttons
+   (new file, imported by Chatbot.jsx; does not touch Chatbot.css)
+   Uses translucent greys so it works on light and dark themes.
+   ========================================================= */
+
+.chat-message-content-wide {
+  flex: 1 1 auto;
+  min-width: 0;
+  max-width: 100%;
+}
+
+.chat-bubble-wide {
+  width: 100%;
+  max-width: 100%;
+  box-sizing: border-box;
+}
+
+.chat-status-text {
+  display: block;
+  margin-top: 6px;
+  font-size: 12px;
+  opacity: 0.7;
+}
+
+/* ---------- three action buttons ---------- */
+
+.extraction-actions {
+  flex-wrap: wrap;
+}
+
+.extraction-actions button:disabled {
+  opacity: 0.55;
+  cursor: not-allowed;
+}
+
+.extraction-active-doc {
+  padding: 0 20px 10px;
+  font-size: 12px;
+  opacity: 0.7;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+/* ---------- result cards ---------- */
+
+.extraction-card {
+  margin-top: 10px;
+  min-width: 0;
+  max-width: 100%;
+}
+
+.extraction-meta {
+  font-size: 12px;
+  opacity: 0.7;
+  margin-bottom: 8px;
+}
+
+.extraction-doc {
+  margin-bottom: 14px;
+  padding: 10px 12px;
+  border: 1px solid rgba(128, 128, 128, 0.3);
+  border-radius: 10px;
+}
+
+.extraction-doc-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  gap: 12px;
+  margin-bottom: 4px;
+}
+
+.extraction-doc-header span {
+  font-size: 12px;
+  opacity: 0.7;
+  white-space: nowrap;
+}
+
+.extraction-doc-title {
+  font-size: 13px;
+  opacity: 0.85;
+}
+
+.extraction-doc-summary {
+  margin: 4px 0 8px;
+  font-size: 13px;
+  opacity: 0.8;
+}
+
+.extraction-table-wrap {
+  max-width: 100%;
+  overflow-x: auto;
+}
+
+.extraction-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 13px;
+}
+
+.extraction-table th,
+.extraction-table td {
+  padding: 6px 8px;
+  text-align: left;
+  vertical-align: top;
+  border-bottom: 1px solid rgba(128, 128, 128, 0.25);
+  word-break: break-word;
+}
+
+.extraction-table th {
+  font-weight: 600;
+  white-space: nowrap;
+  background: rgba(128, 128, 128, 0.1);
+}
+
+.extraction-normalized {
+  margin-top: 2px;
+  font-size: 11px;
+  opacity: 0.65;
+}
+
+.extraction-subtable {
+  margin-top: 12px;
+}
+
+.extraction-subtable-title {
+  margin-bottom: 4px;
+  font-size: 12px;
+  font-weight: 600;
+  opacity: 0.8;
+}
+
+/* ---------- JSON card ---------- */
+
+.extraction-toolbar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-bottom: 8px;
+}
+
+.extraction-toolbar .extraction-meta {
+  margin-bottom: 0;
+}
+
+.extraction-toolbar-buttons {
+  display: flex;
+  gap: 8px;
+}
+
+.extraction-toolbar-buttons button {
+  padding: 4px 10px;
+  font-size: 12px;
+  border: 1px solid rgba(128, 128, 128, 0.4);
+  border-radius: 6px;
+  background: transparent;
+  color: inherit;
+  cursor: pointer;
+}
+
+.extraction-toolbar-buttons button:hover {
+  background: rgba(128, 128, 128, 0.15);
+}
+
+.extraction-json {
+  margin: 0;
+  padding: 10px 12px;
+  max-height: 420px;
+  overflow: auto;
+  font-family: Consolas, "Courier New", monospace;
+  font-size: 12px;
+  line-height: 1.45;
+  white-space: pre;
+  text-align: left;
+  background: rgba(128, 128, 128, 0.12);
+  border-radius: 8px;
+}
+
+/* ---------- saved card ---------- */
+
+.extraction-saved-title {
+  font-weight: 600;
+  margin-bottom: 4px;
+}
+
+.extraction-saved-list {
+  margin: 0;
+  padding-left: 18px;
+  font-size: 13px;
 }

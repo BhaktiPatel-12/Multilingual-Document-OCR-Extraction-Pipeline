@@ -1,0 +1,4071 @@
+{
+  "success": true,
+  "document": {
+    "filename": "497164cc-e9a4-44f5-9eef-71348cddd224_input5.pdf",
+    "file_type": "application/pdf",
+    "pdf_id": "497164cc-e9a4-44f5-9eef-71348cddd224_input5_189a4160"
+  },
+  "processing": {
+    "processed_at": "2026-10-01T09:34:35.749525",
+    "quality_threshold": 80.0,
+    "total_pages": 2,
+    "cache_directories": {
+      "rendered": "C:\\Users\\dalwa\\Desktop\\astra-ocr\\backend\\output\\api_jobs\\497164cc-e9a4-44f5-9eef-71348cddd224\\rendered\\497164cc-e9a4-44f5-9eef-71348cddd224_input5_189a4160",
+      "preprocessed": "C:\\Users\\dalwa\\Desktop\\astra-ocr\\backend\\output\\api_jobs\\497164cc-e9a4-44f5-9eef-71348cddd224\\preprocessed\\497164cc-e9a4-44f5-9eef-71348cddd224_input5_189a4160",
+      "pipeline": "C:\\Users\\dalwa\\Desktop\\astra-ocr\\backend\\output\\api_jobs\\497164cc-e9a4-44f5-9eef-71348cddd224\\pipeline"
+    }
+  },
+  "summary": {
+    "average_quality": 93.03,
+    "languages": [
+      "en",
+      "hin"
+    ],
+    "final_level_counts": {
+      "1": 1,
+      "2": 1,
+      "3": 0,
+      "error": 0
+    }
+  },
+  "pages": [
+    {
+      "page_number": 1,
+      "final_level": 2,
+      "final_source": "surya_correction:original",
+      "detected_languages": [
+        "en",
+        "hin"
+      ],
+      "quality": {
+        "quality_score": 93.46,
+        "status": "good",
+        "text_score": 90.08,
+        "language_score": 100,
+        "character_score": 99.6,
+        "coverage_score": 48.58,
+        "confidence_score": 97.25,
+        "components_used": [
+          "character",
+          "confidence",
+          "coverage",
+          "language",
+          "text"
+        ]
+      },
+      "text": "1018371\n0018375\nरजि. नं.\nRegn.No. A121/10183/0075\nकेन्द्रीय माध्यमिक शिक्षा बोर्ड\n\nCENTRAL BOARD OF SECONDARY EDUCATION\n\nअंक विवरणिका सह प्रमाण पत्र\n\nMARKS STATEMENT CUM CERTIFICATE\n\nमाध्यमिक विद्यालय परीक्षा, 2021\n\nSECONDARY SCHOOL EXAMINATION, 2021\nयह प्रमाणित किया जाता है कि\nThis is to certify that SHRUSTI DALWADI\nअनुक्रमांक\nRoll No. 11120949\nमाता का नाम\nMother's Name JAYSHREE DALWADI\nपिता/संरक्षक का नाम\nFather's/Guardian's Nameme JAYENBHAI DALWADI\nजन्म तिथि\nDate of Birth 31/01/2006 31ST JANUARY TWO THOUSAND SIX\nविद्यालय\nSchool 10183-CALORX PUBLIC SCHOOL GHATLODIA AHMEDABAD GUJ\nकी शैक्षणिक उपलब्धियां निम्नानुसार हैं has achieved Scholastic Achievements as under :\nविषय कोड\nSUB.\nCODE\nविषय\nSUBJECT\nप्रासांक MARKS OBTAINED\nस्थितीय ग्रेड\nPOSITIONAL\nGRADE\n\nलिखित\nTHEORY\nआं. मू.\nI A/\nPT. PR.\nयोग\nTOTAL\nयोग (शब्दों में)\nTOTAL (IN WORDS)\n\n184\nENGLISH LNG & LIT.\n057\n020\n077\nSEVENTY SEVEN\nB2\n\n085\nHINDI COURSE-B\n066\n020\n086\nEIGHTY SIX\nB1\n\n041\nMATHEMATICS STANDARD\n072\n019\n091\nNINETY ONE\nA1\n\n086\nSCIENCE\n064\n020\n084\nEIGHTY FOUR\nA2\n\n087\nSOCIAL SCIENCE\n055\n020\n075\nSEVENTY FIVE\nB2\n\nADDITIONAL SUBJECT\n\n402\nINFORMATION TECHNOLOGY\n039\n050\n089\nEIGHTY NINE\nB1\nसंक्षिप्तियों का अर्थ : Abbreviations\nAB : अनुपस्थित Absent\nIA : आंतरिक मूल्यांकन Internal Assessment\nPT./PR : प्रायोगिक/Practical\nER : अनिवार्य पुनरावृत्ति सभी विषयों में Essential Repeat in all subjects\nपरिणाम Result PASS\nदिल्ली Delhi\nदिनांक Dated : 03/08/2021\nपरीक्षा नियंत्रक\nController of Examinations\nसह-शैक्षणिक उपलब्धियां : सह-शैक्षणिक एवम् अनुशासन क्षेत्र में प्रेरित विद्यालय द्वारा अपने स्तर पर बोर्ड द्वारा जारी प्रारूपनुसार प्रदान की जाती है।\nCo-Scholastic achievements : Grading for Co-Scholastic and Discipline area is being issued by the school as per format prescribed by the Board.",
+      "ocr_result": {
+        "results": [
+          {
+            "text": "1018371",
+            "language": "unknown",
+            "confidence": 0.9725075408916927,
+            "bbox": [
+              99.96000000000001,
+              30.311999999999998,
+              171.35999999999999,
+              52.204
+            ],
+            "label": "PageHeader",
+            "raw_label": "Page-Header",
+            "reading_order": 0,
+            "page": 1,
+            "page_number": 1,
+            "image_bbox": [
+              0.0,
+              0.0,
+              1190.0,
+              1684.0
+            ],
+            "source": "page_001_original"
+          },
+          {
+            "text": "0018375",
+            "language": "unknown",
+            "confidence": 0.9725075408916927,
+            "bbox": [
+              287.98,
+              104.408,
+              424.83,
+              139.77200000000002
+            ],
+            "label": "Text",
+            "raw_label": "Text",
+            "reading_order": 1,
+            "page": 1,
+            "page_number": 1,
+            "image_bbox": [
+              0.0,
+              0.0,
+              1190.0,
+              1684.0
+            ],
+            "source": "page_001_original"
+          },
+          {
+            "text": "रजि. नं.",
+            "language": "hin",
+            "confidence": 0.9725075408916927,
+            "bbox": [
+              854.42,
+              85.884,
+              931.77,
+              114.51200000000001
+            ],
+            "label": "Text",
+            "raw_label": "Text",
+            "reading_order": 3,
+            "page": 1,
+            "page_number": 1,
+            "image_bbox": [
+              0.0,
+              0.0,
+              1190.0,
+              1684.0
+            ],
+            "source": "page_001_original"
+          },
+          {
+            "text": "Regn.No. A121/10183/0075",
+            "language": "eng",
+            "confidence": 0.9725075408916927,
+            "bbox": [
+              854.42,
+              107.776,
+              1142.3999999999999,
+              138.088
+            ],
+            "label": "Text",
+            "raw_label": "Text",
+            "reading_order": 4,
+            "page": 1,
+            "page_number": 1,
+            "image_bbox": [
+              0.0,
+              0.0,
+              1190.0,
+              1684.0
+            ],
+            "source": "page_001_original"
+          },
+          {
+            "text": "केन्द्रीय माध्यमिक शिक्षा बोर्ड\n\nCENTRAL BOARD OF SECONDARY EDUCATION\n\nअंक विवरणिका सह प्रमाण पत्र\n\nMARKS STATEMENT CUM CERTIFICATE\n\nमाध्यमिक विद्यालय परीक्षा, 2021\n\nSECONDARY SCHOOL EXAMINATION, 2021",
+            "language": "mixed",
+            "confidence": 0.9725075408916927,
+            "bbox": [
+              274.89,
+              250.916,
+              965.09,
+              479.93999999999994
+            ],
+            "label": "SectionHeader",
+            "raw_label": "Section-Header",
+            "reading_order": 5,
+            "page": 1,
+            "page_number": 1,
+            "image_bbox": [
+              0.0,
+              0.0,
+              1190.0,
+              1684.0
+            ],
+            "source": "page_001_original"
+          },
+          {
+            "text": "यह प्रमाणित किया जाता है कि",
+            "language": "hin",
+            "confidence": 0.9725075408916927,
+            "bbox": [
+              91.63,
+              488.35999999999996,
+              337.96,
+              520.356
+            ],
+            "label": "Text",
+            "raw_label": "Text",
+            "reading_order": 7,
+            "page": 1,
+            "page_number": 1,
+            "image_bbox": [
+              0.0,
+              0.0,
+              1190.0,
+              1684.0
+            ],
+            "source": "page_001_original"
+          },
+          {
+            "text": "This is to certify that SHRUSTI DALWADI",
+            "language": "eng",
+            "confidence": 0.9725075408916927,
+            "bbox": [
+              91.63,
+              518.672,
+              497.41999999999996,
+              547.3000000000001
+            ],
+            "label": "Text",
+            "raw_label": "Text",
+            "reading_order": 8,
+            "page": 1,
+            "page_number": 1,
+            "image_bbox": [
+              0.0,
+              0.0,
+              1190.0,
+              1684.0
+            ],
+            "source": "page_001_original"
+          },
+          {
+            "text": "अनुक्रमांक",
+            "language": "hin",
+            "confidence": 0.9725075408916927,
+            "bbox": [
+              91.63,
+              550.668,
+              179.69,
+              580.9799999999999
+            ],
+            "label": "Text",
+            "raw_label": "Text",
+            "reading_order": 9,
+            "page": 1,
+            "page_number": 1,
+            "image_bbox": [
+              0.0,
+              0.0,
+              1190.0,
+              1684.0
+            ],
+            "source": "page_001_original"
+          },
+          {
+            "text": "Roll No. 11120949",
+            "language": "eng",
+            "confidence": 0.9725075408916927,
+            "bbox": [
+              91.63,
+              579.2959999999999,
+              295.12,
+              606.24
+            ],
+            "label": "Text",
+            "raw_label": "Text",
+            "reading_order": 10,
+            "page": 1,
+            "page_number": 1,
+            "image_bbox": [
+              0.0,
+              0.0,
+              1190.0,
+              1684.0
+            ],
+            "source": "page_001_original"
+          },
+          {
+            "text": "माता का नाम",
+            "language": "hin",
+            "confidence": 0.9725075408916927,
+            "bbox": [
+              91.63,
+              611.292,
+              209.44,
+              639.92
+            ],
+            "label": "Text",
+            "raw_label": "Text",
+            "reading_order": 11,
+            "page": 1,
+            "page_number": 1,
+            "image_bbox": [
+              0.0,
+              0.0,
+              1190.0,
+              1684.0
+            ],
+            "source": "page_001_original"
+          },
+          {
+            "text": "Mother's Name JAYSHREE DALWADI",
+            "language": "eng",
+            "confidence": 0.9725075408916927,
+            "bbox": [
+              91.63,
+              636.552,
+              474.81,
+              666.864
+            ],
+            "label": "Text",
+            "raw_label": "Text",
+            "reading_order": 12,
+            "page": 1,
+            "page_number": 1,
+            "image_bbox": [
+              0.0,
+              0.0,
+              1190.0,
+              1684.0
+            ],
+            "source": "page_001_original"
+          },
+          {
+            "text": "पिता/संरक्षक का नाम",
+            "language": "hin",
+            "confidence": 0.9725075408916927,
+            "bbox": [
+              91.63,
+              675.284,
+              272.51,
+              705.596
+            ],
+            "label": "Text",
+            "raw_label": "Text",
+            "reading_order": 13,
+            "page": 1,
+            "page_number": 1,
+            "image_bbox": [
+              0.0,
+              0.0,
+              1190.0,
+              1684.0
+            ],
+            "source": "page_001_original"
+          },
+          {
+            "text": "Father's/Guardian's Nameme JAYENBHAI DALWADI",
+            "language": "eng",
+            "confidence": 0.9725075408916927,
+            "bbox": [
+              91.63,
+              700.544,
+              583.1,
+              732.54
+            ],
+            "label": "Text",
+            "raw_label": "Text",
+            "reading_order": 14,
+            "page": 1,
+            "page_number": 1,
+            "image_bbox": [
+              0.0,
+              0.0,
+              1190.0,
+              1684.0
+            ],
+            "source": "page_001_original"
+          },
+          {
+            "text": "जन्म तिथि",
+            "language": "hin",
+            "confidence": 0.9725075408916927,
+            "bbox": [
+              91.63,
+              735.908,
+              186.83,
+              764.5360000000001
+            ],
+            "label": "Text",
+            "raw_label": "Text",
+            "reading_order": 15,
+            "page": 1,
+            "page_number": 1,
+            "image_bbox": [
+              0.0,
+              0.0,
+              1190.0,
+              1684.0
+            ],
+            "source": "page_001_original"
+          },
+          {
+            "text": "Date of Birth 31/01/2006 31ST JANUARY TWO THOUSAND SIX",
+            "language": "eng",
+            "confidence": 0.9725075408916927,
+            "bbox": [
+              91.63,
+              756.116,
+              710.43,
+              791.4799999999999
+            ],
+            "label": "Text",
+            "raw_label": "Text",
+            "reading_order": 16,
+            "page": 1,
+            "page_number": 1,
+            "image_bbox": [
+              0.0,
+              0.0,
+              1190.0,
+              1684.0
+            ],
+            "source": "page_001_original"
+          },
+          {
+            "text": "विद्यालय",
+            "language": "hin",
+            "confidence": 0.9725075408916927,
+            "bbox": [
+              91.63,
+              794.848,
+              174.92999999999998,
+              823.476
+            ],
+            "label": "Text",
+            "raw_label": "Text",
+            "reading_order": 17,
+            "page": 1,
+            "page_number": 1,
+            "image_bbox": [
+              0.0,
+              0.0,
+              1190.0,
+              1684.0
+            ],
+            "source": "page_001_original"
+          },
+          {
+            "text": "School 10183-CALORX PUBLIC SCHOOL GHATLODIA AHMEDABAD GUJ",
+            "language": "eng",
+            "confidence": 0.9725075408916927,
+            "bbox": [
+              91.63,
+              810.004,
+              802.0600000000001,
+              850.42
+            ],
+            "label": "Text",
+            "raw_label": "Text",
+            "reading_order": 18,
+            "page": 1,
+            "page_number": 1,
+            "image_bbox": [
+              0.0,
+              0.0,
+              1190.0,
+              1684.0
+            ],
+            "source": "page_001_original"
+          },
+          {
+            "text": "की शैक्षणिक उपलब्धियां निम्नानुसार हैं has achieved Scholastic Achievements as under :",
+            "language": "mixed",
+            "confidence": 0.9725075408916927,
+            "bbox": [
+              99.96000000000001,
+              842.0,
+              829.43,
+              882.416
+            ],
+            "label": "Text",
+            "raw_label": "Text",
+            "reading_order": 19,
+            "page": 1,
+            "page_number": 1,
+            "image_bbox": [
+              0.0,
+              0.0,
+              1190.0,
+              1684.0
+            ],
+            "source": "page_001_original"
+          },
+          {
+            "text": "विषय कोड\nSUB.\nCODE\nविषय\nSUBJECT\nप्रासांक MARKS OBTAINED\nस्थितीय ग्रेड\nPOSITIONAL\nGRADE\n\nलिखित\nTHEORY\nआं. मू.\nI A/\nPT. PR.\nयोग\nTOTAL\nयोग (शब्दों में)\nTOTAL (IN WORDS)\n\n184\nENGLISH LNG & LIT.\n057\n020\n077\nSEVENTY SEVEN\nB2\n\n085\nHINDI COURSE-B\n066\n020\n086\nEIGHTY SIX\nB1\n\n041\nMATHEMATICS STANDARD\n072\n019\n091\nNINETY ONE\nA1\n\n086\nSCIENCE\n064\n020\n084\nEIGHTY FOUR\nA2\n\n087\nSOCIAL SCIENCE\n055\n020\n075\nSEVENTY FIVE\nB2\n\nADDITIONAL SUBJECT\n\n402\nINFORMATION TECHNOLOGY\n039\n050\n089\nEIGHTY NINE\nB1",
+            "language": "mixed",
+            "confidence": 0.9725075408916927,
+            "bbox": [
+              99.96000000000001,
+              865.576,
+              1149.54,
+              1362.356
+            ],
+            "label": "Table",
+            "raw_label": "Table",
+            "reading_order": 20,
+            "page": 1,
+            "page_number": 1,
+            "image_bbox": [
+              0.0,
+              0.0,
+              1190.0,
+              1684.0
+            ],
+            "source": "page_001_original"
+          },
+          {
+            "text": "संक्षिप्तियों का अर्थ : Abbreviations",
+            "language": "mixed",
+            "confidence": 0.9725075408916927,
+            "bbox": [
+              111.86,
+              1365.7240000000002,
+              393.89000000000004,
+              1397.72
+            ],
+            "label": "Text",
+            "raw_label": "Text",
+            "reading_order": 21,
+            "page": 1,
+            "page_number": 1,
+            "image_bbox": [
+              0.0,
+              0.0,
+              1190.0,
+              1684.0
+            ],
+            "source": "page_001_original"
+          },
+          {
+            "text": "AB : अनुपस्थित Absent",
+            "language": "mixed",
+            "confidence": 0.9725075408916927,
+            "bbox": [
+              111.86,
+              1394.3519999999999,
+              277.27000000000004,
+              1421.296
+            ],
+            "label": "Text",
+            "raw_label": "Text",
+            "reading_order": 22,
+            "page": 1,
+            "page_number": 1,
+            "image_bbox": [
+              0.0,
+              0.0,
+              1190.0,
+              1684.0
+            ],
+            "source": "page_001_original"
+          },
+          {
+            "text": "IA : आंतरिक मूल्यांकन Internal Assessment",
+            "language": "mixed",
+            "confidence": 0.9725075408916927,
+            "bbox": [
+              111.86,
+              1416.244,
+              418.88,
+              1444.872
+            ],
+            "label": "Text",
+            "raw_label": "Text",
+            "reading_order": 23,
+            "page": 1,
+            "page_number": 1,
+            "image_bbox": [
+              0.0,
+              0.0,
+              1190.0,
+              1684.0
+            ],
+            "source": "page_001_original"
+          },
+          {
+            "text": "PT./PR : प्रायोगिक/Practical",
+            "language": "mixed",
+            "confidence": 0.9725075408916927,
+            "bbox": [
+              111.86,
+              1439.82,
+              320.11,
+              1466.764
+            ],
+            "label": "Text",
+            "raw_label": "Text",
+            "reading_order": 24,
+            "page": 1,
+            "page_number": 1,
+            "image_bbox": [
+              0.0,
+              0.0,
+              1190.0,
+              1684.0
+            ],
+            "source": "page_001_original"
+          },
+          {
+            "text": "ER : अनिवार्य पुनरावृत्ति सभी विषयों में Essential Repeat in all subjects",
+            "language": "mixed",
+            "confidence": 0.9725075408916927,
+            "bbox": [
+              111.86,
+              1460.028,
+              583.1,
+              1492.0240000000001
+            ],
+            "label": "Text",
+            "raw_label": "Text",
+            "reading_order": 25,
+            "page": 1,
+            "page_number": 1,
+            "image_bbox": [
+              0.0,
+              0.0,
+              1190.0,
+              1684.0
+            ],
+            "source": "page_001_original"
+          },
+          {
+            "text": "परिणाम Result PASS",
+            "language": "mixed",
+            "confidence": 0.9725075408916927,
+            "bbox": [
+              694.9599999999999,
+              1377.512,
+              893.69,
+              1407.8239999999998
+            ],
+            "label": "Text",
+            "raw_label": "Text",
+            "reading_order": 26,
+            "page": 1,
+            "page_number": 1,
+            "image_bbox": [
+              0.0,
+              0.0,
+              1190.0,
+              1684.0
+            ],
+            "source": "page_001_original"
+          },
+          {
+            "text": "दिल्ली Delhi",
+            "language": "mixed",
+            "confidence": 0.9725075408916927,
+            "bbox": [
+              115.43,
+              1513.916,
+              226.1,
+              1542.544
+            ],
+            "label": "Text",
+            "raw_label": "Text",
+            "reading_order": 27,
+            "page": 1,
+            "page_number": 1,
+            "image_bbox": [
+              0.0,
+              0.0,
+              1190.0,
+              1684.0
+            ],
+            "source": "page_001_original"
+          },
+          {
+            "text": "दिनांक Dated : 03/08/2021",
+            "language": "mixed",
+            "confidence": 0.9725075408916927,
+            "bbox": [
+              115.43,
+              1535.808,
+              368.9,
+              1567.804
+            ],
+            "label": "Text",
+            "raw_label": "Text",
+            "reading_order": 28,
+            "page": 1,
+            "page_number": 1,
+            "image_bbox": [
+              0.0,
+              0.0,
+              1190.0,
+              1684.0
+            ],
+            "source": "page_001_original"
+          },
+          {
+            "text": "परीक्षा नियंत्रक",
+            "language": "hin",
+            "confidence": 0.9725075408916927,
+            "bbox": [
+              942.48,
+              1508.864,
+              1074.57,
+              1537.492
+            ],
+            "label": "Text",
+            "raw_label": "Text",
+            "reading_order": 30,
+            "page": 1,
+            "page_number": 1,
+            "image_bbox": [
+              0.0,
+              0.0,
+              1190.0,
+              1684.0
+            ],
+            "source": "page_001_original"
+          },
+          {
+            "text": "Controller of Examinations",
+            "language": "eng",
+            "confidence": 0.9725075408916927,
+            "bbox": [
+              878.22,
+              1534.124,
+              1145.97,
+              1561.068
+            ],
+            "label": "Text",
+            "raw_label": "Text",
+            "reading_order": 31,
+            "page": 1,
+            "page_number": 1,
+            "image_bbox": [
+              0.0,
+              0.0,
+              1190.0,
+              1684.0
+            ],
+            "source": "page_001_original"
+          },
+          {
+            "text": "सह-शैक्षणिक उपलब्धियां : सह-शैक्षणिक एवम् अनुशासन क्षेत्र में प्रेरित विद्यालय द्वारा अपने स्तर पर बोर्ड द्वारा जारी प्रारूपनुसार प्रदान की जाती है।",
+            "language": "hin",
+            "confidence": 0.9725075408916927,
+            "bbox": [
+              111.86,
+              1569.488,
+              953.19,
+              1601.484
+            ],
+            "label": "Text",
+            "raw_label": "Text",
+            "reading_order": 32,
+            "page": 1,
+            "page_number": 1,
+            "image_bbox": [
+              0.0,
+              0.0,
+              1190.0,
+              1684.0
+            ],
+            "source": "page_001_original"
+          },
+          {
+            "text": "Co-Scholastic achievements : Grading for Co-Scholastic and Discipline area is being issued by the school as per format prescribed by the Board.",
+            "language": "eng",
+            "confidence": 0.9725075408916927,
+            "bbox": [
+              111.86,
+              1586.328,
+              1142.3999999999999,
+              1614.956
+            ],
+            "label": "Text",
+            "raw_label": "Text",
+            "reading_order": 33,
+            "page": 1,
+            "page_number": 1,
+            "image_bbox": [
+              0.0,
+              0.0,
+              1190.0,
+              1684.0
+            ],
+            "source": "page_001_original"
+          }
+        ],
+        "total_blocks": 31,
+        "detected_languages": [
+          "eng",
+          "hin"
+        ],
+        "multilingual": true,
+        "source_json": "C:\\Users\\dalwa\\Desktop\\astra-ocr\\backend\\output\\api_jobs\\497164cc-e9a4-44f5-9eef-71348cddd224\\pipeline\\page_001\\level1\\run_20261001_093228_973e2662\\page_001_original\\results.json"
+      },
+      "level1": {
+        "result": {
+          "results": [
+            {
+              "text": "1018371",
+              "language": "unknown",
+              "confidence": 0.9725075408916927,
+              "bbox": [
+                99.96000000000001,
+                30.311999999999998,
+                171.35999999999999,
+                52.204
+              ],
+              "label": "PageHeader",
+              "raw_label": "Page-Header",
+              "reading_order": 0,
+              "page": 1,
+              "page_number": 1,
+              "image_bbox": [
+                0.0,
+                0.0,
+                1190.0,
+                1684.0
+              ],
+              "source": "page_001_original"
+            },
+            {
+              "text": "0018375",
+              "language": "unknown",
+              "confidence": 0.9725075408916927,
+              "bbox": [
+                287.98,
+                104.408,
+                424.83,
+                139.77200000000002
+              ],
+              "label": "Text",
+              "raw_label": "Text",
+              "reading_order": 1,
+              "page": 1,
+              "page_number": 1,
+              "image_bbox": [
+                0.0,
+                0.0,
+                1190.0,
+                1684.0
+              ],
+              "source": "page_001_original"
+            },
+            {
+              "text": "रजि. नं.",
+              "language": "hin",
+              "confidence": 0.9725075408916927,
+              "bbox": [
+                854.42,
+                85.884,
+                931.77,
+                114.51200000000001
+              ],
+              "label": "Text",
+              "raw_label": "Text",
+              "reading_order": 3,
+              "page": 1,
+              "page_number": 1,
+              "image_bbox": [
+                0.0,
+                0.0,
+                1190.0,
+                1684.0
+              ],
+              "source": "page_001_original"
+            },
+            {
+              "text": "Regn.No. A121/10183/0075",
+              "language": "eng",
+              "confidence": 0.9725075408916927,
+              "bbox": [
+                854.42,
+                107.776,
+                1142.3999999999999,
+                138.088
+              ],
+              "label": "Text",
+              "raw_label": "Text",
+              "reading_order": 4,
+              "page": 1,
+              "page_number": 1,
+              "image_bbox": [
+                0.0,
+                0.0,
+                1190.0,
+                1684.0
+              ],
+              "source": "page_001_original"
+            },
+            {
+              "text": "केन्द्रीय माध्यमिक शिक्षा बोर्ड\n\nCENTRAL BOARD OF SECONDARY EDUCATION\n\nअंक विवरणिका सह प्रमाण पत्र\n\nMARKS STATEMENT CUM CERTIFICATE\n\nमाध्यमिक विद्यालय परीक्षा, 2021\n\nSECONDARY SCHOOL EXAMINATION, 2021",
+              "language": "mixed",
+              "confidence": 0.9725075408916927,
+              "bbox": [
+                274.89,
+                250.916,
+                965.09,
+                479.93999999999994
+              ],
+              "label": "SectionHeader",
+              "raw_label": "Section-Header",
+              "reading_order": 5,
+              "page": 1,
+              "page_number": 1,
+              "image_bbox": [
+                0.0,
+                0.0,
+                1190.0,
+                1684.0
+              ],
+              "source": "page_001_original"
+            },
+            {
+              "text": "यह प्रमाणित किया जाता है कि",
+              "language": "hin",
+              "confidence": 0.9725075408916927,
+              "bbox": [
+                91.63,
+                488.35999999999996,
+                337.96,
+                520.356
+              ],
+              "label": "Text",
+              "raw_label": "Text",
+              "reading_order": 7,
+              "page": 1,
+              "page_number": 1,
+              "image_bbox": [
+                0.0,
+                0.0,
+                1190.0,
+                1684.0
+              ],
+              "source": "page_001_original"
+            },
+            {
+              "text": "This is to certify that SHRUSTI DALWADI",
+              "language": "eng",
+              "confidence": 0.9725075408916927,
+              "bbox": [
+                91.63,
+                518.672,
+                497.41999999999996,
+                547.3000000000001
+              ],
+              "label": "Text",
+              "raw_label": "Text",
+              "reading_order": 8,
+              "page": 1,
+              "page_number": 1,
+              "image_bbox": [
+                0.0,
+                0.0,
+                1190.0,
+                1684.0
+              ],
+              "source": "page_001_original"
+            },
+            {
+              "text": "अनुक्रमांक",
+              "language": "hin",
+              "confidence": 0.9725075408916927,
+              "bbox": [
+                91.63,
+                550.668,
+                179.69,
+                580.9799999999999
+              ],
+              "label": "Text",
+              "raw_label": "Text",
+              "reading_order": 9,
+              "page": 1,
+              "page_number": 1,
+              "image_bbox": [
+                0.0,
+                0.0,
+                1190.0,
+                1684.0
+              ],
+              "source": "page_001_original"
+            },
+            {
+              "text": "Roll No. 11120949",
+              "language": "eng",
+              "confidence": 0.9725075408916927,
+              "bbox": [
+                91.63,
+                579.2959999999999,
+                295.12,
+                606.24
+              ],
+              "label": "Text",
+              "raw_label": "Text",
+              "reading_order": 10,
+              "page": 1,
+              "page_number": 1,
+              "image_bbox": [
+                0.0,
+                0.0,
+                1190.0,
+                1684.0
+              ],
+              "source": "page_001_original"
+            },
+            {
+              "text": "माता का नाम",
+              "language": "hin",
+              "confidence": 0.9725075408916927,
+              "bbox": [
+                91.63,
+                611.292,
+                209.44,
+                639.92
+              ],
+              "label": "Text",
+              "raw_label": "Text",
+              "reading_order": 11,
+              "page": 1,
+              "page_number": 1,
+              "image_bbox": [
+                0.0,
+                0.0,
+                1190.0,
+                1684.0
+              ],
+              "source": "page_001_original"
+            },
+            {
+              "text": "Mother's Name JAYSHREE DALWADI",
+              "language": "eng",
+              "confidence": 0.9725075408916927,
+              "bbox": [
+                91.63,
+                636.552,
+                474.81,
+                666.864
+              ],
+              "label": "Text",
+              "raw_label": "Text",
+              "reading_order": 12,
+              "page": 1,
+              "page_number": 1,
+              "image_bbox": [
+                0.0,
+                0.0,
+                1190.0,
+                1684.0
+              ],
+              "source": "page_001_original"
+            },
+            {
+              "text": "पिता/संरक्षक का नाम",
+              "language": "hin",
+              "confidence": 0.9725075408916927,
+              "bbox": [
+                91.63,
+                675.284,
+                272.51,
+                705.596
+              ],
+              "label": "Text",
+              "raw_label": "Text",
+              "reading_order": 13,
+              "page": 1,
+              "page_number": 1,
+              "image_bbox": [
+                0.0,
+                0.0,
+                1190.0,
+                1684.0
+              ],
+              "source": "page_001_original"
+            },
+            {
+              "text": "Father's / Guardian's Name JAYENBHAI DALWADI",
+              "language": "eng",
+              "confidence": 0.9725075408916927,
+              "bbox": [
+                91.63,
+                700.544,
+                583.1,
+                732.54
+              ],
+              "label": "Text",
+              "raw_label": "Text",
+              "reading_order": 14,
+              "page": 1,
+              "page_number": 1,
+              "image_bbox": [
+                0.0,
+                0.0,
+                1190.0,
+                1684.0
+              ],
+              "source": "page_001_original"
+            },
+            {
+              "text": "जन्म तिथि",
+              "language": "hin",
+              "confidence": 0.9725075408916927,
+              "bbox": [
+                91.63,
+                735.908,
+                186.83,
+                764.5360000000001
+              ],
+              "label": "Text",
+              "raw_label": "Text",
+              "reading_order": 15,
+              "page": 1,
+              "page_number": 1,
+              "image_bbox": [
+                0.0,
+                0.0,
+                1190.0,
+                1684.0
+              ],
+              "source": "page_001_original"
+            },
+            {
+              "text": "Date of Birth 31/01/2006 31ST JANUARY TWO THOUSAND SIX",
+              "language": "eng",
+              "confidence": 0.9725075408916927,
+              "bbox": [
+                91.63,
+                756.116,
+                710.43,
+                791.4799999999999
+              ],
+              "label": "Text",
+              "raw_label": "Text",
+              "reading_order": 16,
+              "page": 1,
+              "page_number": 1,
+              "image_bbox": [
+                0.0,
+                0.0,
+                1190.0,
+                1684.0
+              ],
+              "source": "page_001_original"
+            },
+            {
+              "text": "विद्यालय",
+              "language": "hin",
+              "confidence": 0.9725075408916927,
+              "bbox": [
+                91.63,
+                794.848,
+                174.92999999999998,
+                823.476
+              ],
+              "label": "Text",
+              "raw_label": "Text",
+              "reading_order": 17,
+              "page": 1,
+              "page_number": 1,
+              "image_bbox": [
+                0.0,
+                0.0,
+                1190.0,
+                1684.0
+              ],
+              "source": "page_001_original"
+            },
+            {
+              "text": "School 10183-CALORX PUBLIC SCHOOL GHATLODIA AHMEDABAD GUJ",
+              "language": "eng",
+              "confidence": 0.9725075408916927,
+              "bbox": [
+                91.63,
+                810.004,
+                802.0600000000001,
+                850.42
+              ],
+              "label": "Text",
+              "raw_label": "Text",
+              "reading_order": 18,
+              "page": 1,
+              "page_number": 1,
+              "image_bbox": [
+                0.0,
+                0.0,
+                1190.0,
+                1684.0
+              ],
+              "source": "page_001_original"
+            },
+            {
+              "text": "की शैक्षणिक उपलब्धियां निम्नानुसार हैं has achieved Scholastic Achievements as under :",
+              "language": "mixed",
+              "confidence": 0.9725075408916927,
+              "bbox": [
+                99.96000000000001,
+                842.0,
+                829.43,
+                882.416
+              ],
+              "label": "Text",
+              "raw_label": "Text",
+              "reading_order": 19,
+              "page": 1,
+              "page_number": 1,
+              "image_bbox": [
+                0.0,
+                0.0,
+                1190.0,
+                1684.0
+              ],
+              "source": "page_001_original"
+            },
+            {
+              "text": "विषय कोड\nSUB.\nCODE\nविषय\nSUBJECT\nप्रासांक MARKS OBTAINED\nस्थितीय ग्रेड\nPOSITIONAL\nGRADE\n\nलिखित\nTHEORY\nआं. मू.\nI A/\nPT. PR.\nयोग\nTOTAL\nयोग (शब्दों में)\nTOTAL (IN WORDS)\n\n184\nENGLISH LNG & LIT.\n057\n020\n077\nSEVENTY SEVEN\nB2\n\n085\nHINDI COURSE-B\n066\n020\n086\nEIGHTY SIX\nB1\n\n041\nMATHEMATICS STANDARD\n072\n019\n091\nNINETY ONE\nA1\n\n086\nSCIENCE\n064\n020\n084\nEIGHTY FOUR\nA2\n\n087\nSOCIAL SCIENCE\n055\n020\n075\nSEVENTY FIVE\nB2\n\nADDITIONAL SUBJECT\n\n402\nINFORMATION TECHNOLOGY\n039\n050\n089\nEIGHTY NINE\nB1",
+              "language": "mixed",
+              "confidence": 0.9725075408916927,
+              "bbox": [
+                99.96000000000001,
+                865.576,
+                1149.54,
+                1362.356
+              ],
+              "label": "Table",
+              "raw_label": "Table",
+              "reading_order": 20,
+              "page": 1,
+              "page_number": 1,
+              "image_bbox": [
+                0.0,
+                0.0,
+                1190.0,
+                1684.0
+              ],
+              "source": "page_001_original"
+            },
+            {
+              "text": "संक्षिप्तयों का अर्थ : Abbreviations",
+              "language": "mixed",
+              "confidence": 0.9725075408916927,
+              "bbox": [
+                111.86,
+                1365.7240000000002,
+                393.89000000000004,
+                1397.72
+              ],
+              "label": "Text",
+              "raw_label": "Text",
+              "reading_order": 21,
+              "page": 1,
+              "page_number": 1,
+              "image_bbox": [
+                0.0,
+                0.0,
+                1190.0,
+                1684.0
+              ],
+              "source": "page_001_original"
+            },
+            {
+              "text": "AB : अनुपस्थित Absent",
+              "language": "mixed",
+              "confidence": 0.9725075408916927,
+              "bbox": [
+                111.86,
+                1394.3519999999999,
+                277.27000000000004,
+                1421.296
+              ],
+              "label": "Text",
+              "raw_label": "Text",
+              "reading_order": 22,
+              "page": 1,
+              "page_number": 1,
+              "image_bbox": [
+                0.0,
+                0.0,
+                1190.0,
+                1684.0
+              ],
+              "source": "page_001_original"
+            },
+            {
+              "text": "IA : आंतरिक मूल्यांकन Internal Assessment",
+              "language": "mixed",
+              "confidence": 0.9725075408916927,
+              "bbox": [
+                111.86,
+                1416.244,
+                418.88,
+                1444.872
+              ],
+              "label": "Text",
+              "raw_label": "Text",
+              "reading_order": 23,
+              "page": 1,
+              "page_number": 1,
+              "image_bbox": [
+                0.0,
+                0.0,
+                1190.0,
+                1684.0
+              ],
+              "source": "page_001_original"
+            },
+            {
+              "text": "PT./PR : प्रायोगिक/Practical",
+              "language": "mixed",
+              "confidence": 0.9725075408916927,
+              "bbox": [
+                111.86,
+                1439.82,
+                320.11,
+                1466.764
+              ],
+              "label": "Text",
+              "raw_label": "Text",
+              "reading_order": 24,
+              "page": 1,
+              "page_number": 1,
+              "image_bbox": [
+                0.0,
+                0.0,
+                1190.0,
+                1684.0
+              ],
+              "source": "page_001_original"
+            },
+            {
+              "text": "ER : अनिवार्य पुनरावृत्ति सभी विषयों में Essential Repeat in all subjects",
+              "language": "mixed",
+              "confidence": 0.9725075408916927,
+              "bbox": [
+                111.86,
+                1460.028,
+                583.1,
+                1492.0240000000001
+              ],
+              "label": "Text",
+              "raw_label": "Text",
+              "reading_order": 25,
+              "page": 1,
+              "page_number": 1,
+              "image_bbox": [
+                0.0,
+                0.0,
+                1190.0,
+                1684.0
+              ],
+              "source": "page_001_original"
+            },
+            {
+              "text": "परिणाम Result PASS",
+              "language": "mixed",
+              "confidence": 0.9725075408916927,
+              "bbox": [
+                694.9599999999999,
+                1377.512,
+                893.69,
+                1407.8239999999998
+              ],
+              "label": "Text",
+              "raw_label": "Text",
+              "reading_order": 26,
+              "page": 1,
+              "page_number": 1,
+              "image_bbox": [
+                0.0,
+                0.0,
+                1190.0,
+                1684.0
+              ],
+              "source": "page_001_original"
+            },
+            {
+              "text": "दिल्ली Delhi",
+              "language": "mixed",
+              "confidence": 0.9725075408916927,
+              "bbox": [
+                115.43,
+                1513.916,
+                226.1,
+                1542.544
+              ],
+              "label": "Text",
+              "raw_label": "Text",
+              "reading_order": 27,
+              "page": 1,
+              "page_number": 1,
+              "image_bbox": [
+                0.0,
+                0.0,
+                1190.0,
+                1684.0
+              ],
+              "source": "page_001_original"
+            },
+            {
+              "text": "दिनांक Dated : 03/08/2021",
+              "language": "mixed",
+              "confidence": 0.9725075408916927,
+              "bbox": [
+                115.43,
+                1535.808,
+                368.9,
+                1567.804
+              ],
+              "label": "Text",
+              "raw_label": "Text",
+              "reading_order": 28,
+              "page": 1,
+              "page_number": 1,
+              "image_bbox": [
+                0.0,
+                0.0,
+                1190.0,
+                1684.0
+              ],
+              "source": "page_001_original"
+            },
+            {
+              "text": "परीक्षा नियंत्रक",
+              "language": "hin",
+              "confidence": 0.9725075408916927,
+              "bbox": [
+                942.48,
+                1508.864,
+                1074.57,
+                1537.492
+              ],
+              "label": "Text",
+              "raw_label": "Text",
+              "reading_order": 30,
+              "page": 1,
+              "page_number": 1,
+              "image_bbox": [
+                0.0,
+                0.0,
+                1190.0,
+                1684.0
+              ],
+              "source": "page_001_original"
+            },
+            {
+              "text": "Controller of Examinations",
+              "language": "eng",
+              "confidence": 0.9725075408916927,
+              "bbox": [
+                878.22,
+                1534.124,
+                1145.97,
+                1561.068
+              ],
+              "label": "Text",
+              "raw_label": "Text",
+              "reading_order": 31,
+              "page": 1,
+              "page_number": 1,
+              "image_bbox": [
+                0.0,
+                0.0,
+                1190.0,
+                1684.0
+              ],
+              "source": "page_001_original"
+            },
+            {
+              "text": "सह-शैक्षणिक उपलब्धियां : सह-शैक्षणिक एवम् अनुशासन क्षेत्र में प्रेरित विद्यालय द्वारा अपने स्तर पर बोर्ड द्वारा जारी प्रारूपनुसार प्रदान की जाती है।",
+              "language": "hin",
+              "confidence": 0.9725075408916927,
+              "bbox": [
+                111.86,
+                1569.488,
+                953.19,
+                1601.484
+              ],
+              "label": "Text",
+              "raw_label": "Text",
+              "reading_order": 32,
+              "page": 1,
+              "page_number": 1,
+              "image_bbox": [
+                0.0,
+                0.0,
+                1190.0,
+                1684.0
+              ],
+              "source": "page_001_original"
+            },
+            {
+              "text": "Co-Scholastic achievements : Grading for Co-Scholastic and Discipline area is being issued by the school as per format prescribed by the Board.",
+              "language": "eng",
+              "confidence": 0.9725075408916927,
+              "bbox": [
+                111.86,
+                1586.328,
+                1142.3999999999999,
+                1614.956
+              ],
+              "label": "Text",
+              "raw_label": "Text",
+              "reading_order": 33,
+              "page": 1,
+              "page_number": 1,
+              "image_bbox": [
+                0.0,
+                0.0,
+                1190.0,
+                1684.0
+              ],
+              "source": "page_001_original"
+            }
+          ],
+          "total_blocks": 31,
+          "detected_languages": [
+            "eng",
+            "hin"
+          ],
+          "multilingual": true,
+          "source_json": "C:\\Users\\dalwa\\Desktop\\astra-ocr\\backend\\output\\api_jobs\\497164cc-e9a4-44f5-9eef-71348cddd224\\pipeline\\page_001\\level1\\run_20261001_093228_973e2662\\page_001_original\\results.json"
+        },
+        "quality": {
+          "quality_score": 93.46,
+          "status": "good",
+          "text_score": 90.06,
+          "language_score": 100,
+          "character_score": 99.6,
+          "coverage_score": 48.58,
+          "confidence_score": 97.25,
+          "components_used": [
+            "character",
+            "confidence",
+            "coverage",
+            "language",
+            "text"
+          ]
+        }
+      },
+      "level2": {
+        "correction_attempted": true,
+        "ocr_rerun_attempted": false,
+        "post_ocr_correction_applied": true,
+        "selected": "original",
+        "original": {
+          "result": {
+            "results": [
+              {
+                "text": "1018371",
+                "language": "unknown",
+                "confidence": 0.9725075408916927,
+                "bbox": [
+                  99.96000000000001,
+                  30.311999999999998,
+                  171.35999999999999,
+                  52.204
+                ],
+                "label": "PageHeader",
+                "raw_label": "Page-Header",
+                "reading_order": 0,
+                "page": 1,
+                "page_number": 1,
+                "image_bbox": [
+                  0.0,
+                  0.0,
+                  1190.0,
+                  1684.0
+                ],
+                "source": "page_001_original"
+              },
+              {
+                "text": "0018375",
+                "language": "unknown",
+                "confidence": 0.9725075408916927,
+                "bbox": [
+                  287.98,
+                  104.408,
+                  424.83,
+                  139.77200000000002
+                ],
+                "label": "Text",
+                "raw_label": "Text",
+                "reading_order": 1,
+                "page": 1,
+                "page_number": 1,
+                "image_bbox": [
+                  0.0,
+                  0.0,
+                  1190.0,
+                  1684.0
+                ],
+                "source": "page_001_original"
+              },
+              {
+                "text": "रजि. नं.",
+                "language": "hin",
+                "confidence": 0.9725075408916927,
+                "bbox": [
+                  854.42,
+                  85.884,
+                  931.77,
+                  114.51200000000001
+                ],
+                "label": "Text",
+                "raw_label": "Text",
+                "reading_order": 3,
+                "page": 1,
+                "page_number": 1,
+                "image_bbox": [
+                  0.0,
+                  0.0,
+                  1190.0,
+                  1684.0
+                ],
+                "source": "page_001_original"
+              },
+              {
+                "text": "Regn.No. A121/10183/0075",
+                "language": "eng",
+                "confidence": 0.9725075408916927,
+                "bbox": [
+                  854.42,
+                  107.776,
+                  1142.3999999999999,
+                  138.088
+                ],
+                "label": "Text",
+                "raw_label": "Text",
+                "reading_order": 4,
+                "page": 1,
+                "page_number": 1,
+                "image_bbox": [
+                  0.0,
+                  0.0,
+                  1190.0,
+                  1684.0
+                ],
+                "source": "page_001_original"
+              },
+              {
+                "text": "केन्द्रीय माध्यमिक शिक्षा बोर्ड\n\nCENTRAL BOARD OF SECONDARY EDUCATION\n\nअंक विवरणिका सह प्रमाण पत्र\n\nMARKS STATEMENT CUM CERTIFICATE\n\nमाध्यमिक विद्यालय परीक्षा, 2021\n\nSECONDARY SCHOOL EXAMINATION, 2021",
+                "language": "mixed",
+                "confidence": 0.9725075408916927,
+                "bbox": [
+                  274.89,
+                  250.916,
+                  965.09,
+                  479.93999999999994
+                ],
+                "label": "SectionHeader",
+                "raw_label": "Section-Header",
+                "reading_order": 5,
+                "page": 1,
+                "page_number": 1,
+                "image_bbox": [
+                  0.0,
+                  0.0,
+                  1190.0,
+                  1684.0
+                ],
+                "source": "page_001_original"
+              },
+              {
+                "text": "यह प्रमाणित किया जाता है कि",
+                "language": "hin",
+                "confidence": 0.9725075408916927,
+                "bbox": [
+                  91.63,
+                  488.35999999999996,
+                  337.96,
+                  520.356
+                ],
+                "label": "Text",
+                "raw_label": "Text",
+                "reading_order": 7,
+                "page": 1,
+                "page_number": 1,
+                "image_bbox": [
+                  0.0,
+                  0.0,
+                  1190.0,
+                  1684.0
+                ],
+                "source": "page_001_original"
+              },
+              {
+                "text": "This is to certify that SHRUSTI DALWADI",
+                "language": "eng",
+                "confidence": 0.9725075408916927,
+                "bbox": [
+                  91.63,
+                  518.672,
+                  497.41999999999996,
+                  547.3000000000001
+                ],
+                "label": "Text",
+                "raw_label": "Text",
+                "reading_order": 8,
+                "page": 1,
+                "page_number": 1,
+                "image_bbox": [
+                  0.0,
+                  0.0,
+                  1190.0,
+                  1684.0
+                ],
+                "source": "page_001_original"
+              },
+              {
+                "text": "अनुक्रमांक",
+                "language": "hin",
+                "confidence": 0.9725075408916927,
+                "bbox": [
+                  91.63,
+                  550.668,
+                  179.69,
+                  580.9799999999999
+                ],
+                "label": "Text",
+                "raw_label": "Text",
+                "reading_order": 9,
+                "page": 1,
+                "page_number": 1,
+                "image_bbox": [
+                  0.0,
+                  0.0,
+                  1190.0,
+                  1684.0
+                ],
+                "source": "page_001_original"
+              },
+              {
+                "text": "Roll No. 11120949",
+                "language": "eng",
+                "confidence": 0.9725075408916927,
+                "bbox": [
+                  91.63,
+                  579.2959999999999,
+                  295.12,
+                  606.24
+                ],
+                "label": "Text",
+                "raw_label": "Text",
+                "reading_order": 10,
+                "page": 1,
+                "page_number": 1,
+                "image_bbox": [
+                  0.0,
+                  0.0,
+                  1190.0,
+                  1684.0
+                ],
+                "source": "page_001_original"
+              },
+              {
+                "text": "माता का नाम",
+                "language": "hin",
+                "confidence": 0.9725075408916927,
+                "bbox": [
+                  91.63,
+                  611.292,
+                  209.44,
+                  639.92
+                ],
+                "label": "Text",
+                "raw_label": "Text",
+                "reading_order": 11,
+                "page": 1,
+                "page_number": 1,
+                "image_bbox": [
+                  0.0,
+                  0.0,
+                  1190.0,
+                  1684.0
+                ],
+                "source": "page_001_original"
+              },
+              {
+                "text": "Mother's Name JAYSHREE DALWADI",
+                "language": "eng",
+                "confidence": 0.9725075408916927,
+                "bbox": [
+                  91.63,
+                  636.552,
+                  474.81,
+                  666.864
+                ],
+                "label": "Text",
+                "raw_label": "Text",
+                "reading_order": 12,
+                "page": 1,
+                "page_number": 1,
+                "image_bbox": [
+                  0.0,
+                  0.0,
+                  1190.0,
+                  1684.0
+                ],
+                "source": "page_001_original"
+              },
+              {
+                "text": "पिता/संरक्षक का नाम",
+                "language": "hin",
+                "confidence": 0.9725075408916927,
+                "bbox": [
+                  91.63,
+                  675.284,
+                  272.51,
+                  705.596
+                ],
+                "label": "Text",
+                "raw_label": "Text",
+                "reading_order": 13,
+                "page": 1,
+                "page_number": 1,
+                "image_bbox": [
+                  0.0,
+                  0.0,
+                  1190.0,
+                  1684.0
+                ],
+                "source": "page_001_original"
+              },
+              {
+                "text": "Father's / Guardian's Name JAYENBHAI DALWADI",
+                "language": "eng",
+                "confidence": 0.9725075408916927,
+                "bbox": [
+                  91.63,
+                  700.544,
+                  583.1,
+                  732.54
+                ],
+                "label": "Text",
+                "raw_label": "Text",
+                "reading_order": 14,
+                "page": 1,
+                "page_number": 1,
+                "image_bbox": [
+                  0.0,
+                  0.0,
+                  1190.0,
+                  1684.0
+                ],
+                "source": "page_001_original"
+              },
+              {
+                "text": "जन्म तिथि",
+                "language": "hin",
+                "confidence": 0.9725075408916927,
+                "bbox": [
+                  91.63,
+                  735.908,
+                  186.83,
+                  764.5360000000001
+                ],
+                "label": "Text",
+                "raw_label": "Text",
+                "reading_order": 15,
+                "page": 1,
+                "page_number": 1,
+                "image_bbox": [
+                  0.0,
+                  0.0,
+                  1190.0,
+                  1684.0
+                ],
+                "source": "page_001_original"
+              },
+              {
+                "text": "Date of Birth 31/01/2006 31ST JANUARY TWO THOUSAND SIX",
+                "language": "eng",
+                "confidence": 0.9725075408916927,
+                "bbox": [
+                  91.63,
+                  756.116,
+                  710.43,
+                  791.4799999999999
+                ],
+                "label": "Text",
+                "raw_label": "Text",
+                "reading_order": 16,
+                "page": 1,
+                "page_number": 1,
+                "image_bbox": [
+                  0.0,
+                  0.0,
+                  1190.0,
+                  1684.0
+                ],
+                "source": "page_001_original"
+              },
+              {
+                "text": "विद्यालय",
+                "language": "hin",
+                "confidence": 0.9725075408916927,
+                "bbox": [
+                  91.63,
+                  794.848,
+                  174.92999999999998,
+                  823.476
+                ],
+                "label": "Text",
+                "raw_label": "Text",
+                "reading_order": 17,
+                "page": 1,
+                "page_number": 1,
+                "image_bbox": [
+                  0.0,
+                  0.0,
+                  1190.0,
+                  1684.0
+                ],
+                "source": "page_001_original"
+              },
+              {
+                "text": "School 10183-CALORX PUBLIC SCHOOL GHATLODIA AHMEDABAD GUJ",
+                "language": "eng",
+                "confidence": 0.9725075408916927,
+                "bbox": [
+                  91.63,
+                  810.004,
+                  802.0600000000001,
+                  850.42
+                ],
+                "label": "Text",
+                "raw_label": "Text",
+                "reading_order": 18,
+                "page": 1,
+                "page_number": 1,
+                "image_bbox": [
+                  0.0,
+                  0.0,
+                  1190.0,
+                  1684.0
+                ],
+                "source": "page_001_original"
+              },
+              {
+                "text": "की शैक्षणिक उपलब्धियां निम्नानुसार हैं has achieved Scholastic Achievements as under :",
+                "language": "mixed",
+                "confidence": 0.9725075408916927,
+                "bbox": [
+                  99.96000000000001,
+                  842.0,
+                  829.43,
+                  882.416
+                ],
+                "label": "Text",
+                "raw_label": "Text",
+                "reading_order": 19,
+                "page": 1,
+                "page_number": 1,
+                "image_bbox": [
+                  0.0,
+                  0.0,
+                  1190.0,
+                  1684.0
+                ],
+                "source": "page_001_original"
+              },
+              {
+                "text": "विषय कोड\nSUB.\nCODE\nविषय\nSUBJECT\nप्रासांक MARKS OBTAINED\nस्थितीय ग्रेड\nPOSITIONAL\nGRADE\n\nलिखित\nTHEORY\nआं. मू.\nI A/\nPT. PR.\nयोग\nTOTAL\nयोग (शब्दों में)\nTOTAL (IN WORDS)\n\n184\nENGLISH LNG & LIT.\n057\n020\n077\nSEVENTY SEVEN\nB2\n\n085\nHINDI COURSE-B\n066\n020\n086\nEIGHTY SIX\nB1\n\n041\nMATHEMATICS STANDARD\n072\n019\n091\nNINETY ONE\nA1\n\n086\nSCIENCE\n064\n020\n084\nEIGHTY FOUR\nA2\n\n087\nSOCIAL SCIENCE\n055\n020\n075\nSEVENTY FIVE\nB2\n\nADDITIONAL SUBJECT\n\n402\nINFORMATION TECHNOLOGY\n039\n050\n089\nEIGHTY NINE\nB1",
+                "language": "mixed",
+                "confidence": 0.9725075408916927,
+                "bbox": [
+                  99.96000000000001,
+                  865.576,
+                  1149.54,
+                  1362.356
+                ],
+                "label": "Table",
+                "raw_label": "Table",
+                "reading_order": 20,
+                "page": 1,
+                "page_number": 1,
+                "image_bbox": [
+                  0.0,
+                  0.0,
+                  1190.0,
+                  1684.0
+                ],
+                "source": "page_001_original"
+              },
+              {
+                "text": "संक्षिप्तयों का अर्थ : Abbreviations",
+                "language": "mixed",
+                "confidence": 0.9725075408916927,
+                "bbox": [
+                  111.86,
+                  1365.7240000000002,
+                  393.89000000000004,
+                  1397.72
+                ],
+                "label": "Text",
+                "raw_label": "Text",
+                "reading_order": 21,
+                "page": 1,
+                "page_number": 1,
+                "image_bbox": [
+                  0.0,
+                  0.0,
+                  1190.0,
+                  1684.0
+                ],
+                "source": "page_001_original"
+              },
+              {
+                "text": "AB : अनुपस्थित Absent",
+                "language": "mixed",
+                "confidence": 0.9725075408916927,
+                "bbox": [
+                  111.86,
+                  1394.3519999999999,
+                  277.27000000000004,
+                  1421.296
+                ],
+                "label": "Text",
+                "raw_label": "Text",
+                "reading_order": 22,
+                "page": 1,
+                "page_number": 1,
+                "image_bbox": [
+                  0.0,
+                  0.0,
+                  1190.0,
+                  1684.0
+                ],
+                "source": "page_001_original"
+              },
+              {
+                "text": "IA : आंतरिक मूल्यांकन Internal Assessment",
+                "language": "mixed",
+                "confidence": 0.9725075408916927,
+                "bbox": [
+                  111.86,
+                  1416.244,
+                  418.88,
+                  1444.872
+                ],
+                "label": "Text",
+                "raw_label": "Text",
+                "reading_order": 23,
+                "page": 1,
+                "page_number": 1,
+                "image_bbox": [
+                  0.0,
+                  0.0,
+                  1190.0,
+                  1684.0
+                ],
+                "source": "page_001_original"
+              },
+              {
+                "text": "PT./PR : प्रायोगिक/Practical",
+                "language": "mixed",
+                "confidence": 0.9725075408916927,
+                "bbox": [
+                  111.86,
+                  1439.82,
+                  320.11,
+                  1466.764
+                ],
+                "label": "Text",
+                "raw_label": "Text",
+                "reading_order": 24,
+                "page": 1,
+                "page_number": 1,
+                "image_bbox": [
+                  0.0,
+                  0.0,
+                  1190.0,
+                  1684.0
+                ],
+                "source": "page_001_original"
+              },
+              {
+                "text": "ER : अनिवार्य पुनरावृत्ति सभी विषयों में Essential Repeat in all subjects",
+                "language": "mixed",
+                "confidence": 0.9725075408916927,
+                "bbox": [
+                  111.86,
+                  1460.028,
+                  583.1,
+                  1492.0240000000001
+                ],
+                "label": "Text",
+                "raw_label": "Text",
+                "reading_order": 25,
+                "page": 1,
+                "page_number": 1,
+                "image_bbox": [
+                  0.0,
+                  0.0,
+                  1190.0,
+                  1684.0
+                ],
+                "source": "page_001_original"
+              },
+              {
+                "text": "परिणाम Result PASS",
+                "language": "mixed",
+                "confidence": 0.9725075408916927,
+                "bbox": [
+                  694.9599999999999,
+                  1377.512,
+                  893.69,
+                  1407.8239999999998
+                ],
+                "label": "Text",
+                "raw_label": "Text",
+                "reading_order": 26,
+                "page": 1,
+                "page_number": 1,
+                "image_bbox": [
+                  0.0,
+                  0.0,
+                  1190.0,
+                  1684.0
+                ],
+                "source": "page_001_original"
+              },
+              {
+                "text": "दिल्ली Delhi",
+                "language": "mixed",
+                "confidence": 0.9725075408916927,
+                "bbox": [
+                  115.43,
+                  1513.916,
+                  226.1,
+                  1542.544
+                ],
+                "label": "Text",
+                "raw_label": "Text",
+                "reading_order": 27,
+                "page": 1,
+                "page_number": 1,
+                "image_bbox": [
+                  0.0,
+                  0.0,
+                  1190.0,
+                  1684.0
+                ],
+                "source": "page_001_original"
+              },
+              {
+                "text": "दिनांक Dated : 03/08/2021",
+                "language": "mixed",
+                "confidence": 0.9725075408916927,
+                "bbox": [
+                  115.43,
+                  1535.808,
+                  368.9,
+                  1567.804
+                ],
+                "label": "Text",
+                "raw_label": "Text",
+                "reading_order": 28,
+                "page": 1,
+                "page_number": 1,
+                "image_bbox": [
+                  0.0,
+                  0.0,
+                  1190.0,
+                  1684.0
+                ],
+                "source": "page_001_original"
+              },
+              {
+                "text": "परीक्षा नियंत्रक",
+                "language": "hin",
+                "confidence": 0.9725075408916927,
+                "bbox": [
+                  942.48,
+                  1508.864,
+                  1074.57,
+                  1537.492
+                ],
+                "label": "Text",
+                "raw_label": "Text",
+                "reading_order": 30,
+                "page": 1,
+                "page_number": 1,
+                "image_bbox": [
+                  0.0,
+                  0.0,
+                  1190.0,
+                  1684.0
+                ],
+                "source": "page_001_original"
+              },
+              {
+                "text": "Controller of Examinations",
+                "language": "eng",
+                "confidence": 0.9725075408916927,
+                "bbox": [
+                  878.22,
+                  1534.124,
+                  1145.97,
+                  1561.068
+                ],
+                "label": "Text",
+                "raw_label": "Text",
+                "reading_order": 31,
+                "page": 1,
+                "page_number": 1,
+                "image_bbox": [
+                  0.0,
+                  0.0,
+                  1190.0,
+                  1684.0
+                ],
+                "source": "page_001_original"
+              },
+              {
+                "text": "सह-शैक्षणिक उपलब्धियां : सह-शैक्षणिक एवम् अनुशासन क्षेत्र में प्रेरित विद्यालय द्वारा अपने स्तर पर बोर्ड द्वारा जारी प्रारूपनुसार प्रदान की जाती है।",
+                "language": "hin",
+                "confidence": 0.9725075408916927,
+                "bbox": [
+                  111.86,
+                  1569.488,
+                  953.19,
+                  1601.484
+                ],
+                "label": "Text",
+                "raw_label": "Text",
+                "reading_order": 32,
+                "page": 1,
+                "page_number": 1,
+                "image_bbox": [
+                  0.0,
+                  0.0,
+                  1190.0,
+                  1684.0
+                ],
+                "source": "page_001_original"
+              },
+              {
+                "text": "Co-Scholastic achievements : Grading for Co-Scholastic and Discipline area is being issued by the school as per format prescribed by the Board.",
+                "language": "eng",
+                "confidence": 0.9725075408916927,
+                "bbox": [
+                  111.86,
+                  1586.328,
+                  1142.3999999999999,
+                  1614.956
+                ],
+                "label": "Text",
+                "raw_label": "Text",
+                "reading_order": 33,
+                "page": 1,
+                "page_number": 1,
+                "image_bbox": [
+                  0.0,
+                  0.0,
+                  1190.0,
+                  1684.0
+                ],
+                "source": "page_001_original"
+              }
+            ],
+            "total_blocks": 31,
+            "detected_languages": [
+              "eng",
+              "hin"
+            ],
+            "multilingual": true,
+            "source_json": "C:\\Users\\dalwa\\Desktop\\astra-ocr\\backend\\output\\api_jobs\\497164cc-e9a4-44f5-9eef-71348cddd224\\pipeline\\page_001\\level1\\run_20261001_093228_973e2662\\page_001_original\\results.json"
+          },
+          "quality": {
+            "quality_score": 93.46,
+            "status": "good",
+            "text_score": 90.06,
+            "language_score": 100,
+            "character_score": 99.6,
+            "coverage_score": 48.58,
+            "confidence_score": 97.25,
+            "components_used": [
+              "character",
+              "confidence",
+              "coverage",
+              "language",
+              "text"
+            ]
+          }
+        },
+        "corrected": [],
+        "final_result": {
+          "results": [
+            {
+              "text": "1018371",
+              "language": "unknown",
+              "confidence": 0.9725075408916927,
+              "bbox": [
+                99.96000000000001,
+                30.311999999999998,
+                171.35999999999999,
+                52.204
+              ],
+              "label": "PageHeader",
+              "raw_label": "Page-Header",
+              "reading_order": 0,
+              "page": 1,
+              "page_number": 1,
+              "image_bbox": [
+                0.0,
+                0.0,
+                1190.0,
+                1684.0
+              ],
+              "source": "page_001_original"
+            },
+            {
+              "text": "0018375",
+              "language": "unknown",
+              "confidence": 0.9725075408916927,
+              "bbox": [
+                287.98,
+                104.408,
+                424.83,
+                139.77200000000002
+              ],
+              "label": "Text",
+              "raw_label": "Text",
+              "reading_order": 1,
+              "page": 1,
+              "page_number": 1,
+              "image_bbox": [
+                0.0,
+                0.0,
+                1190.0,
+                1684.0
+              ],
+              "source": "page_001_original"
+            },
+            {
+              "text": "रजि. नं.",
+              "language": "hin",
+              "confidence": 0.9725075408916927,
+              "bbox": [
+                854.42,
+                85.884,
+                931.77,
+                114.51200000000001
+              ],
+              "label": "Text",
+              "raw_label": "Text",
+              "reading_order": 3,
+              "page": 1,
+              "page_number": 1,
+              "image_bbox": [
+                0.0,
+                0.0,
+                1190.0,
+                1684.0
+              ],
+              "source": "page_001_original"
+            },
+            {
+              "text": "Regn.No. A121/10183/0075",
+              "language": "eng",
+              "confidence": 0.9725075408916927,
+              "bbox": [
+                854.42,
+                107.776,
+                1142.3999999999999,
+                138.088
+              ],
+              "label": "Text",
+              "raw_label": "Text",
+              "reading_order": 4,
+              "page": 1,
+              "page_number": 1,
+              "image_bbox": [
+                0.0,
+                0.0,
+                1190.0,
+                1684.0
+              ],
+              "source": "page_001_original"
+            },
+            {
+              "text": "केन्द्रीय माध्यमिक शिक्षा बोर्ड\n\nCENTRAL BOARD OF SECONDARY EDUCATION\n\nअंक विवरणिका सह प्रमाण पत्र\n\nMARKS STATEMENT CUM CERTIFICATE\n\nमाध्यमिक विद्यालय परीक्षा, 2021\n\nSECONDARY SCHOOL EXAMINATION, 2021",
+              "language": "mixed",
+              "confidence": 0.9725075408916927,
+              "bbox": [
+                274.89,
+                250.916,
+                965.09,
+                479.93999999999994
+              ],
+              "label": "SectionHeader",
+              "raw_label": "Section-Header",
+              "reading_order": 5,
+              "page": 1,
+              "page_number": 1,
+              "image_bbox": [
+                0.0,
+                0.0,
+                1190.0,
+                1684.0
+              ],
+              "source": "page_001_original"
+            },
+            {
+              "text": "यह प्रमाणित किया जाता है कि",
+              "language": "hin",
+              "confidence": 0.9725075408916927,
+              "bbox": [
+                91.63,
+                488.35999999999996,
+                337.96,
+                520.356
+              ],
+              "label": "Text",
+              "raw_label": "Text",
+              "reading_order": 7,
+              "page": 1,
+              "page_number": 1,
+              "image_bbox": [
+                0.0,
+                0.0,
+                1190.0,
+                1684.0
+              ],
+              "source": "page_001_original"
+            },
+            {
+              "text": "This is to certify that SHRUSTI DALWADI",
+              "language": "eng",
+              "confidence": 0.9725075408916927,
+              "bbox": [
+                91.63,
+                518.672,
+                497.41999999999996,
+                547.3000000000001
+              ],
+              "label": "Text",
+              "raw_label": "Text",
+              "reading_order": 8,
+              "page": 1,
+              "page_number": 1,
+              "image_bbox": [
+                0.0,
+                0.0,
+                1190.0,
+                1684.0
+              ],
+              "source": "page_001_original"
+            },
+            {
+              "text": "अनुक्रमांक",
+              "language": "hin",
+              "confidence": 0.9725075408916927,
+              "bbox": [
+                91.63,
+                550.668,
+                179.69,
+                580.9799999999999
+              ],
+              "label": "Text",
+              "raw_label": "Text",
+              "reading_order": 9,
+              "page": 1,
+              "page_number": 1,
+              "image_bbox": [
+                0.0,
+                0.0,
+                1190.0,
+                1684.0
+              ],
+              "source": "page_001_original"
+            },
+            {
+              "text": "Roll No. 11120949",
+              "language": "eng",
+              "confidence": 0.9725075408916927,
+              "bbox": [
+                91.63,
+                579.2959999999999,
+                295.12,
+                606.24
+              ],
+              "label": "Text",
+              "raw_label": "Text",
+              "reading_order": 10,
+              "page": 1,
+              "page_number": 1,
+              "image_bbox": [
+                0.0,
+                0.0,
+                1190.0,
+                1684.0
+              ],
+              "source": "page_001_original"
+            },
+            {
+              "text": "माता का नाम",
+              "language": "hin",
+              "confidence": 0.9725075408916927,
+              "bbox": [
+                91.63,
+                611.292,
+                209.44,
+                639.92
+              ],
+              "label": "Text",
+              "raw_label": "Text",
+              "reading_order": 11,
+              "page": 1,
+              "page_number": 1,
+              "image_bbox": [
+                0.0,
+                0.0,
+                1190.0,
+                1684.0
+              ],
+              "source": "page_001_original"
+            },
+            {
+              "text": "Mother's Name JAYSHREE DALWADI",
+              "language": "eng",
+              "confidence": 0.9725075408916927,
+              "bbox": [
+                91.63,
+                636.552,
+                474.81,
+                666.864
+              ],
+              "label": "Text",
+              "raw_label": "Text",
+              "reading_order": 12,
+              "page": 1,
+              "page_number": 1,
+              "image_bbox": [
+                0.0,
+                0.0,
+                1190.0,
+                1684.0
+              ],
+              "source": "page_001_original"
+            },
+            {
+              "text": "पिता/संरक्षक का नाम",
+              "language": "hin",
+              "confidence": 0.9725075408916927,
+              "bbox": [
+                91.63,
+                675.284,
+                272.51,
+                705.596
+              ],
+              "label": "Text",
+              "raw_label": "Text",
+              "reading_order": 13,
+              "page": 1,
+              "page_number": 1,
+              "image_bbox": [
+                0.0,
+                0.0,
+                1190.0,
+                1684.0
+              ],
+              "source": "page_001_original"
+            },
+            {
+              "text": "Father's/Guardian's Nameme JAYENBHAI DALWADI",
+              "language": "eng",
+              "confidence": 0.9725075408916927,
+              "bbox": [
+                91.63,
+                700.544,
+                583.1,
+                732.54
+              ],
+              "label": "Text",
+              "raw_label": "Text",
+              "reading_order": 14,
+              "page": 1,
+              "page_number": 1,
+              "image_bbox": [
+                0.0,
+                0.0,
+                1190.0,
+                1684.0
+              ],
+              "source": "page_001_original"
+            },
+            {
+              "text": "जन्म तिथि",
+              "language": "hin",
+              "confidence": 0.9725075408916927,
+              "bbox": [
+                91.63,
+                735.908,
+                186.83,
+                764.5360000000001
+              ],
+              "label": "Text",
+              "raw_label": "Text",
+              "reading_order": 15,
+              "page": 1,
+              "page_number": 1,
+              "image_bbox": [
+                0.0,
+                0.0,
+                1190.0,
+                1684.0
+              ],
+              "source": "page_001_original"
+            },
+            {
+              "text": "Date of Birth 31/01/2006 31ST JANUARY TWO THOUSAND SIX",
+              "language": "eng",
+              "confidence": 0.9725075408916927,
+              "bbox": [
+                91.63,
+                756.116,
+                710.43,
+                791.4799999999999
+              ],
+              "label": "Text",
+              "raw_label": "Text",
+              "reading_order": 16,
+              "page": 1,
+              "page_number": 1,
+              "image_bbox": [
+                0.0,
+                0.0,
+                1190.0,
+                1684.0
+              ],
+              "source": "page_001_original"
+            },
+            {
+              "text": "विद्यालय",
+              "language": "hin",
+              "confidence": 0.9725075408916927,
+              "bbox": [
+                91.63,
+                794.848,
+                174.92999999999998,
+                823.476
+              ],
+              "label": "Text",
+              "raw_label": "Text",
+              "reading_order": 17,
+              "page": 1,
+              "page_number": 1,
+              "image_bbox": [
+                0.0,
+                0.0,
+                1190.0,
+                1684.0
+              ],
+              "source": "page_001_original"
+            },
+            {
+              "text": "School 10183-CALORX PUBLIC SCHOOL GHATLODIA AHMEDABAD GUJ",
+              "language": "eng",
+              "confidence": 0.9725075408916927,
+              "bbox": [
+                91.63,
+                810.004,
+                802.0600000000001,
+                850.42
+              ],
+              "label": "Text",
+              "raw_label": "Text",
+              "reading_order": 18,
+              "page": 1,
+              "page_number": 1,
+              "image_bbox": [
+                0.0,
+                0.0,
+                1190.0,
+                1684.0
+              ],
+              "source": "page_001_original"
+            },
+            {
+              "text": "की शैक्षणिक उपलब्धियां निम्नानुसार हैं has achieved Scholastic Achievements as under :",
+              "language": "mixed",
+              "confidence": 0.9725075408916927,
+              "bbox": [
+                99.96000000000001,
+                842.0,
+                829.43,
+                882.416
+              ],
+              "label": "Text",
+              "raw_label": "Text",
+              "reading_order": 19,
+              "page": 1,
+              "page_number": 1,
+              "image_bbox": [
+                0.0,
+                0.0,
+                1190.0,
+                1684.0
+              ],
+              "source": "page_001_original"
+            },
+            {
+              "text": "विषय कोड\nSUB.\nCODE\nविषय\nSUBJECT\nप्रासांक MARKS OBTAINED\nस्थितीय ग्रेड\nPOSITIONAL\nGRADE\n\nलिखित\nTHEORY\nआं. मू.\nI A/\nPT. PR.\nयोग\nTOTAL\nयोग (शब्दों में)\nTOTAL (IN WORDS)\n\n184\nENGLISH LNG & LIT.\n057\n020\n077\nSEVENTY SEVEN\nB2\n\n085\nHINDI COURSE-B\n066\n020\n086\nEIGHTY SIX\nB1\n\n041\nMATHEMATICS STANDARD\n072\n019\n091\nNINETY ONE\nA1\n\n086\nSCIENCE\n064\n020\n084\nEIGHTY FOUR\nA2\n\n087\nSOCIAL SCIENCE\n055\n020\n075\nSEVENTY FIVE\nB2\n\nADDITIONAL SUBJECT\n\n402\nINFORMATION TECHNOLOGY\n039\n050\n089\nEIGHTY NINE\nB1",
+              "language": "mixed",
+              "confidence": 0.9725075408916927,
+              "bbox": [
+                99.96000000000001,
+                865.576,
+                1149.54,
+                1362.356
+              ],
+              "label": "Table",
+              "raw_label": "Table",
+              "reading_order": 20,
+              "page": 1,
+              "page_number": 1,
+              "image_bbox": [
+                0.0,
+                0.0,
+                1190.0,
+                1684.0
+              ],
+              "source": "page_001_original"
+            },
+            {
+              "text": "संक्षिप्तियों का अर्थ : Abbreviations",
+              "language": "mixed",
+              "confidence": 0.9725075408916927,
+              "bbox": [
+                111.86,
+                1365.7240000000002,
+                393.89000000000004,
+                1397.72
+              ],
+              "label": "Text",
+              "raw_label": "Text",
+              "reading_order": 21,
+              "page": 1,
+              "page_number": 1,
+              "image_bbox": [
+                0.0,
+                0.0,
+                1190.0,
+                1684.0
+              ],
+              "source": "page_001_original"
+            },
+            {
+              "text": "AB : अनुपस्थित Absent",
+              "language": "mixed",
+              "confidence": 0.9725075408916927,
+              "bbox": [
+                111.86,
+                1394.3519999999999,
+                277.27000000000004,
+                1421.296
+              ],
+              "label": "Text",
+              "raw_label": "Text",
+              "reading_order": 22,
+              "page": 1,
+              "page_number": 1,
+              "image_bbox": [
+                0.0,
+                0.0,
+                1190.0,
+                1684.0
+              ],
+              "source": "page_001_original"
+            },
+            {
+              "text": "IA : आंतरिक मूल्यांकन Internal Assessment",
+              "language": "mixed",
+              "confidence": 0.9725075408916927,
+              "bbox": [
+                111.86,
+                1416.244,
+                418.88,
+                1444.872
+              ],
+              "label": "Text",
+              "raw_label": "Text",
+              "reading_order": 23,
+              "page": 1,
+              "page_number": 1,
+              "image_bbox": [
+                0.0,
+                0.0,
+                1190.0,
+                1684.0
+              ],
+              "source": "page_001_original"
+            },
+            {
+              "text": "PT./PR : प्रायोगिक/Practical",
+              "language": "mixed",
+              "confidence": 0.9725075408916927,
+              "bbox": [
+                111.86,
+                1439.82,
+                320.11,
+                1466.764
+              ],
+              "label": "Text",
+              "raw_label": "Text",
+              "reading_order": 24,
+              "page": 1,
+              "page_number": 1,
+              "image_bbox": [
+                0.0,
+                0.0,
+                1190.0,
+                1684.0
+              ],
+              "source": "page_001_original"
+            },
+            {
+              "text": "ER : अनिवार्य पुनरावृत्ति सभी विषयों में Essential Repeat in all subjects",
+              "language": "mixed",
+              "confidence": 0.9725075408916927,
+              "bbox": [
+                111.86,
+                1460.028,
+                583.1,
+                1492.0240000000001
+              ],
+              "label": "Text",
+              "raw_label": "Text",
+              "reading_order": 25,
+              "page": 1,
+              "page_number": 1,
+              "image_bbox": [
+                0.0,
+                0.0,
+                1190.0,
+                1684.0
+              ],
+              "source": "page_001_original"
+            },
+            {
+              "text": "परिणाम Result PASS",
+              "language": "mixed",
+              "confidence": 0.9725075408916927,
+              "bbox": [
+                694.9599999999999,
+                1377.512,
+                893.69,
+                1407.8239999999998
+              ],
+              "label": "Text",
+              "raw_label": "Text",
+              "reading_order": 26,
+              "page": 1,
+              "page_number": 1,
+              "image_bbox": [
+                0.0,
+                0.0,
+                1190.0,
+                1684.0
+              ],
+              "source": "page_001_original"
+            },
+            {
+              "text": "दिल्ली Delhi",
+              "language": "mixed",
+              "confidence": 0.9725075408916927,
+              "bbox": [
+                115.43,
+                1513.916,
+                226.1,
+                1542.544
+              ],
+              "label": "Text",
+              "raw_label": "Text",
+              "reading_order": 27,
+              "page": 1,
+              "page_number": 1,
+              "image_bbox": [
+                0.0,
+                0.0,
+                1190.0,
+                1684.0
+              ],
+              "source": "page_001_original"
+            },
+            {
+              "text": "दिनांक Dated : 03/08/2021",
+              "language": "mixed",
+              "confidence": 0.9725075408916927,
+              "bbox": [
+                115.43,
+                1535.808,
+                368.9,
+                1567.804
+              ],
+              "label": "Text",
+              "raw_label": "Text",
+              "reading_order": 28,
+              "page": 1,
+              "page_number": 1,
+              "image_bbox": [
+                0.0,
+                0.0,
+                1190.0,
+                1684.0
+              ],
+              "source": "page_001_original"
+            },
+            {
+              "text": "परीक्षा नियंत्रक",
+              "language": "hin",
+              "confidence": 0.9725075408916927,
+              "bbox": [
+                942.48,
+                1508.864,
+                1074.57,
+                1537.492
+              ],
+              "label": "Text",
+              "raw_label": "Text",
+              "reading_order": 30,
+              "page": 1,
+              "page_number": 1,
+              "image_bbox": [
+                0.0,
+                0.0,
+                1190.0,
+                1684.0
+              ],
+              "source": "page_001_original"
+            },
+            {
+              "text": "Controller of Examinations",
+              "language": "eng",
+              "confidence": 0.9725075408916927,
+              "bbox": [
+                878.22,
+                1534.124,
+                1145.97,
+                1561.068
+              ],
+              "label": "Text",
+              "raw_label": "Text",
+              "reading_order": 31,
+              "page": 1,
+              "page_number": 1,
+              "image_bbox": [
+                0.0,
+                0.0,
+                1190.0,
+                1684.0
+              ],
+              "source": "page_001_original"
+            },
+            {
+              "text": "सह-शैक्षणिक उपलब्धियां : सह-शैक्षणिक एवम् अनुशासन क्षेत्र में प्रेरित विद्यालय द्वारा अपने स्तर पर बोर्ड द्वारा जारी प्रारूपनुसार प्रदान की जाती है।",
+              "language": "hin",
+              "confidence": 0.9725075408916927,
+              "bbox": [
+                111.86,
+                1569.488,
+                953.19,
+                1601.484
+              ],
+              "label": "Text",
+              "raw_label": "Text",
+              "reading_order": 32,
+              "page": 1,
+              "page_number": 1,
+              "image_bbox": [
+                0.0,
+                0.0,
+                1190.0,
+                1684.0
+              ],
+              "source": "page_001_original"
+            },
+            {
+              "text": "Co-Scholastic achievements : Grading for Co-Scholastic and Discipline area is being issued by the school as per format prescribed by the Board.",
+              "language": "eng",
+              "confidence": 0.9725075408916927,
+              "bbox": [
+                111.86,
+                1586.328,
+                1142.3999999999999,
+                1614.956
+              ],
+              "label": "Text",
+              "raw_label": "Text",
+              "reading_order": 33,
+              "page": 1,
+              "page_number": 1,
+              "image_bbox": [
+                0.0,
+                0.0,
+                1190.0,
+                1684.0
+              ],
+              "source": "page_001_original"
+            }
+          ],
+          "total_blocks": 31,
+          "detected_languages": [
+            "eng",
+            "hin"
+          ],
+          "multilingual": true,
+          "source_json": "C:\\Users\\dalwa\\Desktop\\astra-ocr\\backend\\output\\api_jobs\\497164cc-e9a4-44f5-9eef-71348cddd224\\pipeline\\page_001\\level1\\run_20261001_093228_973e2662\\page_001_original\\results.json"
+        },
+        "final_quality": {
+          "quality_score": 93.46,
+          "status": "good",
+          "text_score": 90.08,
+          "language_score": 100,
+          "character_score": 99.6,
+          "coverage_score": 48.58,
+          "confidence_score": 97.25,
+          "components_used": [
+            "character",
+            "confidence",
+            "coverage",
+            "language",
+            "text"
+          ]
+        },
+        "text_correction_report": {
+          "labels_corrected": [
+            {
+              "original": "Father's / Guardian's Name JAYENBHAI DALWADI",
+              "corrected": "Father's/Guardian's Nameme JAYENBHAI DALWADI",
+              "score": 91.66666666666666
+            },
+            {
+              "original": "संक्षिप्तयों का अर्थ : Abbreviations",
+              "corrected": "संक्षिप्तियों का अर्थ : Abbreviations",
+              "score": 98.63013698630137
+            }
+          ],
+          "labels_needing_review": [
+            {
+              "text": "Regn.No. A121/10183/0075",
+              "suggested_label": "Roll No.",
+              "score": 50.0
+            },
+            {
+              "text": "यह प्रमाणित किया जाता है कि",
+              "suggested_label": "माता का नाम",
+              "score": 42.10526315789473
+            },
+            {
+              "text": "Date of Birth 31/01/2006 31ST JANUARY TWO THOUSAND SIX",
+              "suggested_label": "Name of Candidate",
+              "score": 47.05882352941176
+            },
+            {
+              "text": "की शैक्षणिक उपलब्धियां निम्नानुसार हैं has achieved Scholastic Achievements as under :",
+              "suggested_label": "अंक विवरणिका",
+              "score": 41.666666666666664
+            },
+            {
+              "text": "PT./PR : प्रायोगिक/Practical",
+              "suggested_label": "RP : प्रयोगात्मक में पुनरावृत्ति Repeat in Practical",
+              "score": 50.0
+            },
+            {
+              "text": "Co-Scholastic achievements : Grading for Co-Scholastic and Discipline area is being issued by the school as per format prescribed by the Board.",
+              "suggested_label": "School",
+              "score": 50.0
+            }
+          ],
+          "marks_table_issues": []
+        },
+        "detected_languages": [
+          "en",
+          "hin"
+        ]
+      },
+      "level3": null,
+      "level3_attempted": false,
+      "preprocessing_outputs": {
+        "original": "C:\\Users\\dalwa\\Desktop\\astra-ocr\\backend\\output\\api_jobs\\497164cc-e9a4-44f5-9eef-71348cddd224\\preprocessed\\497164cc-e9a4-44f5-9eef-71348cddd224_input5_189a4160\\page_001_original.png",
+        "enhanced": "C:\\Users\\dalwa\\Desktop\\astra-ocr\\backend\\output\\api_jobs\\497164cc-e9a4-44f5-9eef-71348cddd224\\preprocessed\\497164cc-e9a4-44f5-9eef-71348cddd224_input5_189a4160\\page_001_enhanced.png",
+        "threshold": "C:\\Users\\dalwa\\Desktop\\astra-ocr\\backend\\output\\api_jobs\\497164cc-e9a4-44f5-9eef-71348cddd224\\preprocessed\\497164cc-e9a4-44f5-9eef-71348cddd224_input5_189a4160\\page_001_threshold.png",
+        "surya_original": "C:\\Users\\dalwa\\Desktop\\astra-ocr\\backend\\output\\api_jobs\\497164cc-e9a4-44f5-9eef-71348cddd224\\preprocessed\\497164cc-e9a4-44f5-9eef-71348cddd224_input5_189a4160\\page_001_surya_original.png",
+        "surya_enhanced": "C:\\Users\\dalwa\\Desktop\\astra-ocr\\backend\\output\\api_jobs\\497164cc-e9a4-44f5-9eef-71348cddd224\\preprocessed\\497164cc-e9a4-44f5-9eef-71348cddd224_input5_189a4160\\page_001_surya_enhanced.png",
+        "surya_threshold": "C:\\Users\\dalwa\\Desktop\\astra-ocr\\backend\\output\\api_jobs\\497164cc-e9a4-44f5-9eef-71348cddd224\\preprocessed\\497164cc-e9a4-44f5-9eef-71348cddd224_input5_189a4160\\page_001_surya_threshold.png"
+      }
+    },
+    {
+      "page_number": 2,
+      "final_level": 1,
+      "final_source": "surya",
+      "detected_languages": [
+        "en"
+      ],
+      "quality": {
+        "quality_score": 92.6,
+        "status": "good",
+        "text_score": 87.87,
+        "language_score": 100,
+        "character_score": 99.24,
+        "coverage_score": 46.37,
+        "confidence_score": 97.85,
+        "components_used": [
+          "character",
+          "confidence",
+          "coverage",
+          "language",
+          "text"
+        ]
+      },
+      "text": "Sr. No. 199788\nGLS UNIVERSITY\nEstablished w/s 3 of the Gujarat Private Universities Act, 2009 and recognized by UGC\nSTATEMENT OF MARKS\nName\nSHRUSTI DALWADI\n\nProgramme\nBachelor of Technology (Computer Science & Engineering)\n\nFaculty\nFaculty of Engineering & Technology\n\nEnrollment No.\n202302626010017\n\nSemester\nI\n\nExamination\nWinter Examination 2023\n\nSeat No.\n202302626010017\nSubject Name\nCredit\nMin / Max Marks\nObtained Marks\nGrade\n\nElementary Mathematics for Engineers\n4\n40/100\n76\nO\n\nComputer Programming Paradigm\n3\n40/100\n90\nO+\n\nComputer Organization & Architecture\n3\n40/100\n88\nO+\n\nComputer Programming Laboratory\n2\n40/100\n91\nO+\n\nPracticals of Computer Organization & Architecture\n2\n40/100\n82\nO\n\nBusiness Communication and Presentation Skills\n3\n40/100\n71\nO\n\nOpen Source Software\n3\n40/100\n82\nO\n\nEnvironmental Studies\n2\n40/100\n79\nO\nSemester\nCredit\nGPE\nSGPA\nCGPA\nSemester\nMax Marks\nObtained Marks\n\nSem -I\n22\n180.10\n8.19\n\nSem -I\n800\n659\nGrade Obtained\nO\nS. Dawi\nController of Examination\n\nClass Obtained\nFirst Class with Distinction\nNote : No change in any entry is to be made except by the authority issuing the certificate and that the infringement of the rule will be severely dealt with.",
+      "ocr_result": {
+        "results": [
+          {
+            "text": "Sr. No. 199788",
+            "language": "eng",
+            "confidence": 0.9785243220710154,
+            "bbox": [
+              846.0899999999999,
+              181.87199999999999,
+              1028.16,
+              222.288
+            ],
+            "label": "Text",
+            "raw_label": "Text",
+            "reading_order": 1,
+            "page": 1,
+            "page_number": 1,
+            "image_bbox": [
+              0.0,
+              0.0,
+              1190.0,
+              1684.0
+            ],
+            "source": "page_002_original"
+          },
+          {
+            "text": "GLS UNIVERSITY",
+            "language": "eng",
+            "confidence": 0.9785243220710154,
+            "bbox": [
+              577.15,
+              213.868,
+              1061.48,
+              277.86
+            ],
+            "label": "Text",
+            "raw_label": "Text",
+            "reading_order": 2,
+            "page": 1,
+            "page_number": 1,
+            "image_bbox": [
+              0.0,
+              0.0,
+              1190.0,
+              1684.0
+            ],
+            "source": "page_002_original"
+          },
+          {
+            "text": "Established w/s 3 of the Gujarat Private Universities Act, 2009 and recognized by UGC",
+            "language": "eng",
+            "confidence": 0.9785243220710154,
+            "bbox": [
+              580.72,
+              266.072,
+              1061.48,
+              296.38399999999996
+            ],
+            "label": "Text",
+            "raw_label": "Text",
+            "reading_order": 3,
+            "page": 1,
+            "page_number": 1,
+            "image_bbox": [
+              0.0,
+              0.0,
+              1190.0,
+              1684.0
+            ],
+            "source": "page_002_original"
+          },
+          {
+            "text": "STATEMENT OF MARKS",
+            "language": "eng",
+            "confidence": 0.9785243220710154,
+            "bbox": [
+              719.9499999999999,
+              304.804,
+              1061.48,
+              341.85200000000003
+            ],
+            "label": "SectionHeader",
+            "raw_label": "Section-Header",
+            "reading_order": 4,
+            "page": 1,
+            "page_number": 1,
+            "image_bbox": [
+              0.0,
+              0.0,
+              1190.0,
+              1684.0
+            ],
+            "source": "page_002_original"
+          },
+          {
+            "text": "Name\nSHRUSTI DALWADI\n\nProgramme\nBachelor of Technology (Computer Science & Engineering)\n\nFaculty\nFaculty of Engineering & Technology\n\nEnrollment No.\n202302626010017\n\nSemester\nI\n\nExamination\nWinter Examination 2023\n\nSeat No.\n202302626010017",
+            "language": "eng",
+            "confidence": 0.9785243220710154,
+            "bbox": [
+              168.98,
+              311.54,
+              1049.58,
+              557.404
+            ],
+            "label": "Table",
+            "raw_label": "Table",
+            "reading_order": 5,
+            "page": 1,
+            "page_number": 1,
+            "image_bbox": [
+              0.0,
+              0.0,
+              1190.0,
+              1684.0
+            ],
+            "source": "page_002_original"
+          },
+          {
+            "text": "Subject Name\nCredit\nMin / Max Marks\nObtained Marks\nGrade\n\nElementary Mathematics for Engineers\n4\n40/100\n76\nO\n\nComputer Programming Paradigm\n3\n40/100\n90\nO+\n\nComputer Organization & Architecture\n3\n40/100\n88\nO+\n\nComputer Programming Laboratory\n2\n40/100\n91\nO+\n\nPracticals of Computer Organization & Architecture\n2\n40/100\n82\nO\n\nBusiness Communication and Presentation Skills\n3\n40/100\n71\nO\n\nOpen Source Software\n3\n40/100\n82\nO\n\nEnvironmental Studies\n2\n40/100\n79\nO",
+            "language": "eng",
+            "confidence": 0.9785243220710154,
+            "bbox": [
+              168.98,
+              572.5600000000001,
+              1041.25,
+              998.612
+            ],
+            "label": "Table",
+            "raw_label": "Table",
+            "reading_order": 6,
+            "page": 1,
+            "page_number": 1,
+            "image_bbox": [
+              0.0,
+              0.0,
+              1190.0,
+              1684.0
+            ],
+            "source": "page_002_original"
+          },
+          {
+            "text": "Semester\nCredit\nGPE\nSGPA\nCGPA\nSemester\nMax Marks\nObtained Marks\n\nSem -I\n22\n180.10\n8.19\n\nSem -I\n800\n659",
+            "language": "eng",
+            "confidence": 0.9785243220710154,
+            "bbox": [
+              180.88,
+              1010.4,
+              1023.4,
+              1227.636
+            ],
+            "label": "Table",
+            "raw_label": "Table",
+            "reading_order": 7,
+            "page": 1,
+            "page_number": 1,
+            "image_bbox": [
+              0.0,
+              0.0,
+              1190.0,
+              1684.0
+            ],
+            "source": "page_002_original"
+          },
+          {
+            "text": "Grade Obtained\nO\nS. Dawi\nController of Examination\n\nClass Obtained\nFirst Class with Distinction",
+            "language": "eng",
+            "confidence": 0.9785243220710154,
+            "bbox": [
+              184.45,
+              1311.836,
+              1011.5,
+              1389.3
+            ],
+            "label": "Table",
+            "raw_label": "Table",
+            "reading_order": 8,
+            "page": 1,
+            "page_number": 1,
+            "image_bbox": [
+              0.0,
+              0.0,
+              1190.0,
+              1684.0
+            ],
+            "source": "page_002_original"
+          },
+          {
+            "text": "Note : No change in any entry is to be made except by the authority issuing the certificate and that the infringement of the rule will be severely dealt with.",
+            "language": "eng",
+            "confidence": 0.9785243220710154,
+            "bbox": [
+              172.54999999999998,
+              1397.72,
+              1017.4499999999999,
+              1431.3999999999999
+            ],
+            "label": "Text",
+            "raw_label": "Text",
+            "reading_order": 9,
+            "page": 1,
+            "page_number": 1,
+            "image_bbox": [
+              0.0,
+              0.0,
+              1190.0,
+              1684.0
+            ],
+            "source": "page_002_original"
+          }
+        ],
+        "total_blocks": 9,
+        "detected_languages": [
+          "eng"
+        ],
+        "multilingual": false,
+        "source_json": "C:\\Users\\dalwa\\Desktop\\astra-ocr\\backend\\output\\api_jobs\\497164cc-e9a4-44f5-9eef-71348cddd224\\pipeline\\page_002\\level1\\run_20261001_093337_5b9d190e\\page_002_original\\results.json"
+      },
+      "level1": {
+        "result": {
+          "results": [
+            {
+              "text": "Sr. No. 199788",
+              "language": "eng",
+              "confidence": 0.9785243220710154,
+              "bbox": [
+                846.0899999999999,
+                181.87199999999999,
+                1028.16,
+                222.288
+              ],
+              "label": "Text",
+              "raw_label": "Text",
+              "reading_order": 1,
+              "page": 1,
+              "page_number": 1,
+              "image_bbox": [
+                0.0,
+                0.0,
+                1190.0,
+                1684.0
+              ],
+              "source": "page_002_original"
+            },
+            {
+              "text": "GLS UNIVERSITY",
+              "language": "eng",
+              "confidence": 0.9785243220710154,
+              "bbox": [
+                577.15,
+                213.868,
+                1061.48,
+                277.86
+              ],
+              "label": "Text",
+              "raw_label": "Text",
+              "reading_order": 2,
+              "page": 1,
+              "page_number": 1,
+              "image_bbox": [
+                0.0,
+                0.0,
+                1190.0,
+                1684.0
+              ],
+              "source": "page_002_original"
+            },
+            {
+              "text": "Established w/s 3 of the Gujarat Private Universities Act, 2009 and recognized by UGC",
+              "language": "eng",
+              "confidence": 0.9785243220710154,
+              "bbox": [
+                580.72,
+                266.072,
+                1061.48,
+                296.38399999999996
+              ],
+              "label": "Text",
+              "raw_label": "Text",
+              "reading_order": 3,
+              "page": 1,
+              "page_number": 1,
+              "image_bbox": [
+                0.0,
+                0.0,
+                1190.0,
+                1684.0
+              ],
+              "source": "page_002_original"
+            },
+            {
+              "text": "STATEMENT OF MARKS",
+              "language": "eng",
+              "confidence": 0.9785243220710154,
+              "bbox": [
+                719.9499999999999,
+                304.804,
+                1061.48,
+                341.85200000000003
+              ],
+              "label": "SectionHeader",
+              "raw_label": "Section-Header",
+              "reading_order": 4,
+              "page": 1,
+              "page_number": 1,
+              "image_bbox": [
+                0.0,
+                0.0,
+                1190.0,
+                1684.0
+              ],
+              "source": "page_002_original"
+            },
+            {
+              "text": "Name\nSHRUSTI DALWADI\n\nProgramme\nBachelor of Technology (Computer Science & Engineering)\n\nFaculty\nFaculty of Engineering & Technology\n\nEnrollment No.\n202302626010017\n\nSemester\nI\n\nExamination\nWinter Examination 2023\n\nSeat No.\n202302626010017",
+              "language": "eng",
+              "confidence": 0.9785243220710154,
+              "bbox": [
+                168.98,
+                311.54,
+                1049.58,
+                557.404
+              ],
+              "label": "Table",
+              "raw_label": "Table",
+              "reading_order": 5,
+              "page": 1,
+              "page_number": 1,
+              "image_bbox": [
+                0.0,
+                0.0,
+                1190.0,
+                1684.0
+              ],
+              "source": "page_002_original"
+            },
+            {
+              "text": "Subject Name\nCredit\nMin / Max Marks\nObtained Marks\nGrade\n\nElementary Mathematics for Engineers\n4\n40/100\n76\nO\n\nComputer Programming Paradigm\n3\n40/100\n90\nO+\n\nComputer Organization & Architecture\n3\n40/100\n88\nO+\n\nComputer Programming Laboratory\n2\n40/100\n91\nO+\n\nPracticals of Computer Organization & Architecture\n2\n40/100\n82\nO\n\nBusiness Communication and Presentation Skills\n3\n40/100\n71\nO\n\nOpen Source Software\n3\n40/100\n82\nO\n\nEnvironmental Studies\n2\n40/100\n79\nO",
+              "language": "eng",
+              "confidence": 0.9785243220710154,
+              "bbox": [
+                168.98,
+                572.5600000000001,
+                1041.25,
+                998.612
+              ],
+              "label": "Table",
+              "raw_label": "Table",
+              "reading_order": 6,
+              "page": 1,
+              "page_number": 1,
+              "image_bbox": [
+                0.0,
+                0.0,
+                1190.0,
+                1684.0
+              ],
+              "source": "page_002_original"
+            },
+            {
+              "text": "Semester\nCredit\nGPE\nSGPA\nCGPA\nSemester\nMax Marks\nObtained Marks\n\nSem -I\n22\n180.10\n8.19\n\nSem -I\n800\n659",
+              "language": "eng",
+              "confidence": 0.9785243220710154,
+              "bbox": [
+                180.88,
+                1010.4,
+                1023.4,
+                1227.636
+              ],
+              "label": "Table",
+              "raw_label": "Table",
+              "reading_order": 7,
+              "page": 1,
+              "page_number": 1,
+              "image_bbox": [
+                0.0,
+                0.0,
+                1190.0,
+                1684.0
+              ],
+              "source": "page_002_original"
+            },
+            {
+              "text": "Grade Obtained\nO\nS. Dawi\nController of Examination\n\nClass Obtained\nFirst Class with Distinction",
+              "language": "eng",
+              "confidence": 0.9785243220710154,
+              "bbox": [
+                184.45,
+                1311.836,
+                1011.5,
+                1389.3
+              ],
+              "label": "Table",
+              "raw_label": "Table",
+              "reading_order": 8,
+              "page": 1,
+              "page_number": 1,
+              "image_bbox": [
+                0.0,
+                0.0,
+                1190.0,
+                1684.0
+              ],
+              "source": "page_002_original"
+            },
+            {
+              "text": "Note : No change in any entry is to be made except by the authority issuing the certificate and that the infringement of the rule will be severely dealt with.",
+              "language": "eng",
+              "confidence": 0.9785243220710154,
+              "bbox": [
+                172.54999999999998,
+                1397.72,
+                1017.4499999999999,
+                1431.3999999999999
+              ],
+              "label": "Text",
+              "raw_label": "Text",
+              "reading_order": 9,
+              "page": 1,
+              "page_number": 1,
+              "image_bbox": [
+                0.0,
+                0.0,
+                1190.0,
+                1684.0
+              ],
+              "source": "page_002_original"
+            }
+          ],
+          "total_blocks": 9,
+          "detected_languages": [
+            "eng"
+          ],
+          "multilingual": false,
+          "source_json": "C:\\Users\\dalwa\\Desktop\\astra-ocr\\backend\\output\\api_jobs\\497164cc-e9a4-44f5-9eef-71348cddd224\\pipeline\\page_002\\level1\\run_20261001_093337_5b9d190e\\page_002_original\\results.json"
+        },
+        "quality": {
+          "quality_score": 92.6,
+          "status": "good",
+          "text_score": 87.87,
+          "language_score": 100,
+          "character_score": 99.24,
+          "coverage_score": 46.37,
+          "confidence_score": 97.85,
+          "components_used": [
+            "character",
+            "confidence",
+            "coverage",
+            "language",
+            "text"
+          ]
+        }
+      },
+      "level2": {
+        "correction_attempted": false,
+        "ocr_rerun_attempted": false,
+        "post_ocr_correction_applied": false,
+        "selected": "original",
+        "original": {
+          "result": {
+            "results": [
+              {
+                "text": "Sr. No. 199788",
+                "language": "eng",
+                "confidence": 0.9785243220710154,
+                "bbox": [
+                  846.0899999999999,
+                  181.87199999999999,
+                  1028.16,
+                  222.288
+                ],
+                "label": "Text",
+                "raw_label": "Text",
+                "reading_order": 1,
+                "page": 1,
+                "page_number": 1,
+                "image_bbox": [
+                  0.0,
+                  0.0,
+                  1190.0,
+                  1684.0
+                ],
+                "source": "page_002_original"
+              },
+              {
+                "text": "GLS UNIVERSITY",
+                "language": "eng",
+                "confidence": 0.9785243220710154,
+                "bbox": [
+                  577.15,
+                  213.868,
+                  1061.48,
+                  277.86
+                ],
+                "label": "Text",
+                "raw_label": "Text",
+                "reading_order": 2,
+                "page": 1,
+                "page_number": 1,
+                "image_bbox": [
+                  0.0,
+                  0.0,
+                  1190.0,
+                  1684.0
+                ],
+                "source": "page_002_original"
+              },
+              {
+                "text": "Established w/s 3 of the Gujarat Private Universities Act, 2009 and recognized by UGC",
+                "language": "eng",
+                "confidence": 0.9785243220710154,
+                "bbox": [
+                  580.72,
+                  266.072,
+                  1061.48,
+                  296.38399999999996
+                ],
+                "label": "Text",
+                "raw_label": "Text",
+                "reading_order": 3,
+                "page": 1,
+                "page_number": 1,
+                "image_bbox": [
+                  0.0,
+                  0.0,
+                  1190.0,
+                  1684.0
+                ],
+                "source": "page_002_original"
+              },
+              {
+                "text": "STATEMENT OF MARKS",
+                "language": "eng",
+                "confidence": 0.9785243220710154,
+                "bbox": [
+                  719.9499999999999,
+                  304.804,
+                  1061.48,
+                  341.85200000000003
+                ],
+                "label": "SectionHeader",
+                "raw_label": "Section-Header",
+                "reading_order": 4,
+                "page": 1,
+                "page_number": 1,
+                "image_bbox": [
+                  0.0,
+                  0.0,
+                  1190.0,
+                  1684.0
+                ],
+                "source": "page_002_original"
+              },
+              {
+                "text": "Name\nSHRUSTI DALWADI\n\nProgramme\nBachelor of Technology (Computer Science & Engineering)\n\nFaculty\nFaculty of Engineering & Technology\n\nEnrollment No.\n202302626010017\n\nSemester\nI\n\nExamination\nWinter Examination 2023\n\nSeat No.\n202302626010017",
+                "language": "eng",
+                "confidence": 0.9785243220710154,
+                "bbox": [
+                  168.98,
+                  311.54,
+                  1049.58,
+                  557.404
+                ],
+                "label": "Table",
+                "raw_label": "Table",
+                "reading_order": 5,
+                "page": 1,
+                "page_number": 1,
+                "image_bbox": [
+                  0.0,
+                  0.0,
+                  1190.0,
+                  1684.0
+                ],
+                "source": "page_002_original"
+              },
+              {
+                "text": "Subject Name\nCredit\nMin / Max Marks\nObtained Marks\nGrade\n\nElementary Mathematics for Engineers\n4\n40/100\n76\nO\n\nComputer Programming Paradigm\n3\n40/100\n90\nO+\n\nComputer Organization & Architecture\n3\n40/100\n88\nO+\n\nComputer Programming Laboratory\n2\n40/100\n91\nO+\n\nPracticals of Computer Organization & Architecture\n2\n40/100\n82\nO\n\nBusiness Communication and Presentation Skills\n3\n40/100\n71\nO\n\nOpen Source Software\n3\n40/100\n82\nO\n\nEnvironmental Studies\n2\n40/100\n79\nO",
+                "language": "eng",
+                "confidence": 0.9785243220710154,
+                "bbox": [
+                  168.98,
+                  572.5600000000001,
+                  1041.25,
+                  998.612
+                ],
+                "label": "Table",
+                "raw_label": "Table",
+                "reading_order": 6,
+                "page": 1,
+                "page_number": 1,
+                "image_bbox": [
+                  0.0,
+                  0.0,
+                  1190.0,
+                  1684.0
+                ],
+                "source": "page_002_original"
+              },
+              {
+                "text": "Semester\nCredit\nGPE\nSGPA\nCGPA\nSemester\nMax Marks\nObtained Marks\n\nSem -I\n22\n180.10\n8.19\n\nSem -I\n800\n659",
+                "language": "eng",
+                "confidence": 0.9785243220710154,
+                "bbox": [
+                  180.88,
+                  1010.4,
+                  1023.4,
+                  1227.636
+                ],
+                "label": "Table",
+                "raw_label": "Table",
+                "reading_order": 7,
+                "page": 1,
+                "page_number": 1,
+                "image_bbox": [
+                  0.0,
+                  0.0,
+                  1190.0,
+                  1684.0
+                ],
+                "source": "page_002_original"
+              },
+              {
+                "text": "Grade Obtained\nO\nS. Dawi\nController of Examination\n\nClass Obtained\nFirst Class with Distinction",
+                "language": "eng",
+                "confidence": 0.9785243220710154,
+                "bbox": [
+                  184.45,
+                  1311.836,
+                  1011.5,
+                  1389.3
+                ],
+                "label": "Table",
+                "raw_label": "Table",
+                "reading_order": 8,
+                "page": 1,
+                "page_number": 1,
+                "image_bbox": [
+                  0.0,
+                  0.0,
+                  1190.0,
+                  1684.0
+                ],
+                "source": "page_002_original"
+              },
+              {
+                "text": "Note : No change in any entry is to be made except by the authority issuing the certificate and that the infringement of the rule will be severely dealt with.",
+                "language": "eng",
+                "confidence": 0.9785243220710154,
+                "bbox": [
+                  172.54999999999998,
+                  1397.72,
+                  1017.4499999999999,
+                  1431.3999999999999
+                ],
+                "label": "Text",
+                "raw_label": "Text",
+                "reading_order": 9,
+                "page": 1,
+                "page_number": 1,
+                "image_bbox": [
+                  0.0,
+                  0.0,
+                  1190.0,
+                  1684.0
+                ],
+                "source": "page_002_original"
+              }
+            ],
+            "total_blocks": 9,
+            "detected_languages": [
+              "eng"
+            ],
+            "multilingual": false,
+            "source_json": "C:\\Users\\dalwa\\Desktop\\astra-ocr\\backend\\output\\api_jobs\\497164cc-e9a4-44f5-9eef-71348cddd224\\pipeline\\page_002\\level1\\run_20261001_093337_5b9d190e\\page_002_original\\results.json"
+          },
+          "quality": {
+            "quality_score": 92.6,
+            "status": "good",
+            "text_score": 87.87,
+            "language_score": 100,
+            "character_score": 99.24,
+            "coverage_score": 46.37,
+            "confidence_score": 97.85,
+            "components_used": [
+              "character",
+              "confidence",
+              "coverage",
+              "language",
+              "text"
+            ]
+          }
+        },
+        "corrected": [],
+        "final_result": {
+          "results": [
+            {
+              "text": "Sr. No. 199788",
+              "language": "eng",
+              "confidence": 0.9785243220710154,
+              "bbox": [
+                846.0899999999999,
+                181.87199999999999,
+                1028.16,
+                222.288
+              ],
+              "label": "Text",
+              "raw_label": "Text",
+              "reading_order": 1,
+              "page": 1,
+              "page_number": 1,
+              "image_bbox": [
+                0.0,
+                0.0,
+                1190.0,
+                1684.0
+              ],
+              "source": "page_002_original"
+            },
+            {
+              "text": "GLS UNIVERSITY",
+              "language": "eng",
+              "confidence": 0.9785243220710154,
+              "bbox": [
+                577.15,
+                213.868,
+                1061.48,
+                277.86
+              ],
+              "label": "Text",
+              "raw_label": "Text",
+              "reading_order": 2,
+              "page": 1,
+              "page_number": 1,
+              "image_bbox": [
+                0.0,
+                0.0,
+                1190.0,
+                1684.0
+              ],
+              "source": "page_002_original"
+            },
+            {
+              "text": "Established w/s 3 of the Gujarat Private Universities Act, 2009 and recognized by UGC",
+              "language": "eng",
+              "confidence": 0.9785243220710154,
+              "bbox": [
+                580.72,
+                266.072,
+                1061.48,
+                296.38399999999996
+              ],
+              "label": "Text",
+              "raw_label": "Text",
+              "reading_order": 3,
+              "page": 1,
+              "page_number": 1,
+              "image_bbox": [
+                0.0,
+                0.0,
+                1190.0,
+                1684.0
+              ],
+              "source": "page_002_original"
+            },
+            {
+              "text": "STATEMENT OF MARKS",
+              "language": "eng",
+              "confidence": 0.9785243220710154,
+              "bbox": [
+                719.9499999999999,
+                304.804,
+                1061.48,
+                341.85200000000003
+              ],
+              "label": "SectionHeader",
+              "raw_label": "Section-Header",
+              "reading_order": 4,
+              "page": 1,
+              "page_number": 1,
+              "image_bbox": [
+                0.0,
+                0.0,
+                1190.0,
+                1684.0
+              ],
+              "source": "page_002_original"
+            },
+            {
+              "text": "Name\nSHRUSTI DALWADI\n\nProgramme\nBachelor of Technology (Computer Science & Engineering)\n\nFaculty\nFaculty of Engineering & Technology\n\nEnrollment No.\n202302626010017\n\nSemester\nI\n\nExamination\nWinter Examination 2023\n\nSeat No.\n202302626010017",
+              "language": "eng",
+              "confidence": 0.9785243220710154,
+              "bbox": [
+                168.98,
+                311.54,
+                1049.58,
+                557.404
+              ],
+              "label": "Table",
+              "raw_label": "Table",
+              "reading_order": 5,
+              "page": 1,
+              "page_number": 1,
+              "image_bbox": [
+                0.0,
+                0.0,
+                1190.0,
+                1684.0
+              ],
+              "source": "page_002_original"
+            },
+            {
+              "text": "Subject Name\nCredit\nMin / Max Marks\nObtained Marks\nGrade\n\nElementary Mathematics for Engineers\n4\n40/100\n76\nO\n\nComputer Programming Paradigm\n3\n40/100\n90\nO+\n\nComputer Organization & Architecture\n3\n40/100\n88\nO+\n\nComputer Programming Laboratory\n2\n40/100\n91\nO+\n\nPracticals of Computer Organization & Architecture\n2\n40/100\n82\nO\n\nBusiness Communication and Presentation Skills\n3\n40/100\n71\nO\n\nOpen Source Software\n3\n40/100\n82\nO\n\nEnvironmental Studies\n2\n40/100\n79\nO",
+              "language": "eng",
+              "confidence": 0.9785243220710154,
+              "bbox": [
+                168.98,
+                572.5600000000001,
+                1041.25,
+                998.612
+              ],
+              "label": "Table",
+              "raw_label": "Table",
+              "reading_order": 6,
+              "page": 1,
+              "page_number": 1,
+              "image_bbox": [
+                0.0,
+                0.0,
+                1190.0,
+                1684.0
+              ],
+              "source": "page_002_original"
+            },
+            {
+              "text": "Semester\nCredit\nGPE\nSGPA\nCGPA\nSemester\nMax Marks\nObtained Marks\n\nSem -I\n22\n180.10\n8.19\n\nSem -I\n800\n659",
+              "language": "eng",
+              "confidence": 0.9785243220710154,
+              "bbox": [
+                180.88,
+                1010.4,
+                1023.4,
+                1227.636
+              ],
+              "label": "Table",
+              "raw_label": "Table",
+              "reading_order": 7,
+              "page": 1,
+              "page_number": 1,
+              "image_bbox": [
+                0.0,
+                0.0,
+                1190.0,
+                1684.0
+              ],
+              "source": "page_002_original"
+            },
+            {
+              "text": "Grade Obtained\nO\nS. Dawi\nController of Examination\n\nClass Obtained\nFirst Class with Distinction",
+              "language": "eng",
+              "confidence": 0.9785243220710154,
+              "bbox": [
+                184.45,
+                1311.836,
+                1011.5,
+                1389.3
+              ],
+              "label": "Table",
+              "raw_label": "Table",
+              "reading_order": 8,
+              "page": 1,
+              "page_number": 1,
+              "image_bbox": [
+                0.0,
+                0.0,
+                1190.0,
+                1684.0
+              ],
+              "source": "page_002_original"
+            },
+            {
+              "text": "Note : No change in any entry is to be made except by the authority issuing the certificate and that the infringement of the rule will be severely dealt with.",
+              "language": "eng",
+              "confidence": 0.9785243220710154,
+              "bbox": [
+                172.54999999999998,
+                1397.72,
+                1017.4499999999999,
+                1431.3999999999999
+              ],
+              "label": "Text",
+              "raw_label": "Text",
+              "reading_order": 9,
+              "page": 1,
+              "page_number": 1,
+              "image_bbox": [
+                0.0,
+                0.0,
+                1190.0,
+                1684.0
+              ],
+              "source": "page_002_original"
+            }
+          ],
+          "total_blocks": 9,
+          "detected_languages": [
+            "eng"
+          ],
+          "multilingual": false,
+          "source_json": "C:\\Users\\dalwa\\Desktop\\astra-ocr\\backend\\output\\api_jobs\\497164cc-e9a4-44f5-9eef-71348cddd224\\pipeline\\page_002\\level1\\run_20261001_093337_5b9d190e\\page_002_original\\results.json"
+        },
+        "final_quality": {
+          "quality_score": 92.6,
+          "status": "good",
+          "text_score": 87.87,
+          "language_score": 100,
+          "character_score": 99.24,
+          "coverage_score": 46.37,
+          "confidence_score": 97.85,
+          "components_used": [
+            "character",
+            "confidence",
+            "coverage",
+            "language",
+            "text"
+          ]
+        },
+        "text_correction_report": {
+          "labels_corrected": [],
+          "labels_needing_review": [
+            {
+              "text": "Sr. No. 199788",
+              "suggested_label": "Roll No.",
+              "score": 50.0
+            },
+            {
+              "text": "STATEMENT OF MARKS",
+              "suggested_label": "MARKS STATEMENT",
+              "score": 60.0
+            },
+            {
+              "text": "Subject Name\nCredit\nMin / Max Marks\nObtained Marks\nGrade\n\nElementary Mathematics for Engineers\n4\n40/100\n76\nO\n\nComputer Programming Paradigm\n3\n40/100\n90\nO+\n\nComputer Organization & Architecture\n3\n40/100\n88\nO+\n\nComputer Programming Laboratory\n2\n40/100\n91\nO+\n\nPracticals of Computer Organization & Architecture\n2\n40/100\n82\nO\n\nBusiness Communication and Presentation Skills\n3\n40/100\n71\nO\n\nOpen Source Software\n3\n40/100\n82\nO\n\nEnvironmental Studies\n2\n40/100\n79\nO",
+              "suggested_label": "Mother's Name",
+              "score": 46.15384615384615
+            },
+            {
+              "text": "Grade Obtained\nO\nS. Dawi\nController of Examination\n\nClass Obtained\nFirst Class with Distinction",
+              "suggested_label": "Controller of Examinations",
+              "score": 42.97520661157025
+            },
+            {
+              "text": "Note : No change in any entry is to be made except by the authority issuing the certificate and that the infringement of the rule will be severely dealt with.",
+              "suggested_label": "Name of Candidate",
+              "score": 47.05882352941176
+            }
+          ],
+          "marks_table_issues": []
+        },
+        "detected_languages": [
+          "en"
+        ]
+      },
+      "level3": null,
+      "level3_attempted": false,
+      "preprocessing_outputs": {
+        "original": "C:\\Users\\dalwa\\Desktop\\astra-ocr\\backend\\output\\api_jobs\\497164cc-e9a4-44f5-9eef-71348cddd224\\preprocessed\\497164cc-e9a4-44f5-9eef-71348cddd224_input5_189a4160\\page_002_original.png",
+        "enhanced": "C:\\Users\\dalwa\\Desktop\\astra-ocr\\backend\\output\\api_jobs\\497164cc-e9a4-44f5-9eef-71348cddd224\\preprocessed\\497164cc-e9a4-44f5-9eef-71348cddd224_input5_189a4160\\page_002_enhanced.png",
+        "threshold": "C:\\Users\\dalwa\\Desktop\\astra-ocr\\backend\\output\\api_jobs\\497164cc-e9a4-44f5-9eef-71348cddd224\\preprocessed\\497164cc-e9a4-44f5-9eef-71348cddd224_input5_189a4160\\page_002_threshold.png",
+        "surya_original": "C:\\Users\\dalwa\\Desktop\\astra-ocr\\backend\\output\\api_jobs\\497164cc-e9a4-44f5-9eef-71348cddd224\\preprocessed\\497164cc-e9a4-44f5-9eef-71348cddd224_input5_189a4160\\page_002_surya_original.png",
+        "surya_enhanced": "C:\\Users\\dalwa\\Desktop\\astra-ocr\\backend\\output\\api_jobs\\497164cc-e9a4-44f5-9eef-71348cddd224\\preprocessed\\497164cc-e9a4-44f5-9eef-71348cddd224_input5_189a4160\\page_002_surya_enhanced.png",
+        "surya_threshold": "C:\\Users\\dalwa\\Desktop\\astra-ocr\\backend\\output\\api_jobs\\497164cc-e9a4-44f5-9eef-71348cddd224\\preprocessed\\497164cc-e9a4-44f5-9eef-71348cddd224_input5_189a4160\\page_002_surya_threshold.png"
+      }
+    }
+  ]
+}

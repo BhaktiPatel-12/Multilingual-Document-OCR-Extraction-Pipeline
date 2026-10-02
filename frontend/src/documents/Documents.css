@@ -6,6 +6,7 @@
   min-height: calc(100vh - 80px);
   background: #ffffff;
   color: #17202b;
+  z-index: -1;
 }
 
 .documents-content {
@@ -22,8 +23,11 @@
 .document-stats {
   display: grid;
   grid-template-columns: repeat(4, 1fr);
-  gap: 18px;
+  gap: 30px;
   margin-bottom: 28px;
+  
+  align-content: space-between;
+  
 }
 
 .stat-card {
@@ -35,9 +39,12 @@
   align-items: center;
   padding: 19px 20px;
   box-shadow: 0 2px 8px rgba(31, 41, 55, 0.025);
+  width: 25vw;
+  z-index: 100;
   transition:
     transform 0.2s ease,
     box-shadow 0.2s ease;
+
 }
 
 .stat-card:hover {
@@ -102,17 +109,20 @@
   border-radius: 13px;
   padding: 21px 22px 20px;
   box-shadow: 0 3px 12px rgba(30, 41, 59, 0.035);
+  z-index: 100;
 }
 
 .preview-header {
   display: flex;
   align-items: center;
+  z-index: 100;
   margin-bottom: 17px;
 }
 
 .preview-title {
   display: flex;
   align-items: center;
+  z-index: 100;
 }
 
 .preview-title-icon {
@@ -159,6 +169,7 @@
     border-color 0.2s ease,
     background 0.2s ease;
   position: relative;
+  z-index: 100;
 }
 
 .file-preview-area.dragging {
@@ -308,6 +319,7 @@
   align-items: center;
   justify-content: center;
   gap: 10px;
+  z-index: 100;
   transition:
     background 0.2s ease,
     transform 0.15s ease,
